@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@Html.Partial("~/Views/AdminLayout/HeadPartial.cshtml")
+<body class="hold-transition sidebar-mini">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        <!-- Navbar -->
+        @Html.Partial("~/Views/AdminLayout/NavBarPartial.cshtml")
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        @Html.Partial("~/Views/AdminLayout/MainSideBarPartial.cshtml")
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            @Html.Partial("~/Views/AdminLayout/ContentHeaderPartial.cshtml")
+
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        @Html.Partial("~/Views/AdminLayout/MainFooterPartial.cshtml")
+
+    </div>
+    @Html.Partial("~/Views/AdminLayout/ScriptPartial.cshtml")   
+</body>
+</html>
