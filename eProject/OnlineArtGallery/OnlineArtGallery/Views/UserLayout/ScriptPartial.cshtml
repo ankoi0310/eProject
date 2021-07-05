@@ -1,0 +1,46 @@
+﻿<script src="~/assetsIndex/js/jquery-3.3.1.min.js"></script>
+<script src="~/assetsIndex/js/modernizr-3.6.0.min.js"></script>
+<script src="~/assetsIndex/js/plugins.js"></script>
+<script src="~/assetsIndex/js/bootstrap.min.js"></script>
+<script src="~/assetsIndex/js/isotope.pkgd.min.js"></script>
+<script src="~/assetsIndex/js/wow.min.js"></script>
+<script src="~/assetsIndex/js/waypoints.js"></script>
+<script src="~/assetsIndex/js/nice-select.js"></script>
+<script src="~/assetsIndex/js/counterup.min.js"></script>
+<script src="~/assetsIndex/js/owl.min.js"></script>
+<script src="~/assetsIndex/js/magnific-popup.min.js"></script>
+<script src="~/assetsIndex/js/yscountdown.min.js"></script>
+<script src="~/assetsIndex/js/jquery-ui.min.js"></script>
+<script src="~/assetsIndex/js/main.js"></script>
+<script src="~/assetsIndex/js/lightbox-plus-jquery.min.js"></script>
+<script>
+    window.onload = function () {
+        if (document.getElementById("MyGallery") != null) {
+            var arts = document.getElementById("ourgallery").getElementsByClassName("columnArt");
+            var numberArtInPage = 8;
+            var artsLeght = arts.length;
+            var totalPages = totalPage(numberArtInPage, document.getElementById("ourgallery").getElementsByClassName("columnArt"));
+            var ulTag = document.querySelector("#pagegallery");
+            ParagraphDivide();
+            pageOne(numberArtInPage, arts);
+            element(totalPages, 1, ulTag, numberArtInPage);
+        }
+
+        if (document.getElementById("titlex") != null) {
+            var arts = document.getElementById("ourgallery").getElementsByClassName("columnArt");
+            var numberArtInPage = 4;
+            var artsLeght = arts.length;
+            var totalPages = totalPage(numberArtInPage, document.getElementById("ourgallery").getElementsByClassName("columnArt"));
+            var ulTag = document.querySelector("#pagegallery");
+            ParagraphDivide();
+            pageOne(numberArtInPage, arts);
+            element(totalPages, 1, ulTag, numberArtInPage);
+        }
+
+        if (document.getElementById("BuyNow") != null) {
+            var btnAddToCard = document.getElementById("BuyNow").getElementsByTagName("a")[0];
+            btnAddToCard.addEventListener("click", AddToCardCliked);
+        }
+        removeCard();
+    }
+ </script>

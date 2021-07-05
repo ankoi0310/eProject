@@ -1,0 +1,110 @@
+﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+<!--============= Hero Section Starts Here =============-->
+<div class="hero-section style-2">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="#0">My Account</a>
+            </li>
+            <li>
+                <span>My Favorites</span>
+            </li>
+        </ul>
+    </div>
+    <div class="bg_img hero-bg bottom_center" data-background="@Url.Content("~/assetsIndex/images/banner/hero-bg.png")"></div>
+</div>
+<!--============= Hero Section Ends Here =============-->
+<!--============= Dashboard Section Starts Here =============-->
+<section class="dashboard-section padding-bottom mt--240 mt-lg--440 pos-rel">
+    <div class="container">
+        <div class="row justify-content-center">
+            @Html.Partial("~/Views/UserLayout/MenuUserPartial.cshtml")
+            <div class="col-lg-8" id="ourgallery">
+                <div class="dash-bid-item dashboard-widget mb-40-60">
+                    <div class="header">
+                        <h4 class="title" id="titlex">My Favorites</h4>
+                    </div>
+                    <div class="button-area justify-content-between">
+                        <form class="product-search">
+                            <input type="text" placeholder="Item Name">
+                            <button type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                        <div class="sort-winning-bid">
+                            <div class="item">Sort By : </div>
+                            <select name="sort-by" class="select-bar">
+                                <option value="all">All</option>
+                                <option value="name">Name</option>
+                                <option value="date">Date</option>
+                                <option value="type">Type</option>
+                                <option value="car">Car</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-30-none justify-content-center">
+                    <div class="columnArt">
+                        <div class="content">
+                            <a href="~/assetsIndex/images/gallery/wave2.jpg" data-lightbox="mygallery"><img src="~/assetsIndex/images/gallery/wave1.jpg" alt=""></a>
+                            <h4>bird</h4>
+                            <p>Cristiano Ronaldo dos Santos Aveiro GOIH ComM, (sinh ngày 5 tháng 2 năm 1985)[8], là một cầu thủ bóng đá người Bồ Đào Nha hiện đang thi đấu ở vị trí tiền đạo cho câu lạc bộ Juventus tại giải vô địch Ý và là đội trưởng của đội tuyển bóng đá quốc gia Bồ Đào Nha. Được coi là cầu thủ xuất sắc nhất thế giới và là một trong những cầu thủ vĩ đại nhất mọi thời đại,[9] Ronaldo là chủ nhân của 5 Quả bóng vàng châu Âu vào các năm 2008[10], 2013[11], 2014[12], 2016[13], 2017[14] và cũng là chủ nhân 4 Chiếc giày vàng châu Âu, cả hai đều là kỷ lục của một cầu thủ châu Âu cùng nhiều danh hiệu cao quý khác. Anh đã giành được 32 danh hiệu trong sự nghiệp của mình, bao gồm bảy chức vô địch quốc gia, năm UEFA Champions League, một UEFA European Championship và một UEFA Nations League. Ronaldo đang giữ kỷ lục là cầu thủ ghi nhiều bàn thắng quốc tế nhất (109, cùng với Ali Daei), cầu thủ ghi nhiều bàn thắng nhất (134) tại UEFA Champions League và cũng là cầu thủ ghi nhiều bàn thắng nhất (14) tại giải vô địch châu Âu.[15] Anh là một trong số ít những cầu thủ đã có hơn 1.100 lần ra sân và đã ghi hơn 780 bàn thắng trong sự nghiệp cho câu lạc bộ và đội tuyển quốc gia.[16] Anh cũng là cầu thủ thứ hai ghi được 100 bàn thắng cho đội tuyển quốc gia và là cầu thủ châu Âu đầu tiên đạt được thành tích này</p><a href='#'>Readmore</a>
+
+                        </div>
+                    </div>
+                    <div class="columnArt">
+                        <div class="content">
+                            <a href="~/assetsIndex/images/gallery/wave2.jpg" data-lightbox="mygallery"><img src="~/assetsIndex/images/gallery/wave1.jpg" alt=""></a>
+                            <h4>bird</h4>
+                            <p>Cristiano Ronaldo dos Santos Aveiro GOIH ComM, (sinh ngày 5 tháng 2 năm 1985)[8], là một cầu thủ bóng đá người Bồ Đào Nha hiện đang thi đấu ở vị trí tiền đạo cho câu lạc bộ Juventus tại giải vô địch Ý và là đội trưởng của đội tuyển bóng đá quốc gia Bồ Đào Nha. Được coi là cầu thủ xuất sắc nhất thế giới và là một trong những cầu thủ vĩ đại nhất mọi thời đại,[9] Ronaldo là chủ nhân của 5 Quả bóng vàng châu Âu vào các năm 2008[10], 2013[11], 2014[12], 2016[13], 2017[14] và cũng là chủ nhân 4 Chiếc giày vàng châu Âu, cả hai đều là kỷ lục của một cầu thủ châu Âu cùng nhiều danh hiệu cao quý khác. Anh đã giành được 32 danh hiệu trong sự nghiệp của mình, bao gồm bảy chức vô địch quốc gia, năm UEFA Champions League, một UEFA European Championship và một UEFA Nations League. Ronaldo đang giữ kỷ lục là cầu thủ ghi nhiều bàn thắng quốc tế nhất (109, cùng với Ali Daei), cầu thủ ghi nhiều bàn thắng nhất (134) tại UEFA Champions League và cũng là cầu thủ ghi nhiều bàn thắng nhất (14) tại giải vô địch châu Âu.[15] Anh là một trong số ít những cầu thủ đã có hơn 1.100 lần ra sân và đã ghi hơn 780 bàn thắng trong sự nghiệp cho câu lạc bộ và đội tuyển quốc gia.[16] Anh cũng là cầu thủ thứ hai ghi được 100 bàn thắng cho đội tuyển quốc gia và là cầu thủ châu Âu đầu tiên đạt được thành tích này</p><a href='#'>Readmore</a>
+
+                        </div>
+                    </div>
+                    <div class="columnArt">
+                        <div class="content">
+                            <a href="~/assetsIndex/images/gallery/monalisa2.jpg" data-lightbox="mygallery"><img src="~/assetsIndex/images/gallery/monalisa1.jpg" alt=""></a>
+                            <h4>bird</h4>
+                            <p>Cristiano Ronaldo dos Santos Aveiro GOIH ComM, (sinh ngày 5 tháng 2 năm 1985)[8], là một cầu thủ bóng đá người Bồ Đào Nha hiện đang thi đấu ở vị trí tiền đạo cho câu lạc bộ Juventus tại giải vô địch Ý và là đội trưởng của đội tuyển bóng đá quốc gia Bồ Đào Nha. Được coi là cầu thủ xuất sắc nhất thế giới và là một trong những cầu thủ vĩ đại nhất mọi thời đại,[9] Ronaldo là chủ nhân của 5 Quả bóng vàng châu Âu vào các năm 2008[10], 2013[11], 2014[12], 2016[13], 2017[14] và cũng là chủ nhân 4 Chiếc giày vàng châu Âu, cả hai đều là kỷ lục của một cầu thủ châu Âu cùng nhiều danh hiệu cao quý khác. Anh đã giành được 32 danh hiệu trong sự nghiệp của mình, bao gồm bảy chức vô địch quốc gia, năm UEFA Champions League, một UEFA European Championship và một UEFA Nations League. Ronaldo đang giữ kỷ lục là cầu thủ ghi nhiều bàn thắng quốc tế nhất (109, cùng với Ali Daei), cầu thủ ghi nhiều bàn thắng nhất (134) tại UEFA Champions League và cũng là cầu thủ ghi nhiều bàn thắng nhất (14) tại giải vô địch châu Âu.[15] Anh là một trong số ít những cầu thủ đã có hơn 1.100 lần ra sân và đã ghi hơn 780 bàn thắng trong sự nghiệp cho câu lạc bộ và đội tuyển quốc gia.[16] Anh cũng là cầu thủ thứ hai ghi được 100 bàn thắng cho đội tuyển quốc gia và là cầu thủ châu Âu đầu tiên đạt được thành tích này</p>
+                            <a href='#'>Readmore</a>
+                        </div>
+                    </div>
+                    <div class="columnArt">
+                        <div class="content">
+                            <a href="~/assetsIndex/images/gallery/scream2.jpg" data-lightbox="mygallery"><img src="~/assetsIndex/images/gallery/scream1.jpg" alt=""></a>
+                            <h4>bird</h4>
+                            <p>Cristiano Ronaldo dos Santos Aveiro GOIH ComM, (sinh ngày 5 tháng 2 năm 1985)[8], là một cầu thủ bóng đá người Bồ Đào Nha hiện đang thi đấu ở vị trí tiền đạo cho câu lạc bộ Juventus tại giải vô địch Ý và là đội trưởng của đội tuyển bóng đá quốc gia Bồ Đào Nha. Được coi là cầu thủ xuất sắc nhất thế giới và là một trong những cầu thủ vĩ đại nhất mọi thời đại,[9] Ronaldo là chủ nhân của 5 Quả bóng vàng châu Âu vào các năm 2008[10], 2013[11], 2014[12], 2016[13], 2017[14] và cũng là chủ nhân 4 Chiếc giày vàng châu Âu, cả hai đều là kỷ lục của một cầu thủ châu Âu cùng nhiều danh hiệu cao quý khác. Anh đã giành được 32 danh hiệu trong sự nghiệp của mình, bao gồm bảy chức vô địch quốc gia, năm UEFA Champions League, một UEFA European Championship và một UEFA Nations League. Ronaldo đang giữ kỷ lục là cầu thủ ghi nhiều bàn thắng quốc tế nhất (109, cùng với Ali Daei), cầu thủ ghi nhiều bàn thắng nhất (134) tại UEFA Champions League và cũng là cầu thủ ghi nhiều bàn thắng nhất (14) tại giải vô địch châu Âu.[15] Anh là một trong số ít những cầu thủ đã có hơn 1.100 lần ra sân và đã ghi hơn 780 bàn thắng trong sự nghiệp cho câu lạc bộ và đội tuyển quốc gia.[16] Anh cũng là cầu thủ thứ hai ghi được 100 bàn thắng cho đội tuyển quốc gia và là cầu thủ châu Âu đầu tiên đạt được thành tích này</p><a href='#'>Readmore</a>
+                        </div>
+                    </div>
+                    <div class="columnArt">
+                        <div class="content">
+                            <a href="~/assetsIndex/images/gallery/scream2.jpg" data-lightbox="mygallery"><img src="~/assetsIndex/images/gallery/scream1.jpg" alt=""></a>
+                            <h4>bird</h4>
+                            <p>Cristiano Ronaldo dos Santos Aveiro GOIH ComM, (sinh ngày 5 tháng 2 năm 1985)[8], là một cầu thủ bóng đá người Bồ Đào Nha hiện đang thi đấu ở vị trí tiền đạo cho câu lạc bộ Juventus tại giải vô địch Ý và là đội trưởng của đội tuyển bóng đá quốc gia Bồ Đào Nha. Được coi là cầu thủ xuất sắc nhất thế giới và là một trong những cầu thủ vĩ đại nhất mọi thời đại,[9] Ronaldo là chủ nhân của 5 Quả bóng vàng châu Âu vào các năm 2008[10], 2013[11], 2014[12], 2016[13], 2017[14] và cũng là chủ nhân 4 Chiếc giày vàng châu Âu, cả hai đều là kỷ lục của một cầu thủ châu Âu cùng nhiều danh hiệu cao quý khác. Anh đã giành được 32 danh hiệu trong sự nghiệp của mình, bao gồm bảy chức vô địch quốc gia, năm UEFA Champions League, một UEFA European Championship và một UEFA Nations League. Ronaldo đang giữ kỷ lục là cầu thủ ghi nhiều bàn thắng quốc tế nhất (109, cùng với Ali Daei), cầu thủ ghi nhiều bàn thắng nhất (134) tại UEFA Champions League và cũng là cầu thủ ghi nhiều bàn thắng nhất (14) tại giải vô địch châu Âu.[15] Anh là một trong số ít những cầu thủ đã có hơn 1.100 lần ra sân và đã ghi hơn 780 bàn thắng trong sự nghiệp cho câu lạc bộ và đội tuyển quốc gia.[16] Anh cũng là cầu thủ thứ hai ghi được 100 bàn thắng cho đội tuyển quốc gia và là cầu thủ châu Âu đầu tiên đạt được thành tích này</p><a href='#'>Readmore</a>
+                        </div>
+                    </div>
+                    <div class="columnArt">
+                        <div class="content">
+                            <a href="~/assetsIndex/images/gallery/scream2.jpg" data-lightbox="mygallery"><img src="~/assetsIndex/images/gallery/scream1.jpg" alt=""></a>
+                            <h4>bird</h4>
+                            <p>Cristiano Ronaldo dos Santos Aveiro GOIH ComM, (sinh ngày 5 tháng 2 năm 1985)[8], là một cầu thủ bóng đá người Bồ Đào Nha hiện đang thi đấu ở vị trí tiền đạo cho câu lạc bộ Juventus tại giải vô địch Ý và là đội trưởng của đội tuyển bóng đá quốc gia Bồ Đào Nha. Được coi là cầu thủ xuất sắc nhất thế giới và là một trong những cầu thủ vĩ đại nhất mọi thời đại,[9] Ronaldo là chủ nhân của 5 Quả bóng vàng châu Âu vào các năm 2008[10], 2013[11], 2014[12], 2016[13], 2017[14] và cũng là chủ nhân 4 Chiếc giày vàng châu Âu, cả hai đều là kỷ lục của một cầu thủ châu Âu cùng nhiều danh hiệu cao quý khác. Anh đã giành được 32 danh hiệu trong sự nghiệp của mình, bao gồm bảy chức vô địch quốc gia, năm UEFA Champions League, một UEFA European Championship và một UEFA Nations League. Ronaldo đang giữ kỷ lục là cầu thủ ghi nhiều bàn thắng quốc tế nhất (109, cùng với Ali Daei), cầu thủ ghi nhiều bàn thắng nhất (134) tại UEFA Champions League và cũng là cầu thủ ghi nhiều bàn thắng nhất (14) tại giải vô địch châu Âu.[15] Anh là một trong số ít những cầu thủ đã có hơn 1.100 lần ra sân và đã ghi hơn 780 bàn thắng trong sự nghiệp cho câu lạc bộ và đội tuyển quốc gia.[16] Anh cũng là cầu thủ thứ hai ghi được 100 bàn thắng cho đội tuyển quốc gia và là cầu thủ châu Âu đầu tiên đạt được thành tích này</p><a href='#'>Readmore</a>
+                        </div>
+                    </div>
+                    <div class="columnArt">
+                        <div class="content">
+                            <a href="~/assetsIndex/images/gallery/scream2.jpg" data-lightbox="mygallery"><img src="~/assetsIndex/images/gallery/scream1.jpg" alt=""></a>
+                            <h4>bird</h4>
+                            <p>Cristiano Ronaldo dos Santos Aveiro GOIH ComM, (sinh ngày 5 tháng 2 năm 1985)[8], là một cầu thủ bóng đá người Bồ Đào Nha hiện đang thi đấu ở vị trí tiền đạo cho câu lạc bộ Juventus tại giải vô địch Ý và là đội trưởng của đội tuyển bóng đá quốc gia Bồ Đào Nha. Được coi là cầu thủ xuất sắc nhất thế giới và là một trong những cầu thủ vĩ đại nhất mọi thời đại,[9] Ronaldo là chủ nhân của 5 Quả bóng vàng châu Âu vào các năm 2008[10], 2013[11], 2014[12], 2016[13], 2017[14] và cũng là chủ nhân 4 Chiếc giày vàng châu Âu, cả hai đều là kỷ lục của một cầu thủ châu Âu cùng nhiều danh hiệu cao quý khác. Anh đã giành được 32 danh hiệu trong sự nghiệp của mình, bao gồm bảy chức vô địch quốc gia, năm UEFA Champions League, một UEFA European Championship và một UEFA Nations League. Ronaldo đang giữ kỷ lục là cầu thủ ghi nhiều bàn thắng quốc tế nhất (109, cùng với Ali Daei), cầu thủ ghi nhiều bàn thắng nhất (134) tại UEFA Champions League và cũng là cầu thủ ghi nhiều bàn thắng nhất (14) tại giải vô địch châu Âu.[15] Anh là một trong số ít những cầu thủ đã có hơn 1.100 lần ra sân và đã ghi hơn 780 bàn thắng trong sự nghiệp cho câu lạc bộ và đội tuyển quốc gia.[16] Anh cũng là cầu thủ thứ hai ghi được 100 bàn thắng cho đội tuyển quốc gia và là cầu thủ châu Âu đầu tiên đạt được thành tích này</p><a href='#'>Readmore</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mb-30-none justify-content-center">
+                    <ul class="pagination" id="pagegallery">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--============= Dashboard Section Ends Here =============-->
