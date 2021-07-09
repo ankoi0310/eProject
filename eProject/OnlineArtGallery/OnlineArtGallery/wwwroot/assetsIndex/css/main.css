@@ -3576,6 +3576,7 @@ div[class*="auction"] .custom-button {
     text-align: center;
 }
 
+
 .auction-item-2 .auction-content .bid-area .bid-amount {
     padding: 12px 10px;
     align-items: center;
@@ -3804,6 +3805,8 @@ div[class*="auction"] .custom-button {
     background: -ms-linear-gradient(135deg, #b122e6 0%, #ff63de 100%);
     box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.13);
 }
+
+
 
 .auction-item-3 .auction-thumb .rating {
     color: #ff7800;
@@ -8899,7 +8902,6 @@ button.custom-button {
 }
 .columnArt{
     float: left;
-    padding: auto;
     height: 500px;
     width: 410px;
     border-radius: 10px;
@@ -8920,16 +8922,12 @@ button.custom-button {
     margin-left: 50px;
     display: inline;
 } 
-#ourgallery .columnArt .content span a{
-    color: red;
-    display: inline;
-}
 #ourgallery .columnArt .content .text-center{
     margin-top: 20px;
 }
+
 #ourgallery .row .columnArt{
     float: left;
-    padding: auto;
     height: 400px;
     width: 300px;
     border-radius: 10px;
@@ -8941,12 +8939,60 @@ button.custom-button {
     margin: 4px;
     height: 200px;
     width: 250px;
-    box-shadow: 0 10    px 6px -6px black;
+    box-shadow: 0 10px 6px -6px black;
     border-radius: 5px;
 }
 #ourgallery .row .columnArt h4{
     margin: 4px;
 }
-#MyGallery{
-    height: 1200px;
+
+.auction-item-2 .auction-thumb .bid:hover{
+    background: -moz-linear-gradient(88deg, #432eb9 4%, #6e48d3 58%, #9961ec 100%);
+    opacity: 0.8;
+}
+
+.auction-item-2 .auction-thumb .bid:focus{
+    box-shadow: 0 10px 6px -6px black;
+}
+
+.auction-item-3 .auction-thumb .bid:hover{
+    background: -moz-linear-gradient(88deg, #432eb9 4%, #6e48d3 58%, #9961ec 100%);
+    opacity: 0.8;
+}
+
+.auction-item-3 .auction-thumb .bid:focus{
+    box-shadow: 0 10px 6px -6px black;
+}
+
+.auction-item-2 .auction-content .custom-button:hover{
+    background: -moz-linear-gradient(88deg, #432eb9 4%, #6e48d3 58%, #9961ec 100%);
+    opacity: 0.8;
+}
+.auction-item-2 .auction-content .custom-button:focus{
+    box-shadow: 0 10px 6px -6px black;
+}
+
+.product-bid-area .custom-button:hover{
+    background: -moz-linear-gradient(88deg, #432eb9 4%, #6e48d3 58%, #9961ec 100%);
+    opacity: 0.8;
+}
+.product-bid-area .custom-button:focus{
+    box-shadow: 0 10px 6px -6px black;
+}
+
+.buy-now-area .custom-button:hover{
+    background: -moz-linear-gradient(88deg, #432eb9 4%, #6e48d3 58%, #9961ec 100%);
+    opacity: 0.8;
+}
+.buy-now-area .custom-button:focus{
+    box-shadow: 0 10px 6px -6px black;
+}
+
+#ourgallery .columnArt .content .text-center .custom-button:hover {
+    background: -moz-linear-gradient(88deg, #432eb9 4%, #6e48d3 58%, #9961ec 100%);
+    opacity: 0.8;
+}
+
+#ourgallery .columnArt .content .text-center .custom-button:focus {
+    box-shadow: 0 10px 6px -6px black;
 }

@@ -15,6 +15,20 @@
 <script src="~/assetsIndex/js/lightbox-plus-jquery.min.js"></script>
 <script>
     window.onload = function () {
+        var amount = document.getElementById("Amount");
+       
+        if (localStorage.getItem("amount") == null) {
+            amount.innerHTML = "0";
+        }
+        else {
+            amount.innerHTML = localStorage.getItem("amount");
+        }
+
+        if (JSON.parse(localStorage.getItem("product")) != null) {
+            var miniCard = JSON.parse(localStorage.getItem("product"));
+            AddItemToCard(miniCard.title, miniCard.price, miniCard.srcImg);
+        }
+       
         if (document.getElementById("MyGallery") != null) {
             var arts = document.getElementById("ourgallery").getElementsByClassName("columnArt");
             var numberArtInPage = 8;

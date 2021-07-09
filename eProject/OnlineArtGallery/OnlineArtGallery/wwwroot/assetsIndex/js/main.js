@@ -1413,9 +1413,13 @@ function element(totalPages, page, ulTag, numberArtInAPage) {
    var srcImg = document.getElementById("sync1").getElementsByTagName("img")[0].src;
    var title = document.getElementById("title").innerText;
    var amount = document.getElementById("Amount");
-   var numberAmount= parseInt(amount.innerText);
-   amount.innerHTML=numberAmount+=1;
-   AddItemToCard(title, price, srcImg);
+   var product = { title, price, srcImg };
+   var numberAmount = parseInt(amount.innerText);
+     localStorage.setItem("amount", numberAmount += 1);
+     localStorage.setItem("product", JSON.stringify(product));
+     amount.innerHTML = localStorage.getItem("amount");
+     var miniCard = JSON.parse(localStorage.getItem("product"));
+     AddItemToCard(miniCard.title, miniCard.price, miniCard.srcImg);
  }
 
 
@@ -1445,7 +1449,8 @@ function removeCard() {
       buttonClicked.parentElement.parentElement.remove();
       var amount = document.getElementById("Amount");
       var numberAmount= parseInt(amount.innerText);
-      amount.innerHTML=numberAmount-=1;
+        sessionStorage.setItem("amount", numberAmount -= 1)
+        amount.innerHTML = sessionStorage.getItem("amount");
     })
   }
 }
