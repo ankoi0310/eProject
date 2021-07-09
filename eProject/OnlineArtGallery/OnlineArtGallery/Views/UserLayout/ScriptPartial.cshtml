@@ -24,11 +24,11 @@
             amount.innerHTML = localStorage.getItem("amount");
         }
 
-        if (JSON.parse(localStorage.getItem("product")) != null) {
-            var miniCard = JSON.parse(localStorage.getItem("product"));
-            AddItemToCard(miniCard.title, miniCard.price, miniCard.srcImg);
+        if (localStorage.getItem("cards") != null) {
+            var cart = document.getElementById("productItem");
+            var miniCart= localStorage.getItem("cards");
+            cart.innerHTML = miniCart;
         }
-       
         if (document.getElementById("MyGallery") != null) {
             var arts = document.getElementById("ourgallery").getElementsByClassName("columnArt");
             var numberArtInPage = 8;
@@ -56,5 +56,9 @@
             btnAddToCard.addEventListener("click", AddToCardCliked);
         }
         removeCard();
+
+        if (document.getElementsByName("rate") != null) {
+            getRate();
+        }
     }
  </script>

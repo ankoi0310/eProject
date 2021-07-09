@@ -8996,3 +8996,36 @@ button.custom-button {
 #ourgallery .columnArt .content .text-center .custom-button:focus {
     box-shadow: 0 10px 6px -6px black;
 }
+
+#rating{
+   width:45%;
+   height:80px;
+}
+
+#rating input {
+   display:inline;
+   width:5%;
+   margin-bottom:15px;
+   flex-direction:column;
+   display:none;
+}
+#rating label{
+    font-size:40px;
+    color:#444;
+    padding:10px;
+    transition:all 0.2s ease;
+    float:right;
+}
+
+ #rating> input:not(:checked) ~ label:hover,
+ #rating> label:hover ~ label {
+        color: #fd4;
+ }
+
+ #rating > input:checked ~ label {
+        color: #fd4;
+ }
+
+
+
+

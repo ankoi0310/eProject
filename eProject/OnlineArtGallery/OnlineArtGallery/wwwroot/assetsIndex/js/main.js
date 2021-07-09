@@ -1414,12 +1414,13 @@ function element(totalPages, page, ulTag, numberArtInAPage) {
    var title = document.getElementById("title").innerText;
    var amount = document.getElementById("Amount");
    var product = { title, price, srcImg };
-   var numberAmount = parseInt(amount.innerText);
+     var numberAmount = parseInt(amount.innerText);
+     
      localStorage.setItem("amount", numberAmount += 1);
-     localStorage.setItem("product", JSON.stringify(product));
-     amount.innerHTML = localStorage.getItem("amount");
-     var miniCard = JSON.parse(localStorage.getItem("product"));
-     AddItemToCard(miniCard.title, miniCard.price, miniCard.srcImg);
+    amount.innerHTML = localStorage.getItem("amount");
+     AddItemToCard(title, price, srcImg);
+     var card = document.getElementById("productItem").innerHTML;
+     localStorage.setItem("cards", card);
  }
 
 
@@ -1440,6 +1441,7 @@ function AddItemToCard(title, price, srcImg) {
   card.innerHTML += sigleProduct;
   removeCard();
 }
+
 function removeCard() {
   var btnRemoveCard = document.getElementById("productItem").getElementsByClassName("remove-cart");
   for (var i = 0; i < btnRemoveCard.length; i++) {
@@ -1449,11 +1451,20 @@ function removeCard() {
       buttonClicked.parentElement.parentElement.remove();
       var amount = document.getElementById("Amount");
       var numberAmount= parseInt(amount.innerText);
-        sessionStorage.setItem("amount", numberAmount -= 1)
-        amount.innerHTML = sessionStorage.getItem("amount");
-    })
+        localStorage.setItem("amount", numberAmount -= 1)
+        amount.innerHTML = localStorage.getItem("amount");
+        var card = document.getElementById("productItem").innerHTML;
+        localStorage.setItem("cards", card);
+    })  
   }
 }
-
-
+function getRate() {
+    var star = document.getElementsByName("rate");
+    var prev = null;
+    for (var i = 0; i < star.length; i++) {
+        star[i].addEventListener('change', function () {
+            console.log(this.value)
+        });
+    }
+}
 /*divide end Page for Gallery*/
