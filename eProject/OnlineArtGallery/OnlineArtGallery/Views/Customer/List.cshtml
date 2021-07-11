@@ -1,0 +1,12 @@
+﻿@model IEnumerable<OnlineArtGallery.Models.Customer>
+
+@{
+    ViewData["Title"] = "Customer";
+    Layout = "~/Views/AdminLayout/MainLayout.cshtml";
+}
+
+<h1 class="text-center"><i class="fas fa-user"></i>&ensp;Customer</h1>
+
+<div id="view-all">
+    @await Html.PartialAsync("_ViewAll", Model)
+</div>
