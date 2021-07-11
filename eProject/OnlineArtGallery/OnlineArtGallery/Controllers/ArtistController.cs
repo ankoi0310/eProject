@@ -6,18 +6,9 @@ using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Controllers
 {
-    public class AdminController : Controller
+    public class ArtistController : Controller
     {
         public IActionResult Index()
-        {
-            ViewData["Title"] = "Dashboard";
-            return View();
-        }
-        public IActionResult Form()
-        {
-            return View();
-        }
-        public IActionResult Login()
         {
             return View();
         }
