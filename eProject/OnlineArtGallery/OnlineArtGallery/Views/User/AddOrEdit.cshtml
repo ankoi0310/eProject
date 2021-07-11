@@ -1,0 +1,62 @@
+﻿@model OnlineArtGallery.Models.User
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <div class="form-group">
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsertypeId" class="control-label"></label>
+                <select class="form-select form-control" id="select-user-type" aria-label="User type selection">
+                    <option value="0" selected>Select User Type</option>
+                    @foreach (OnlineArtGallery.Models.UserType item in Tools.GetUserTypeList())
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                @if (Model.UsertypeId != 0)
+                {
+                    <input type="hidden" id="user-type" asp-for="UsertypeId" class="form-control" value="@Model.UsertypeId" />
+                }
+                else
+                {
+                    <input type="hidden" id="user-type" asp-for="UsertypeId" class="form-control" value="0" />
+                }
+                <span asp-validation-for="UsertypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /><label asp-for="Active" class="control-label"></label>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('#select-user-type').on('change', function () {
+        $('#user-type').val($('#select-user-type').val());
+    });
+    $('#select-user-type').val($('#user-type').val());
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
