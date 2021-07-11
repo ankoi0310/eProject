@@ -1,4 +1,5 @@
 ﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+@model OnlineArtGallery.Models.User
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section">
     <div class="container">
@@ -37,23 +38,45 @@
                 <div class="or">
                     <span>Or</span>
                 </div>
-                <form class="login-form">
+                <form class="login-form" method="post" onsubmit="return jQueryAjaxPostForRegister(this)">
                     <div class="form-group mb-30">
-                        <label for="login-email"><i class="far fa-envelope"></i></label>
-                        <input type="text" id="login-email" placeholder="Email Address">
+                        <label for="username"><i class="far fa-envelope"></i></label>
+                        <input asp-for="Username" type="text" id="username" name="username" placeholder="Username">
                     </div>
                     <div class="form-group mb-30">
-                        <label for="login-pass"><i class="fas fa-lock"></i></label>
-                        <input type="password" id="login-pass" placeholder="Password">
+                        <label for="password"><i class="fas fa-lock"></i></label>
+                        <input asp-for="Password" type="password" id="password" name="password" placeholder="Password">
                         <span class="pass-type"><i class="fas fa-eye"></i></span>
                     </div>
-                    <div class="form-group checkgroup mb-30">
-                        <input type="checkbox" name="terms" id="check"><label for="check">The Sbidu Terms of Use apply</label>
+                    <div class="form-group mb-30">
+                        <select asp-for="UsertypeId" id="accountType">
+                            <option>
+                                &nbsp; Choose account type
+                            </option>
+                            <option value="2">
+                                &nbsp; Artist
+                            </option>
+                            <option value="3">
+                                &nbsp; Customer
+                            </option>
+                        </select>
                     </div>
                     <div class="form-group mb-0">
-                        <button type="submit" class="custom-button">LOG IN</button>
+                        <button type="submit" id="btnReg" class="custom-button">SIGN UP</button>
                     </div>
                 </form>
+                @if (ViewBag.Error != null)
+                {
+                    <script type="text/javascript">
+                        alert("@ViewBag.Error");
+                    </script>
+                }
+                else if (ViewBag.Message != null)
+                {
+                    <script type="text/javascript">
+                        alert("@ViewBag.Message");
+                    </script>
+                }
             </div>
             <div class="right-side cl-white">
                 <div class="section-header mb-0">
