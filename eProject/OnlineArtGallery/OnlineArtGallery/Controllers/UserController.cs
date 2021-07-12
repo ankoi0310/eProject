@@ -63,11 +63,11 @@ namespace OnlineArtGallery.Controllers
                     await _context.SaveChangesAsync();
                     if (user.UsertypeId == 3)
                     {
-                        _context.Add(new Customer() { UserId = user.Id });
+                        _context.Add(new Customer() { UserId = user.Id, Active = true });
                     }
-                    else
+                    if (user.UsertypeId == 2)
                     {
-                        _context.Add(new Artist() { UserId = user.Id });
+                        _context.Add(new Artist() { UserId = user.Id, Active = true });
                     }
                     await _context.SaveChangesAsync();
                 }
