@@ -6,17 +6,6 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            @*<div class="card-header">
-                    <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
-            <!-- /.card-header -->
             <div class="card-body">
                 <table id="customer" class="table table-bordered table-striped">
                     <thead>
@@ -34,10 +23,7 @@
                                 Interest
                             </th>
                             <th>
-                                Username
-                            </th>
-                            <th>
-                                Password
+                                User ID
                             </th>
                             <th>
                                 Active
@@ -58,7 +44,7 @@
                                 <td>
                                     Name:&emsp;@item.Name<br />
                                     Gender:&emsp;@ViewData["Gender"]<br />
-                                    Birthday:&emsp;@item.Birthday<br />
+                                    Birthday:&emsp;@item.Birthday.ToString("dd/MM/yyyy")<br />
                                     Phone:&emsp;@item.Phone<br />
                                     Email:&emsp;@item.Email<br />
                                     Address:&emsp;@item.Address<br />
@@ -70,10 +56,7 @@
                                     @item.Interest
                                 </td>
                                 <td>
-                                    @Tools.GetUser(item.UserId).Username
-                                </td>
-                                <td>
-                                    @Tools.GetUser(item.UserId).Password
+                                    @item.UserId
                                 </td>
                                 <td class="text-center">@ViewData["Active"]</td>
                                 <td>
