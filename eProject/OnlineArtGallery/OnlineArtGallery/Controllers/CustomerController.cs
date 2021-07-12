@@ -53,7 +53,7 @@ namespace OnlineArtGallery.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("Id,Name,Gender,Birthday,Phone,Email,Address,Image,Interest,BankAccount,BankName,UserId,User,Active")] Customer customer)
+        public async Task<IActionResult> AddOrEdit(int id, [Bind("Id,Name,Gender,Birthday,Phone,Email,Address,Image,Interest,UserId,Active")] Customer customer)
         {
             if (ModelState.IsValid)
             {
