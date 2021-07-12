@@ -1,4 +1,9 @@
-﻿<header>
+﻿@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<header>
     <div class="header-top">
         <div class="container">
             <div class="header-top-wrapper">
@@ -25,6 +30,23 @@
                     <li>
                         <a href="sign-in.html" class="user-button"><i class="flaticon-user"></i></a>
                     </li>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("USER") != null)
+                    {
+                        <li>
+                            <a href="~/index/signout" style="color: white">Sign out</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="~/index/signin" style="color: white">Sign in</a>
+                        </li>
+
+                        <li>
+                            <a href="~/index/signup" style="color: white">Sign up</a>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </div>

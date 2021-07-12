@@ -46,7 +46,20 @@ jQueryAjaxPost = (form) => {
     return false;
 }
 
+$("#btnLogin").click(function () {
+    var usr = $("input[name=username]").val();
+    var pwd = $("input[name=password]").val();
+    $.ajax({
+        type: "POST",
+        data: {
+            username: usr,
+            password: pwd
+        },
+        success: function (res) { }
+    })
+})
 jQueryAjaxPostForRegister = (form) => {
+    removeSorting();
     try {
         $.ajax({
             type: "POST",
@@ -69,6 +82,7 @@ jQueryAjaxPostForRegister = (form) => {
 
     return false;
 }
+
 
 jQueryAjaxDelete = form => {
     if (confirm("Are you sure to delete this record?")) {
