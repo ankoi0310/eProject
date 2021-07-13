@@ -1,0 +1,51 @@
+﻿@model IEnumerable<OnlineArtGallery.Models.ArtCategory>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="user" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Art Category ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Active
+                            </th>
+                            <th>
+                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "ArtCategory", null, Context.Request.Scheme)', 'New Art Category')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            ViewBag.Active = item.Active ? "True" : "False";
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td class="text-center">@ViewBag.Active</td>
+                                <td>
+                                    <a onclick="showInPopup('@Url.Action("AddOrEdit", "ArtCategory", new { item.Id }, Context.Request.Scheme)', 'Update Art Category')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                                    <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                        <input type="submit" value="Delete" class="btn btn-danger" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

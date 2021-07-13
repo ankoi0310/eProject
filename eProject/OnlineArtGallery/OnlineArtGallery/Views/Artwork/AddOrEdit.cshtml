@@ -1,0 +1,89 @@
+﻿@model OnlineArtGallery.Models.Artwork
+
+@{
+    Layout = null;
+    var now = DateTime.Now;
+    List<ArtCategory> ListArtCate = Tools.GetArtCategoryList();
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" method="post" enctype="multipart/form-data" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quote" class="control-label"></label>
+                <input asp-for="Quote" class="form-control" />
+                <span asp-validation-for="Quote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FileImage" class="control-label"></label>
+                <input asp-for="FileImage" class="form-control" type="file" name="FileImage" />
+                <span asp-validation-for="FileImage" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Image" value="@Model.Image" />
+            <input type="hidden" asp-for="ArtistId" value="@Model.ArtistId" />
+            <div class="form-group">
+                <label asp-for="Size" class="control-label"></label>
+                <input asp-for="Size" class="form-control" />
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DefautPrice" class="control-label"></label>
+                <input asp-for="DefautPrice" class="form-control" />
+                <span asp-validation-for="DefautPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArtCategoryId" class="control-label"></label>
+                <select class="form-select form-control" aria-label="Select Art Category" asp-for="ArtCategoryId">
+
+                    @if (Model.ArtCategoryId != 0)
+                    {
+                        <option value="@Model.ArtCategory.Id" selected>@Model.ArtCategory.Name</option>
+                        @foreach (OnlineArtGallery.Models.ArtCategory item in ListArtCate)
+                        {
+                            if (item.Id == Model.ArtCategory.Id)
+                            {
+                                continue;
+                            }
+                            <option value="@item.Id">@item.Name</option>
+                        }
+
+                    }
+                    else
+                    {
+                        <option value="0" selected>Select Art Category</option>
+                        @foreach (OnlineArtGallery.Models.ArtCategory item in ListArtCate)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+                @*<span asp-validation-for="ArtCategoryId" class="text-danger"></span>*@
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Active" /><label asp-for="Active" class="control-label"></label>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

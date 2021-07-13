@@ -1,0 +1,83 @@
+﻿@model IEnumerable<OnlineArtGallery.Models.Exhibition>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="user" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Exhibition ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                BeginDay
+                            </th>
+                            <th>
+                                EndDay
+                            </th>
+                            <th>
+                                Locate
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Active
+                            </th>
+                            <th>
+                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Exhibition", null, Context.Request.Scheme)', 'New Exhibition')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            ViewBag.Active = item.Active ? "True" : "False";
+                        <tr>
+                            <td>
+                                @item.Id
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.BeginDay.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.EndDay.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.Locate
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <img src="~/assets/img/exhibition/@item.Image" class="rounded-pill" alt="Alternate Text" style=" height:50px; width: 80px" />
+                                </div>
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td class="text-center">@ViewBag.Active</td>
+                            <td>
+                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Exhibition", new { item.Id }, Context.Request.Scheme)', 'Update Exhibition')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                                <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                    <input type="submit" value="Delete" class="btn btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

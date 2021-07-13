@@ -1,0 +1,95 @@
+﻿@model IEnumerable<OnlineArtGallery.Models.Artwork>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="user" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Artwork ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                CreateDay
+                            </th>
+                            <th>
+                                Quote
+                            </th>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                Size
+                            </th>
+                            <th>
+                                DefautPrice
+                            </th>
+                            <th>
+                                Artist
+                            </th>
+                            <th>
+                                Art Category
+                            </th>
+                            <th>
+                                Active
+                            </th>
+                            <th>
+                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", null, Context.Request.Scheme)', 'New Artwork')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            ViewBag.Active = item.Active ? "True" : "False";
+                        <tr>
+                            <td>
+                                @item.Id
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.CreateDay.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.Quote
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <img src="~/assets/img/artwork/@item.Image" class="rounded-pill" alt="Alternate Text" style=" height:50px; width: 80px" />
+                                </div>
+                            </td>
+                            <td>
+                                @item.Size
+                            </td>
+                            <td>
+                                @item.DefautPrice
+                            </td>
+                            <td>
+                                @item.Artist.Name
+                            </td>
+                            <td>
+                                @item.ArtCategory.Name
+                            </td>
+                            <td class="text-center">@ViewBag.Active</td>
+                            <td>
+                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", new { item.Id }, Context.Request.Scheme)', 'Update Artwork')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                                <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                    <input type="submit" value="Delete" class="btn btn-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

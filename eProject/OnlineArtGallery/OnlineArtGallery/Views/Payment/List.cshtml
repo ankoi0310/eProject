@@ -1,0 +1,12 @@
+﻿@model IEnumerable<OnlineArtGallery.Models.Payment>
+
+@{
+    ViewData["Title"] = "Payment";
+    Layout = "~/Views/AdminLayout/MainLayout.cshtml";
+}
+
+<h1 class="text-center"><i class="fas fa-money-check-alt"></i>&ensp;Payment</h1>
+
+<div id="view-all">
+    @await Html.PartialAsync("_ViewAll", Model)
+</div>

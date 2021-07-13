@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "F:\\APTECH\\MVC\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj": {}
+    "D:\\CSharp\\ArtGallery\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj": {}
   },
   "projects": {
-    "F:\\APTECH\\MVC\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj": {
+    "D:\\CSharp\\ArtGallery\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\APTECH\\MVC\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj",
+        "projectUniqueName": "D:\\CSharp\\ArtGallery\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj",
         "projectName": "OnlineArtGallery",
-        "projectPath": "F:\\APTECH\\MVC\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj",
-        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "F:\\APTECH\\MVC\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\obj\\",
+        "projectPath": "D:\\CSharp\\ArtGallery\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\OnlineArtGallery.csproj",
+        "packagesPath": "C:\\Users\\DUC\\.nuget\\packages\\",
+        "outputPath": "D:\\CSharp\\ArtGallery\\eProject\\eProject\\OnlineArtGallery\\OnlineArtGallery\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DUC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -43,6 +45,16 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.7, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -61,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.204\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

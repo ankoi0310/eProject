@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Controllers
 {
-    public class UserController : Controller
+    public class StatusController : Controller
     {
         private readonly DBContext _context;
 
-        public UserController()
+        public StatusController()
         {
             _context ??= new DBContext();
         }
@@ -22,65 +22,56 @@ namespace OnlineArtGallery.Controllers
             return View();
         }
 
-        // GET: User
+        // GET: Status
         public async Task<IActionResult> List()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Status.ToListAsync());
         }
 
-        // GET: User/AddOrEdit
-        // GET: User/AddOrEdit/5
+        // GET: Status/AddOrEdit
+        // GET: Status/AddOrEdit/5
         [NoDirectAccess]
         public async Task<IActionResult> AddOrEdit(int id = 0)
         {
             if (id == 0)
             {
-                return base.View(new User());
+                return base.View(new Status());
             }
             else
             {
-                var user = await _context.Users.FindAsync(id);
-                if (user == null)
+                var status = await _context.Status.FindAsync(id);
+                if (status == null)
                 {
                     return NotFound();
                 }
-                return View(user);
+                return View(status);
             }
         }
 
-        // POST: User/AddOrEdit/5
+        // POST: Status/AddOrEdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("Id,Username,Password,UsertypeId,Active")] User user)
+        public async Task<IActionResult> AddOrEdit(int id, Status status)
         {
             if (ModelState.IsValid)
             {
                 if (id == 0)
                 {
-                    _context.Add(user);
-                    await _context.SaveChangesAsync();
-                    if (user.UsertypeId == 3)
-                    {
-                        _context.Add(new Customer() { UserId = user.Id, Active = true });
-                    }
-                    if (user.UsertypeId == 2)
-                    {
-                        _context.Add(new Artist() { UserId = user.Id, Active = true });
-                    }
+                    _context.Add(status);
                     await _context.SaveChangesAsync();
                 }
                 else
                 {
                     try
                     {
-                        _context.Update(user);
+                        _context.Update(status);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!UserExists(user.Id))
+                        if (!StatusExists(status.Id))
                         {
                             return NotFound();
                         }
@@ -90,25 +81,25 @@ namespace OnlineArtGallery.Controllers
                         }
                     }
                 }
-                return Json(new { isValid = true, html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Users.ToList()) });
+                return Json(new { isValid = true, html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Status.ToList()) });
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewString(this, "AddOrEdit", user) });
+            return Json(new { isValid = false, html = Helper.RenderRazorViewString(this, "AddOrEdit", status) });
         }
         
-        // POST: User/Delete/5
+        // POST: Status/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var status = await _context.Status.FindAsync(id);
+            _context.Status.Remove(status);
             await _context.SaveChangesAsync();
-            return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Users.ToList()) });
+            return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Status.ToList()) });
         }
 
-        private bool UserExists(int id)
+        private bool StatusExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Status.Any(e => e.Id == id);
         }
     }
 }

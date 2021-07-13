@@ -1,3 +1,4 @@
+
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,11 +12,13 @@ namespace OnlineArtGallery.Controllers
 {
     public class IndexController : Controller
     {
+
         private DBContext context;
         public IndexController()
         {
             context ??= new DBContext();
         }
+
         public IActionResult Home()
         {
             return View();

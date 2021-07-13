@@ -16,6 +16,9 @@ namespace OnlineArtGallery.Models
 
         // User
         public static User GetUser(int id) => context.Users.Find(id);
-        
+
+        // Art Category
+        public static List<ArtCategory> GetArtCategoryList() => context.ArtCategories.ToList();
+
     }
 }
