@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Models
@@ -20,5 +22,21 @@ namespace OnlineArtGallery.Models
         // Art Category
         public static List<ArtCategory> GetArtCategoryList() => context.ArtCategories.ToList();
 
+        //get User from Session
+        public static User GetUserfromSession(string userString)
+        {
+            User user = new User();
+            if (!String.IsNullOrEmpty(userString))
+            {
+                user = JsonConvert.DeserializeObject<User>(userString);    
+            }
+            return user;
+        }
+
+        //check artwork is get to auction yet
+        public static bool CheckAuctionExist(int id)
+        {
+            return context.Auctions.Any(x => x.ArtworkId == id);
+        }
     }
 }

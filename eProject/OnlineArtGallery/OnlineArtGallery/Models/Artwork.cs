@@ -45,5 +45,7 @@ namespace OnlineArtGallery.Models
         [NotMapped]
         public FormFile FileImage { get; set; }
 
+        public List<Auction> Auctions { get; set; }
+
     }
 }

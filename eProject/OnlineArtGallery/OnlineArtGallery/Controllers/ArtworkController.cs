@@ -16,6 +16,7 @@ namespace OnlineArtGallery.Controllers
     {
         private readonly DBContext _context;
         private readonly IWebHostEnvironment _webHostEnvironmen;
+        private User _user;
 
         public ArtworkController(IWebHostEnvironment webHostEnvironmen)
         {
@@ -31,9 +32,18 @@ namespace OnlineArtGallery.Controllers
         // GET: Artwork
         public async Task<IActionResult> List()
         {
+            string userString = HttpContext.Session.GetString("USER");
+            _user = Tools.GetUserfromSession(userString);
             _context.ArtCategories.ToList();
             _context.Artists.ToList();
-            return View(await _context.Artworks.ToListAsync());
+            if (_user.UsertypeId == 1)
+            {
+                return View(await _context.Artworks.ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Artworks.Where(x => x.Artist.UserId == _user.Id).ToListAsync());
+            }
         }
 
         // GET: Artwork/AddOrEdit
@@ -80,13 +90,10 @@ namespace OnlineArtGallery.Controllers
                         }
                     }
                     artwork.Image = UploadImage(artwork);
-                    string userString = HttpContext.Session.GetString("USER");
-                    if (!String.IsNullOrEmpty(userString))
-                    {
-                        var user = JsonConvert.DeserializeObject<User>(userString);
-                        artwork.ArtistId = _context.Artists.Where(x => x.UserId == user.Id).SingleOrDefault().Id;
-                    }
                     artwork.CreateDay = DateTime.Now;
+                    string userString = HttpContext.Session.GetString("USER");
+                    _user = Tools.GetUserfromSession(userString);
+                    artwork.ArtistId = _context.Artists.Where(x => x.UserId == _user.Id).SingleOrDefault().Id;
                     _context.Add(artwork);
                     await _context.SaveChangesAsync();
                 }
@@ -133,6 +140,8 @@ namespace OnlineArtGallery.Controllers
             _context.Artworks.Remove(artwork);
             DeleteImage(artwork);
             await _context.SaveChangesAsync();
+            _context.ArtCategories.ToList();
+            _context.Artists.ToList();
             return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Artworks.ToList()) });
         }
 

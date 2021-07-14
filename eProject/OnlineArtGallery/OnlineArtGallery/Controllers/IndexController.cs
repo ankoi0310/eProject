@@ -27,11 +27,14 @@ namespace OnlineArtGallery.Controllers
         {
             return View();
         }
-        public IActionResult Product()
+        public IActionResult Auction()
         {
+            context.Artists.ToList();
+            context.Artworks.ToList();
+            ViewBag.ListAuction = context.Auctions.ToList();
             return View();
         }
-        public IActionResult ProductDetail()
+        public IActionResult AuctionDetail()
         {
             return View();
         }
