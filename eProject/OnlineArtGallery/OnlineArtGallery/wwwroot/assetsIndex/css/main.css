@@ -8882,7 +8882,12 @@ button.custom-button {
     margin-right: auto;
 }
 /*Gallery */
-#ourgallery{
+#MyGallery {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#ourgallery {
     margin: 100px -16px;
 }
 #ourgallery .column{
@@ -9026,6 +9031,10 @@ button.custom-button {
         color: #fd4;
  }
 
+#btnComent:hover {
+    background: -moz-linear-gradient(88deg, #432eb9 4%, #6e48d3 58%, #9961ec 100%);
+    opacity: 0.8;
+}
 
 
 
