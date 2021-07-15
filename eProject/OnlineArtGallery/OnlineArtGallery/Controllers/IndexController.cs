@@ -102,10 +102,9 @@ namespace OnlineArtGallery.Controllers
                 if (context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password)) != null && username != null)
                 {
                     var user = context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
-                    HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(user));
-                    string userType = context.UserTypes.FirstOrDefault(u => u.Id == user.UsertypeId).Name;
-                    if (userType.Contains("Customer") || userType.Contains("Artist"))
+                    if (user.UsertypeId != 1)
                     {
+                        HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(user.UsertypeId == 3 ? Tools.GetCustomerFromUser(user.Id) : Tools.GetArtistFromUser(user.Id)));
                         return RedirectToAction("Home", "Index");
                     }
                     return RedirectToAction("Index", "Admin");
