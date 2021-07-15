@@ -66,7 +66,10 @@ namespace OnlineArtGallery.Controllers
                 {
                     try
                     {
+                        User user = _context.Users.Find(customer.UserId);
+                        user.Active = customer.Active;
                         _context.Update(customer);
+                        _context.Update(user);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
