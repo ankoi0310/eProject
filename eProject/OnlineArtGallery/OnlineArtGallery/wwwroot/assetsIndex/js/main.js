@@ -1468,3 +1468,29 @@ function getRate() {
     }
 }
 /*divide end Page for Gallery*/
+
+function method(x) {
+    var a = document.getElementsByClassName("payment");
+    for (var i = 0; i < a.length; i++) {
+        if (i == x) {
+            a[i].style.display = "block";
+        }
+        else {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+
+function payment() {
+    var a = document.querySelectorAll("#MenuMethod li");
+    for (var i = 0, length = a.length; i < length; i++) {
+        a[i].onclick = function () {
+            var b = document.querySelector("#MenuMethod li.active");
+            if (b) b.classList.remove("active");
+            this.classList.add('active');
+            var x= this.getAttribute("data-id");
+            method(x);
+        };
+    }
+}

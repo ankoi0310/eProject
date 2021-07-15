@@ -9137,3 +9137,25 @@ var {
 #total span b{
     margin-right:30px;
 }
+#MenuMethod li {
+    display:inline;
+    border-right: double;
+    border-color: gainsboro;
+    text-align:center;
+}
+    #MenuMethod li a {
+        text-decoration: none;
+        color: black;
+        padding: 5px 10px;
+        width: 40%;
+    }
+
+    #MenuMethod li:hover {
+        background-color: gainsboro;
+        color: black;
+    }
+ul#MenuMethod li.active {
+    background-color: gainsboro;
+    color: black;
+    box-shadow: 2px 2px 2px #888;
+}

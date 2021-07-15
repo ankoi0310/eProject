@@ -22,7 +22,7 @@
             </div>
             <div class="row">
                 <div class="col-md-7">
-                    <form action="" method="post">
+                    <form action="" method="post" style="color:black">
                         <b>1. Personal Information</b>
                         <div class="row">
                             <div class="col">
@@ -57,26 +57,61 @@
                             </div>
                         </div>
                         <b>2. Paymen Detail</b>
+                        <b>Choose the payment method</b>
                         <div class="row">
                             <div class="col">
-                                <i class="fa fa-cc-visa"></i><label for="Visa"> Visa</label>
-                                <input type="text" class="form-control" name="name" value="" id="Visa" />
+                                <ul id="MenuMethod">
+                                    <li class="active" data-id="0">
+                                        <a href="#0">
+                                            <i class="fa fa-cc-visa fa-lg" aria-hidden="true"></i>
+                                            Visa/<i class="fa fa-credit-card fa-lg" aria-hidden="true"></i>
+                                            Creadit Card
+                                        </a>
+                                    </li>
+                                    <li data-id="1">
+                                        <a href="#0">
+                                            <i class="fa fa-cc-paypal fa-lg" aria-hidden="true"></i>
+                                            PayPal
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="SecurityCode"> Security Code</label>
-                                <input type="text" class="form-control" name="name" value="" id="SecurityCode" />
+                        <div class="payment">
+                            <div class="row">
+                                <div class="col">
+                                    <i class="fa fa-cc-visa"></i><label for="Visa"> Creditcard Number</label>
+                                    <input type="text" class="form-control" name="name" value="" id="Visa" />
+                                </div>
                             </div>
-                            <div class="col">
-                                <label for="ExpirationDate"> Expiration Date</label>
-                                <input type="text" class="form-control" name="name" value="" id="ExpirationDate" />
+                            <div class="row">
+                                <div class="col">
+                                    <label for="SecurityCode"> Security Code</label>
+                                    <input type="text" class="form-control" name="name" value="" id="SecurityCode" />
+                                </div>
+                                <div class="col">
+                                    <label for="ExpirationDate"> Expiration Date</label>
+                                    <input type="text" class="form-control" name="name" value="" id="ExpirationDate" />
+                                </div>
                             </div>
                         </div>
-
+                        <div class="payment">
+                            <div class="row">
+                                <div class="col">
+                                    <i class="fa fa-user"></i><label for="User"> Creditcard Number</label>
+                                    <input type="text" class="form-control" name="name" value="" id="User" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="PassWord"><i class="fa fa-key"></i> PassWord</label>
+                                    <input type="text" class="form-control" name="name" value="" id="PassWord" />
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
-                <div class="col-md-4" style="margin-top:50px">
+                <div class="col-md-4" style="margin-top:50px;color:black">
                     <div class="row" style="border-style:double; border-color:gainsboro;">
                         <div class="col">
                             <div class="row" style="margin:15px">
