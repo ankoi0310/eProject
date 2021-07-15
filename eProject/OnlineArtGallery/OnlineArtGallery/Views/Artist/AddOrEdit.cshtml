@@ -1,4 +1,6 @@
-﻿@model OnlineArtGallery.Models.Artist
+﻿@using Newtonsoft.Json;
+
+@model OnlineArtGallery.Models.Artist
 
 @{
     Layout = null;
@@ -70,6 +72,33 @@
         </form>
     </div>
 </div>
+
+<script>
+    var recentArtist = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Tools.GetArtistList()))');
+    $("#form").on("submit", function () {
+        var error = "";
+        if ($("#Id").val() != 0) {
+            for (var i = 0; i < Object.keys(recentArtist).length; i++) {
+                if ($("#Id").val() != recentArtist[i]["Id"]) {
+                    if ($("#Phone").val() == recentArtist[i]["Phone"]) error += "- Phone already existed.\n";
+                    if ($("#Email").val() == recentArtist[i]["Email"]) error += "- Email already existed.\n";
+                }
+            }
+        }
+        else
+        {
+            for (var i = 0; i < Object.keys(recentArtist).length; i++) {
+                if ($("#Phone").val() == recentArtist[i]["Phone"]) error += "- Phone already existed.\n";
+                if ($("#Email").val() == recentArtist[i]["Email"]) error += "- Email already existed.\n";
+            }
+        }
+        if (error != "") {
+            alert(error);
+            return false;
+        }
+        return jQueryAjaxPost(this);
+    });
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
