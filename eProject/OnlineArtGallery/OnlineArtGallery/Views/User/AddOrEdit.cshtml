@@ -4,7 +4,6 @@
 
 @{
     Layout = null;
-    ViewBag.Texts = JsonConvert.SerializeObject(Tools.GetUserList());
 }
 
 <div class="row">
@@ -61,10 +60,9 @@
         $('#select-user-type').val($('#user-type').val());
     });
 
-    var recentUser = JSON.parse('@Html.Raw(ViewBag.Texts)');
+    var recentUser = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Tools.GetUserList()))');
     
     $("#form").on("submit", function () {
-        console.log($("#Id").val());
         if ($("#Id").val() == 0) {
             for (var i = 0; i < Object.keys(recentUser).length; i++) {
                 if ($("#Username").val() == recentUser[i]["Username"]) {
