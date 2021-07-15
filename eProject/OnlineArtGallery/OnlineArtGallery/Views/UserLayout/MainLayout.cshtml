@@ -1,9 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+
+@{
+    if (Context.Session.GetString("USER") != null)
+    {
+        ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
-
 <!-- Mirrored from pixner.net/sbidu/main/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Jun 2021 00:46:34 GMT -->
-       @Html.Partial("~/Views/UserLayout/HeadPartial.cshtml") 
+@Html.Partial("~/Views/UserLayout/HeadPartial.cshtml")
 
 <body>
     <!--============= ScrollToTop Section Starts Here =============-->
