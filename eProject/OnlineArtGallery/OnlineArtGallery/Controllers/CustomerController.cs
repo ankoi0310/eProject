@@ -89,7 +89,7 @@ namespace OnlineArtGallery.Controllers
             return Json(new { isValid = false, html = Helper.RenderRazorViewString(this, "AddOrEdit", customer) });
         }
 
-        // POST: Member/Delete/5
+        // POST: Customer/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
