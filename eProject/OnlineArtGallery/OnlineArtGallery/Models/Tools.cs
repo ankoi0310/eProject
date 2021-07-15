@@ -15,7 +15,14 @@ namespace OnlineArtGallery.Models
         public static string GetUsetType(int id) => context.UserTypes.Find(id).Name;
 
         // User
+        public static IEnumerable<User> GetUserList() => context.Users.ToList();
         public static User GetUser(int id) => context.Users.Find(id);
+
+        // Customer
+        public static Customer GetCustomerFromUser(int userId) => (from a in context.Customers where a.UserId == userId select a).FirstOrDefault();
+
+        // Artist
+        public static Artist GetArtistFromUser(int userId) => (from a in context.Artists where a.UserId == userId select a).FirstOrDefault();
 
         // Art Category
         public static List<ArtCategory> GetArtCategoryList() => context.ArtCategories.ToList();
