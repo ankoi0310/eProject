@@ -25,6 +25,18 @@ namespace OnlineArtGallery.Controllers
         }
         public IActionResult Gallery()
         {
+            context.Artists.ToList();
+            ViewBag.ListArtCategory = context.ArtCategories.ToList();
+            var ListAuction = context.Auctions.ToList();
+            ViewBag.ListArtwork = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
+            return View();
+        }
+        public IActionResult ArtworkDetail(int id)
+        {
+            context.Artists.ToList();
+            ViewBag.ListArtCategory = context.ArtCategories.ToList();
+            ViewBag.Artwork = context.Artworks.Find(id);
+
             return View();
         }
         public IActionResult Auction()
