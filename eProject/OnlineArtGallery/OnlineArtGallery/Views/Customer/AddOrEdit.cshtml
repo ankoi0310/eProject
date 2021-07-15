@@ -1,4 +1,6 @@
-﻿@model OnlineArtGallery.Models.Customer
+﻿@using Newtonsoft.Json;
+
+@model OnlineArtGallery.Models.Customer
 
 @{
     Layout = null;
@@ -8,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+        <form asp-action="AddOrEdit" id="form" asp-route-id="@Model.Id" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" value="@Model.Id" />
             <div class="form-group">
@@ -65,6 +67,33 @@
         </form>
     </div>
 </div>
+
+<script>
+    var recentCustomer = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Tools.GetCustomerList()))');
+    $("#form").on("submit", function () {
+        var error = "";
+        if ($("#Id").val() != 0) {
+            for (var i = 0; i < Object.keys(recentCustomer).length; i++) {
+                if ($("#Id").val() != recentCustomer[i]["Id"]) {
+                    if ($("#Phone").val() == recentCustomer[i]["Phone"]) error += "- Phone already existed.\n";
+                    if ($("#Email").val() == recentCustomer[i]["Email"]) error += "- Email already existed.\n";
+                }
+            }
+        }
+        else
+        {
+            for (var i = 0; i < Object.keys(recentCustomer).length; i++) {
+                if ($("#Phone").val() == recentCustomer[i]["Phone"]) error += "- Phone already existed.\n";
+                if ($("#Email").val() == recentCustomer[i]["Email"]) error += "- Email already existed.\n";
+            }
+        }
+        if (error != "") {
+            alert(error);
+            return false;
+        }
+        return jQueryAjaxPost(this);
+    });
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
