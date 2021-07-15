@@ -75,6 +75,18 @@ namespace OnlineArtGallery.Controllers
                 {
                     try
                     {
+                        if (user.UsertypeId == 3)
+                        {
+                            Customer customer = Tools.GetCustomerFromUser(user.Id);
+                            customer.Active = user.Active;
+                            _context.Update(customer);
+                        }
+                        if (user.UsertypeId == 2)
+                        {
+                            Artist artist = Tools.GetArtistFromUser(user.Id);
+                            artist.Active = user.Active;
+                            _context.Update(artist);
+                        }
                         _context.Update(user);
                         await _context.SaveChangesAsync();
                     }
@@ -101,7 +113,16 @@ namespace OnlineArtGallery.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            if (user.UsertypeId == 3)
+            {
+                Customer customer = Tools.GetCustomerFromUser(user.Id);
+                _context.Customers.Remove(customer);
+            }
+            if (user.UsertypeId == 2)
+            {
+                Artist artist = Tools.GetArtistFromUser(user.Id);
+                _context.Artists.Remove(artist);
+            }
             await _context.SaveChangesAsync();
             return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Users.ToList()) });
         }

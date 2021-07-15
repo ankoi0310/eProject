@@ -1,12 +1,15 @@
-﻿@model OnlineArtGallery.Models.User
+﻿@using Newtonsoft.Json
+
+@model OnlineArtGallery.Models.User
 
 @{
     Layout = null;
+    ViewBag.Texts = JsonConvert.SerializeObject(Tools.GetUserList());
 }
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+        <form asp-action="AddOrEdit" id="form" asp-route-id="@Model.Id" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" value="@Model.Id" />
             <div class="form-group">
@@ -51,10 +54,27 @@
 </div>
 
 <script>
-    $('#select-user-type').on('change', function () {
-        $('#user-type').val($('#select-user-type').val());
+    $(document).ready(function () {
+        $('#select-user-type').on('change', function () {
+            $('#user-type').val($('#select-user-type').val());
+        });
+        $('#select-user-type').val($('#user-type').val());
     });
-    $('#select-user-type').val($('#user-type').val());
+
+    var recentUser = JSON.parse('@Html.Raw(ViewBag.Texts)');
+    
+    $("#form").on("submit", function () {
+        console.log($("#Id").val());
+        if ($("#Id").val() == 0) {
+            for (var i = 0; i < Object.keys(recentUser).length; i++) {
+                if ($("#Username").val() == recentUser[i]["Username"]) {
+                    alert("User already existed!!!");
+                    return false;
+                }
+            }
+        }
+        return jQueryAjaxPost(this);
+    });
 </script>
 
 @section Scripts {

@@ -58,6 +58,7 @@ $("#btnLogin").click(function () {
         success: function (res) { }
     })
 })
+
 jQueryAjaxPostForRegister = (form) => {
     removeSorting();
     try {
@@ -96,7 +97,7 @@ jQueryAjaxDelete = form => {
                 success: function (res) {
                     $("#view-all").html(res.html);
                     setInterval('location.reload()', 100);
-                    $.notify("Deleted successfully", { globalPosition: "top center", className: "success" });
+                    //$.notify("Deleted successfully", { globalPosition: "top center", className: "success" });
                 },
                 error: function (err) {
                     console.log(err);
