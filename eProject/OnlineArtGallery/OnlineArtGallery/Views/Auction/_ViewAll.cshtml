@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OnlineArtGallery.Models.Artwork>
+﻿@model IEnumerable<OnlineArtGallery.Models.Auction>
 
 <div class="row">
     <div class="col-12">
@@ -8,34 +8,32 @@
                     <thead>
                         <tr>
                             <th>
-                                Artwork ID
+                                Auction ID
                             </th>
                             <th>
-                                Name
+                                 Artwork
                             </th>
                             <th>
-                                CreateDay
+                                BeginDay
                             </th>
                             <th>
-                                Image
+                                EndDay
                             </th>
                             <th>
-                                Size
+                                Begin Price
                             </th>
                             <th>
-                                DefautPrice
+                                Step Price
                             </th>
                             <th>
-                                Artist
-                            </th>
-                            <th>
-                                Art Category
+                                Description
                             </th>
                             <th>
                                 Active
                             </th>
                             <th>
-                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", null, Context.Request.Scheme)', 'New Artwork')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
+                                @*<a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", null, Context.Request.Scheme)', 'New Artwork')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>*@
+                                <a href="/artwork/list" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
                             </th>
                         </tr>
                     </thead>
@@ -48,42 +46,29 @@
                                 @item.Id
                             </td>
                             <td>
-                                @item.Name
+                                @item.Artwork.Name
                             </td>
                             <td>
-                                @item.CreateDay.ToString("dd/MM/yyyy")
+                                @item.BeginDay.ToString("dd/MM/yyyy")
                             </td>
                             <td>
-                                <div class="d-flex justify-content-center">
-                                    <img src="~/assets/img/artwork/@item.Image" class="rounded-pill" alt="Alternate Text" style=" height:50px; width: 80px" />
-                                </div>
+                                @item.EndDay.ToString("dd/MM/yyyy")
                             </td>
                             <td>
-                                @item.Size
+                                @item.ReservePrice
                             </td>
                             <td>
-                                @item.DefautPrice
+                                @item.StepPrice
                             </td>
                             <td>
-                                @item.Artist.Name
-                            </td>
-                            <td>
-                                @item.ArtCategory.Name
+                                @item.Description
                             </td>
                             <td class="text-center">@ViewBag.Active</td>
                             <td>
-                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", new { item.Id }, Context.Request.Scheme)', 'Update Artwork')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Auction", new { item.Id }, Context.Request.Scheme)', 'Update Auction')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
                                 <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                                     <input type="submit" value="Delete" class="btn btn-danger" />
                                 </form>
-                                @if (Tools.CheckAuctionExist(item.Id))
-                                {
-                                    <a href="/auction/list" class="btn btn-dark"><i class="fas fa-angle-double-right"></i></a>
-                                }
-                                else
-                                {
-                                    <a onclick="showInPopup('@Url.Action("AddorEdit", "Auction", new { artworkId = item.Id , artistId = item.ArtistId}, Context.Request.Scheme)', 'Add Auction')" class="btn btn-warning"><i class="fas fa-chevron-circle-right"></i></a>
-                                }
                             </td>
                         </tr>
                         }

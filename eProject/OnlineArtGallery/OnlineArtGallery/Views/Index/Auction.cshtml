@@ -1,0 +1,123 @@
+﻿@{
+    Layout = "~/Views/UserLayout/MainLayout.cshtml";
+    List<Auction> ListAuction = null;
+    if (ViewBag.ListAuction!=null)
+    {
+        ListAuction = ViewBag.ListAuction;
+    }
+
+}
+<div class="hero-section style-2">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a href="~/index/home">Home</a>
+            </li>
+            <li>
+                <a href="/Index/auction">Auction</a>
+            </li>
+        </ul>
+    </div>
+    <div class="bg_img hero-bg bottom_center" data-background='@Url.Content("~/assetsIndex/images/banner/hero-bg.png")'></div>
+</div>
+<!--============= Hero Section Ends Here =============-->
+<!--============= Featured Auction Section Starts Here =============-->
+
+<!--============= Featured Auction Section Ends Here =============-->
+<!--============= Product Auction Section Starts Here =============-->
+<div class="product-auction padding-bottom" id="productArt">
+    <div class="container">
+        <div class="product-header mb-40">
+            <div class="product-header-item">
+                <div class="item">Sort By : </div>
+                <select name="sort-by" class="select-bar">
+                    <option value="all">All</option>
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                    <option value="type">Type</option>
+                    <option value="car">Car</option>
+                </select>
+            </div>
+            <div class="product-header-item">
+                <div class="item">Show : </div>
+                <select name="sort-by" class="select-bar" id="devidePage" onchange="PageDivide();">
+                    <option value="09">3</option>
+                    <option value="21">6</option>
+                    <option value="30">30</option>
+                    <option value="39">39</option>
+                    <option value="60">60</option>
+                </select>
+            </div>
+            <form class="product-search ml-auto">
+                <input type="text" placeholder="Item Name">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="row mb-30-none justify-content-center">
+            @foreach (Auction item in ListAuction)
+            {
+                long CurrentBid = 0;
+                if (item.AuctionRecords != null)
+                {
+                    CurrentBid = item.AuctionRecords.Max(x => x.BidPrice);
+
+                    if (CurrentBid == 0)
+                    {
+                        CurrentBid = item.ReservePrice;
+                    }
+                }
+                else
+                {
+                    CurrentBid = item.ReservePrice;
+                }
+
+                <div class="col-sm-10 col-md-6 col-lg-4">
+                    <div class="auction-item-2">
+                        <div class="auction-thumb">
+                            <a href="/Index/auctiondetail"><img src="~/assets/img/artwork/@item.Artwork.Image" height="230" alt="product"></a>
+                            <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                            <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
+                        </div>
+                        <div class="auction-content">
+                            <h6 class="title">
+                                <a href="#0">@item.Artwork.Name</a>
+                            </h6>
+                            <div class="bid-area">
+                                <div class="bid-amount">
+                                    <div class="icon">
+                                        <i class="flaticon-auction"></i>
+                                    </div>
+                                    <div class="amount-content">
+                                        <div class="current">Current Bid</div>
+                                        <div class="amount">$@CurrentBid</div>
+                                    </div>
+                                </div>
+                                <div class="bid-amount">
+                                    <div class="icon">
+                                        <i class="flaticon-money"></i>
+                                    </div>
+                                    <div class="amount-content">
+                                        <div class="current">Begin bid</div>
+                                        <div class="amount">$@item.ReservePrice</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="countdown-area">
+                                <div class="countdown">
+                                    <div id="bid_counter1"></div>
+                                </div>
+                                <span class="total-bids">30 Bids</span>
+                            </div>
+                            <div class="text-center">
+                                <a href="#0" class="custom-button">Submit a bid</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <ul class="pagination" id="pagegallery">
+        </ul>
+    </div>
+</div>
+<!--============= Product Auction Section Ends Here =============-->
