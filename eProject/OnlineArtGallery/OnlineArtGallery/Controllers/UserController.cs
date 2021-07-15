@@ -123,6 +123,11 @@ namespace OnlineArtGallery.Controllers
                 Artist artist = Tools.GetArtistFromUser(user.Id);
                 _context.Artists.Remove(artist);
             }
+            if (user.UsertypeId == 1)
+            {
+                user.Active = false;
+                _context.Update(user);
+            }
             await _context.SaveChangesAsync();
             return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Users.ToList()) });
         }
