@@ -1,4 +1,14 @@
-﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+
+@{
+    if (Context.Session.GetString("USER") != null)
+    {
+        ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
+    }
+}
+
+@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section style-2">
     <div class="container">
@@ -33,15 +43,15 @@
                             <ul class="dash-pro-body">
                                 <li>
                                     <div class="info-name">Name</div>
-                                    <div class="info-value">Albert Owens</div>
+                                    <div class="info-value">@ViewBag.USER.Name</div>
                                 </li>
                                 <li>
                                     <div class="info-name">Date of Birth</div>
-                                    <div class="info-value">15-03-1974</div>
+                                    <div class="info-value">@ViewBag.USER.Birthday.ToString("dd-MM-yyyy")</div>
                                 </li>
                                 <li>
                                     <div class="info-name">Address</div>
-                                    <div class="info-value">8198 Fieldstone Dr.La Crosse, WI 54601</div>
+                                    <div class="info-value">@ViewBag.USER.Address</div>
                                 </li>
                             </ul>
                         </div>
@@ -77,7 +87,7 @@
                             <ul class="dash-pro-body">
                                 <li>
                                     <div class="info-name">Email</div>
-                                    <div class="info-value">albert349@gmail.com</div>
+                                    <div class="info-value">@ViewBag.USER.Email</div>
                                 </li>
                             </ul>
                         </div>
@@ -91,7 +101,7 @@
                             <ul class="dash-pro-body">
                                 <li>
                                     <div class="info-name">Mobile</div>
-                                    <div class="info-value">+1 234-567-8925</div>
+                                    <div class="info-value">@ViewBag.USER.Phone</div>
                                 </li>
                             </ul>
                         </div>
