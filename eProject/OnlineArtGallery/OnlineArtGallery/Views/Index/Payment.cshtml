@@ -1,0 +1,120 @@
+﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+<!--============= Hero Section Starts Here =============-->
+<div class="hero-section">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <span>Payment</span>
+            </li>
+        </ul>
+    </div>
+    <div class="bg_img hero-bg bottom_center" data-background='@Url.Content("~/assetsIndex/images/banner/hero-bg.png")'></div>
+</div>
+<section class="contact-section padding-bottom">
+    <div class="container">
+        <div class="contact-wrapper padding-top padding-bottom mt--100 mt-lg--440">
+            <div class="section-header">
+                <h2 class="title">Payment</h2>
+                <p>We'd love to hear from you! Let us know how we can help.</p>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <form action="" method="post">
+                        <b>1. Personal Information</b>
+                        <div class="row">
+                            <div class="col">
+                                <label for="FirstName"> First Name</label>
+                                <input type="text" class="form-control" name="name" value="" id="FirstName" />
+                            </div>
+                            <div class="col">
+                                <label for="LastName"> Last Name</label>
+                                <input type="text" class="form-control" name="name" value="" id="LastName" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="Email"> Email</label>
+                                <input type="text" class="form-control" name="name" value="" id="Email" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="Contry"> Contry</label>
+                                <input type="text" class="form-control" name="name" value="" id="Contry" />
+                            </div>
+                            <div class="col">
+                                <label for="PostalCode"> Postal Code</label>
+                                <input type="text" class="form-control" name="name" value="" id="PostalCode" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="PhoneNumber"> Phone Number</label>
+                                <input type="text" class="form-control" name="name" value="" id="PhoneNumber" />
+                            </div>
+                        </div>
+                        <b>2. Paymen Detail</b>
+                        <div class="row">
+                            <div class="col">
+                                <i class="fa fa-cc-visa"></i><label for="Visa"> Visa</label>
+                                <input type="text" class="form-control" name="name" value="" id="Visa" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="SecurityCode"> Security Code</label>
+                                <input type="text" class="form-control" name="name" value="" id="SecurityCode" />
+                            </div>
+                            <div class="col">
+                                <label for="ExpirationDate"> Expiration Date</label>
+                                <input type="text" class="form-control" name="name" value="" id="ExpirationDate" />
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col-md-4" style="margin-top:50px">
+                    <div class="row" style="border-style:double; border-color:gainsboro;">
+                        <div class="col">
+                            <div class="row" style="margin:15px">
+                                <p style="font-weight:bold;font-size:100%;">YOUR ORDER</p>
+                            </div>
+                            <div style="border-bottom:solid 0.1px; border-color:gainsboro;height:auto">
+                                <div class="row">
+                                    <div class="col" style="text-align:center">
+                                        monalisa
+                                    </div>
+                                    <div class="col" style="text-align:center">
+                                        $100
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="text-align:center">
+                                        Color
+                                    </div>
+                                    <div class="col" style="text-align:center">
+                                        $100
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px">
+                                <div class="col" style="text-align:center;font-weight:bold;">
+                                    Total Purchase
+                                </div>
+                                <div class="col" style="text-align:center">
+                                    $100
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="text-align:center;margin:auto;margin-top:50px">            
+                        <button class="custom-button" type="submit" id="btnPayment"><i class="fa fa-shopping-cart ">Complete Purchase</i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
