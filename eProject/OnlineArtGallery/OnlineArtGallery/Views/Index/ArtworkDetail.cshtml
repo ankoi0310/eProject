@@ -1,0 +1,354 @@
+﻿@{
+    Layout = "~/Views/UserLayout/MainLayout.cshtml";
+
+    Artwork Artwork = null;
+    if (ViewBag.Artwork != null)
+    {
+        Artwork = ViewBag.Artwork;
+    }
+}
+<!--============= Hero Section Starts Here =============-->
+<div class="hero-section style-2">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a href="#0">Gallery</a>
+            </li>
+            <li>
+                <span>Artwork</span>
+            </li>
+        </ul>
+    </div>
+    <div class="bg_img hero-bg bottom_center" data-background='@Url.Content("~/assetsIndex/images/banner/hero-bg.png")'></div>
+</div>
+<!--============= Hero Section Ends Here =============-->
+<!--============= Product Details Section Starts Here =============-->
+<section class="product-details padding-bottom mt--240 mt-lg--440">
+    <div class="container">
+        <div class="product-details-slider-top-wrapper">
+            <div class="product-details-slider owl-theme owl-carousel" id="sync1">
+                <div class="slide-top-item">
+                    <div class="slide-inner">
+                        <img src="~/assets/img/artwork/@Artwork.Image" alt="product">
+                    </div>
+                </div>
+                <!-- <div class="slide-top-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/product2.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-top-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/product3.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-top-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/product4.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-top-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/product5.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-top-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/product6.png" alt="product">
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- <div class="product-details-slider-wrapper">
+            <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
+                <div class="slide-bottom-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/01.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-bottom-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/02.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-bottom-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/03.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-bottom-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/04.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-bottom-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/05.png" alt="product">
+                    </div>
+                </div>
+                <div class="slide-bottom-item">
+                    <div class="slide-inner">
+                        <img src="~/assetsIndex/images/product/06.png" alt="product">
+                    </div>
+                </div>
+            </div>
+            <span class="det-prev det-nav">
+                <i class="fas fa-angle-left"></i>
+            </span>
+            <span class="det-next det-nav active">
+                <i class="fas fa-angle-right"></i>
+            </span>
+        </div> -->
+        <div class="row mt-40-60-80">
+            <div class="col-lg-12">
+                <div class="product-details-content">
+                    <div class="product-details-header">
+                        <h2 class="title" id="title">@Artwork.Name</h2>
+                    </div>
+                    <div id="rating">
+                        <input type="radio" name="rate" value="5" id="rate-5" />
+                        <label for="rate-5" class="fas fa-star"></label>
+                        <input type="radio" name="rate" value="4" id="rate-4" />
+                        <label for="rate-4" class="fas fa-star"></label>
+                        <input type="radio" name="rate" value="3" id="rate-3" />
+                        <label for="rate-3" class="fas fa-star"></label>
+                        <input type="radio" name="rate" value="2" id="rate-2" />
+                        <label for="rate-2" class="fas fa-star"></label>
+                        <input type="radio" name="rate" value="1" id="rate-1" />
+                        <label for="rate-1" class="fas fa-star"></label>
+                    </div>
+                    <form class="product-bid-form" style="margin-bottom:15px">
+                        <input type="text" placeholder="Enter you comment">
+                        <button type="submit" class="custom-button" id="btnComent">Submit comment</button>
+                    </form>
+                    <ul class="price-table mb-30">
+                        <li class="header">
+                            <h5 >Artist</h5>
+                            <h3 >@Artwork.Artist.Name</h3>
+                        </li>
+                        <li class="header">
+                            <h5 class="current">Price</h5>
+                            <h3 class="price">$@Artwork.DefautPrice</h3>
+                        </li>
+                        <li>
+                            <span class="details">Quote</span>
+                            <h5 class="info">@Artwork.Quote</h5>
+                        </li>
+                    </ul>
+                    <div class="buy-now-area" id="BuyNow">
+                        <a href="#0" class="custom-button">Add to Cart</a>
+                        <a href="#0" class="rating custom-button active border">
+                            <i class="fas fa-star"></i> Add to
+                            Wishlist
+                        </a>
+                        <div class="share-area">
+                            <span>Share to:</span>
+                            <ul>
+                                <li>
+                                    <a href="#0"><i class="fab fa-facebook-f"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#0"><i class="fab fa-twitter"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#0"><i class="fab fa-linkedin-in"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#0"><i class="fab fa-instagram"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product-tab-menu-area mb-40-60 mt-70-100">
+        <div class="container">
+            <ul class="product-tab-menu nav nav-tabs">
+                <li>
+                    <a href="#details" class="active" data-toggle="tab">
+                        <div class="thumb">
+                            <img src="~/assetsIndex/images/product/tab1.png" alt="product">
+                        </div>
+                        <div class="content">Description</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#delevery" data-toggle="tab">
+                        <div class="thumb">
+                            <img src="~/assetsIndex/images/product/tab2.png" alt="product">
+                        </div>
+                        <div class="content">Comment & rate</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#questions" data-toggle="tab">
+                        <div class="thumb">
+                            <img src="~/assetsIndex/images/product/tab4.png" alt="product">
+                        </div>
+                        <div class="content">Questions </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="details">
+                <div class="tab-details-content">
+                    <div class="header-area">
+                        <h3 class="title">@Artwork.Name</h3>
+                        <p>@Artwork.Description</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="delevery">
+                <div class="shipping-wrapper">
+                    <div class="item">
+                        <h5 class="title">Comment & rate</h5>
+                        <div class="table-wrapper">
+                            <table class="shipping-table" style="margin-left:15px">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            <span><b>UserName</b></span>
+                                            <br />
+                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
+                                        </td>
+                                        <td>
+                                            4<i class="fa fa-star" aria-hidden="true"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            <span><b>UserName</b></span>
+                                            <br />
+                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
+                                        </td>
+                                        <td>
+                                            4<i class="fa fa-star" aria-hidden="true"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            <span><b>UserName</b></span>
+                                            <br />
+                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
+                                        </td>
+                                        <td>
+                                            4<i class="fa fa-star" aria-hidden="true"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="questions">
+                <h5 class="faq-head-title">Frequently Asked Questions</h5>
+                <div class="faq-wrapper">
+                    <div class="faq-item">
+                        <div class="faq-title">
+                            <img src="~/assetsIndex/css/img/faq.png" alt="css"><span class="title">
+                                How to start
+                                bidding?
+                            </span><span class="right-icon"></span>
+                        </div>
+                        <div class="faq-content">
+                            <p>
+                                All successful bidders can confirm their winning bid by checking the “Sbidu”. In
+                                addition, all successful bidders will receive an email notifying them of their
+                                winning bid after the auction closes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-title">
+                            <img src="~/assetsIndex/css/img/faq.png" alt="css"><span class="title">
+                                Security Deposit /
+                                Bidding Power
+                            </span><span class="right-icon"></span>
+                        </div>
+                        <div class="faq-content">
+                            <p>
+                                All successful bidders can confirm their winning bid by checking the “Sbidu”. In
+                                addition, all successful bidders will receive an email notifying them of their
+                                winning bid after the auction closes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-title">
+                            <img src="~/assetsIndex/css/img/faq.png" alt="css"><span class="title">
+                                Delivery time to the
+                                destination port
+                            </span><span class="right-icon"></span>
+                        </div>
+                        <div class="faq-content">
+                            <p>
+                                All successful bidders can confirm their winning bid by checking the “Sbidu”. In
+                                addition, all successful bidders will receive an email notifying them of their
+                                winning bid after the auction closes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-title">
+                            <img src="~/assetsIndex/css/img/faq.png" alt="css"><span class="title">
+                                How to register to bid
+                                in an auction?
+                            </span><span class="right-icon"></span>
+                        </div>
+                        <div class="faq-content">
+                            <p>
+                                All successful bidders can confirm their winning bid by checking the “Sbidu”. In
+                                addition, all successful bidders will receive an email notifying them of their
+                                winning bid after the auction closes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item open active">
+                        <div class="faq-title">
+                            <img src="~/assetsIndex/css/img/faq.png" alt="css"><span class="title">
+                                How will I know if my
+                                bid was successful?
+                            </span><span class="right-icon"></span>
+                        </div>
+                        <div class="faq-content">
+                            <p>
+                                All successful bidders can confirm their winning bid by checking the “Sbidu”. In
+                                addition, all successful bidders will receive an email notifying them of their
+                                winning bid after the auction closes.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-title">
+                            <img src="~/assetsIndex/css/img/faq.png" alt="css"><span class="title">
+                                What happens if I bid on
+                                the wrong lot?
+                            </span><span class="right-icon"></span>
+                        </div>
+                        <div class="faq-content">
+                            <p>
+                                All successful bidders can confirm their winning bid by checking the “Sbidu”. In
+                                addition, all successful bidders will receive an email notifying them of their
+                                winning bid after the auction closes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--============= Product Details Section Ends Here =============-->

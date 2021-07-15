@@ -33,5 +33,10 @@ namespace OnlineArtGallery.Models
         [Column("Active", TypeName = "bit")]
         public bool Active { get; set; }
 
+        [ForeignKey("ArtworkId")]
+        public Artwork Artwork { get; set; }
+
+        public List<AuctionRecord> AuctionRecords { get; set; }
+
     }
 }

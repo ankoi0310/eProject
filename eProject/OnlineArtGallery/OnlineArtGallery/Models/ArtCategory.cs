@@ -20,7 +20,7 @@ namespace OnlineArtGallery.Models
         [Column("Active", TypeName = "bit")]
         public bool Active { get; set; }
 
-        public ICollection<Artwork> Artworks { get; set; }
+        public List<Artwork> Artworks { get; set; }
     }
 
 
