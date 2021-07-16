@@ -179,8 +179,10 @@ namespace OnlineArtGallery.Controllers
         {
             return View();
         }
-        public IActionResult Cart()
+        
+        public IActionResult Cart(List<int> listArtwork)
         {
+            ViewBag.listToCart = listArtwork;
             return View();
         }
         public IActionResult Payment()

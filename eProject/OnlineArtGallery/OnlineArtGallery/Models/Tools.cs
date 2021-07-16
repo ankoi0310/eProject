@@ -30,10 +30,12 @@ namespace OnlineArtGallery.Models
         // Artist
         public static IEnumerable<Artist> GetArtistList() => context.Artists.ToList();
         public static Artist GetArtistFromUser(int userId) => (from a in context.Artists where a.UserId == userId select a).FirstOrDefault();
-
+        public static Artist GetArtistById(int id) => context.Artists.FirstOrDefault(a => a.Id == id);
         // Art Category
         public static List<ArtCategory> GetArtCategoryList() => context.ArtCategories.ToList();
 
+        // Artwork
+        public static Artwork GetArtworkById(int id) => context.Artworks.FirstOrDefault(a => a.Id == id);
         //get User from Session
         public static User GetUserfromSession(string userString)
         {

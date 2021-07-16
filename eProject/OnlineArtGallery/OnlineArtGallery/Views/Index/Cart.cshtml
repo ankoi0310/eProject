@@ -1,4 +1,14 @@
-﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";
+     
+    List<int> listToCart = null;
+    long sum = 0;
+    if (ViewBag.listToCart != null)
+    {
+        listToCart = ViewBag.listToCart;
+    }
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section">
     <div class="container">
@@ -26,7 +36,7 @@
                 <div class="col-xl-10 col-lg-8" style="margin:auto">
                     <form class="contact-form" id="CartForm" action='@Url.Action("Payment","Index")'>
                         <div class="card">
-                            <table class="table table-hover shopping-cart-wrap">
+                            <table id="tblCart" class="table table-hover shopping-cart-wrap">
                                 <thead>
                                     <tr>
                                         <th scope="col">Product</th>
@@ -36,92 +46,44 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <figure class="media">
-                                                <div class="img-wrap"><img src="" class="img-thumbnail img-sm"></div>
-                                                <figcaption class="media-body">
-                                                    <h6 class="title text-truncate">Product name goes here </h6>
-                                                    <dl class="param param-inline small">
-                                                        <dt>author: </dt>
-                                                        <dd>XXL</dd>
-                                                    </dl>
-                                                </figcaption>
-                                            </figure>
-                                        </td>
-                                        <td>
-                                            <span class="form-control">
-                                                1
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="price-wrap">
-                                                <var class="price">$ 145</var>
-                                            </div> <!-- price-wrap .// -->
-                                        </td>
-                                        <td class="text-right">
-                                            <a href="" class="btn btn-outline-danger"> × Remove</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <figure class="media">
-                                                <div class="img-wrap"><img src="" class="img-thumbnail img-sm"></div>
-                                                <figcaption class="media-body">
-                                                    <h6 class="title text-truncate">Product name goes here </h6>
-                                                    <dl class="param param-inline small">
-                                                        <dt>author: </dt>
-                                                        <dd>XXL</dd>
-                                                    </dl>
-                                                </figcaption>
-                                            </figure>
-                                        </td>
-                                        <td>
-                                            <span class="form-control">
-                                                1
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="price-wrap">
-                                                <var class="price">$ 145</var>
-                                            </div> <!-- price-wrap .// -->
-                                        </td>
-                                        <td class="text-right">
-                                            <a href="" class="btn btn-outline-danger"> × Remove</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <figure class="media">
-                                                <div class="img-wrap"><img src="" class="img-thumbnail img-sm"></div>
-                                                <figcaption class="media-body">
-                                                    <h6 class="title text-truncate">Product name goes here </h6>
-                                                    <dl class="param param-inline small">
-                                                        <dt>author: </dt>
-                                                        <dd>XXL</dd>
-                                                    </dl>
-                                                </figcaption>
-                                            </figure>
-                                        </td>
-                                        <td>
-                                            <span class="form-control">
-                                                1
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <div class="price-wrap">
-                                                <var class="price">$ 145</var>
-                                            </div> <!-- price-wrap .// -->
-                                        </td>
-                                        <td class="text-right">
-                                            <a href="" class="btn btn-outline-danger"> × Remove</a>
-                                        </td>
-                                    </tr>
+                                    @foreach (var id in listToCart)
+                                    {
+                                        Artwork artwork = new Artwork();
+                                        artwork = Tools.GetArtworkById(id);
+                                        sum += artwork.DefautPrice;
+                                        <tr>
+                                            <td>
+                                                <figure class="media">
+                                                    <div class="img-wrap"><img src="/assets/img/artwork/@artwork.Image" class="img-thumbnail img-sm"></div>
+                                                    <figcaption class="media-body">
+                                                        <h6 class="title text-truncate">@artwork.Name</h6>
+                                                        <dl class="param param-inline small">
+                                                            <dt>Author: </dt>
+                                                            <dd>@artwork.ArtistId</dd>
+                                                        </dl>
+                                                    </figcaption>
+                                                </figure>
+                                            </td>
+                                            <td>
+                                                <span class="form-control">
+                                                    1
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="price-wrap">
+                                                    <var class="price">$@artwork.DefautPrice</var>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">
+                                                <a href="" class="btn btn-outline-danger"> × Remove</a>
+                                            </td>
+                                        </tr>
+                                    }                                  
                                 </tbody>
                             </table>
-                        </div> <!-- card.// -->
+                        </div> 
                         <div id="total">
-                            <span id="TotalPrice"><b>Total:  </b><var>$ 100</var></span>
+                            <span id="TotalPrice"><b>Total:  </b><var>$@sum</var></span>
                         </div>
                         <div>
                             <button type="submit" id="btnCheckout" class="custom-button">Payment</button>
@@ -132,4 +94,4 @@
         </div>
     </div>
 </section>
-<!--============= Contact Section Ends Here =============-->
+<!--============= Contact Section Ends Here =============

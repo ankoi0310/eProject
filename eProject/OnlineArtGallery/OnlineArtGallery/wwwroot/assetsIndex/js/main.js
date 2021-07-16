@@ -1405,27 +1405,27 @@ function element(totalPages, page, ulTag, numberArtInAPage) {
 
   ulTag.innerHTML = litag;
 }
-
+const listArtwork = [];
 /* cart */
- function AddToCardCliked(event) {
-   var button = event.target;
-   var price = button.innerHTML.replace("Buy Now: $", "");
+function AddToCardCliked(event) {
    var srcImg = document.getElementById("sync1").getElementsByTagName("img")[0].src;
+   var artworkId = $("input[name=artworkId").val();
+   var price = document.getElementById("price").innerText;
    var title = document.getElementById("title").innerText;
    var amount = document.getElementById("Amount");
-   var product = { title, price, srcImg };
-     var numberAmount = parseInt(amount.innerText);
-     
+   //var product = { title, price, srcImg, artworkId };
+   var numberAmount = parseInt(amount.innerText);
+   listArtwork.push(artworkId)
      localStorage.setItem("amount", numberAmount += 1);
     amount.innerHTML = localStorage.getItem("amount");
-     AddItemToCard(title, price, srcImg);
+     AddItemToCard(title, price, srcImg, artworkId);
      var card = document.getElementById("productItem").innerHTML;
      localStorage.setItem("cards", card);
  }
 
 
 
-function AddItemToCard(title, price, srcImg) {
+function AddItemToCard(title, price, srcImg, artworkId) {
   var card = document.getElementById("productItem");
   var sigleProduct = `<div class="single-product-item">
   <div class="thumb">
@@ -1433,7 +1433,8 @@ function AddItemToCard(title, price, srcImg) {
   </div>
   <div class="content">
       <h4 class="title"><a href="#0">${title}</a></h4>
-      <div class="price"><span class="pprice">$${price}</span> <del class="dprice">$120.00</del>
+      <input type="hidden" name="artId" value=${artworkId}>
+      <div class="price"><span class="pprice">$${price}</span>
       </div>
       <a href="#" class="remove-cart">Remove</a>
   </div>
@@ -1443,21 +1444,39 @@ function AddItemToCard(title, price, srcImg) {
 }
 
 function removeCard() {
-  var btnRemoveCard = document.getElementById("productItem").getElementsByClassName("remove-cart");
+    var btnRemoveCard = document.getElementById("productItem").getElementsByClassName("remove-cart");
+
   for (var i = 0; i < btnRemoveCard.length; i++) {
     var button = btnRemoveCard[i];
     button.addEventListener("click", function (event) {
-      var buttonClicked = event.target;
-      buttonClicked.parentElement.parentElement.remove();
+        var buttonClicked = event.target;
+        var artworkId = $(".single-product-item .content input[name=artId").val()
+        const index = listArtwork.indexOf(artworkId);
+        buttonClicked.parentElement.parentElement.remove();
       var amount = document.getElementById("Amount");
-      var numberAmount= parseInt(amount.innerText);
+        var numberAmount = parseInt(amount.innerText);
+        if (index > -1)
+            listArtwork.splice(index, 1);
+
         localStorage.setItem("amount", numberAmount -= 1)
         amount.innerHTML = localStorage.getItem("amount");
         var card = document.getElementById("productItem").innerHTML;
         localStorage.setItem("cards", card);
     })  
-  }
+    }
+
 }
+$("#btnCheck").click(function () {
+    $.ajax({
+        type: 'POST',
+        url: "/index/cart",
+        data: {
+            listArtwork: listArtwork
+        },
+        success: function (res) {
+        }
+    })
+})
 function getRate() {
     var star = document.getElementsByName("rate");
     var prev = null;

@@ -35,78 +35,14 @@
                         <img src="~/assets/img/artwork/@Artwork.Image" alt="product">
                     </div>
                 </div>
-                <!-- <div class="slide-top-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/product2.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-top-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/product3.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-top-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/product4.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-top-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/product5.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-top-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/product6.png" alt="product">
-                    </div>
-                </div> -->
             </div>
         </div>
-        <!-- <div class="product-details-slider-wrapper">
-            <div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
-                <div class="slide-bottom-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/01.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-bottom-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/02.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-bottom-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/03.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-bottom-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/04.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-bottom-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/05.png" alt="product">
-                    </div>
-                </div>
-                <div class="slide-bottom-item">
-                    <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/06.png" alt="product">
-                    </div>
-                </div>
-            </div>
-            <span class="det-prev det-nav">
-                <i class="fas fa-angle-left"></i>
-            </span>
-            <span class="det-next det-nav active">
-                <i class="fas fa-angle-right"></i>
-            </span>
-        </div> -->
         <div class="row mt-40-60-80">
             <div class="col-lg-12">
                 <div class="product-details-content">
                     <div class="product-details-header">
                         <h2 class="title" id="title">@Artwork.Name</h2>
+                        <input type="hidden" name="artworkId" value="@Artwork.Id" />
                     </div>
                     <div id="rating">
                         <input type="radio" name="rate" value="5" id="rate-5" />
@@ -131,7 +67,7 @@
                         </li>
                         <li class="header">
                             <h5 class="current">Price</h5>
-                            <h3 class="price">$@Artwork.DefautPrice</h3>
+                            <h3 class="price" id="price">@Artwork.DefautPrice</h3>
                         </li>
                         <li>
                             <span class="details">Quote</span>
