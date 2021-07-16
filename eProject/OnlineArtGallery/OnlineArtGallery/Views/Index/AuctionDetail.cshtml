@@ -1,4 +1,39 @@
-﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+﻿@{
+    Layout = "~/Views/UserLayout/MainLayout.cshtml";
+
+    Auction Auction = null;
+    if (ViewBag.Auction != null)
+    {
+        Auction = ViewBag.Auction;
+    }
+
+    List<AuctionRecord> AuctionRecords = null;
+    if (ViewBag.AuctionRecords != null)
+    {
+        AuctionRecords = ViewBag.AuctionRecords;
+    }
+
+    //User User = null;
+    //if (ViewBag.User != null)
+    //{
+    //    User = ViewBag.User;
+    //}
+
+    long CurrentBid = 0;
+    if (Auction.AuctionRecords != null)
+    {
+        CurrentBid = Auction.AuctionRecords.Max(x => x.BidPrice);
+
+        if (CurrentBid == 0)
+        {
+            CurrentBid = Auction.ReservePrice;
+        }
+    }
+    else
+    {
+        CurrentBid = Auction.ReservePrice;
+    }
+}
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section style-2">
     <div class="container">
@@ -24,7 +59,7 @@
             <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                 <div class="slide-top-item">
                     <div class="slide-inner">
-                        <img src="~/assetsIndex/images/product/product1.png" alt="product">
+                        <img src="~/assets/img/artwork/@Auction.Artwork.Image" alt="product">
                     </div>
                 </div>
                 <!-- <div class="slide-top-item">
@@ -98,10 +133,11 @@
             <div class="col-lg-8">
                 <div class="product-details-content">
                     <div class="product-details-header">
-                        <h2 class="title" id="title">The Breeze Zodiac IX</h2>
+                        <h2 class="title" id="title">@Auction.Artwork.Name</h2>
                     </div>
+
                     <div id="rating">
-                        <input type="radio" name="rate" value="5" id="rate-5"/>
+                        <input type="radio" name="rate" value="5" id="rate-5" />
                         <label for="rate-5" class="fas fa-star"></label>
                         <input type="radio" name="rate" value="4" id="rate-4" />
                         <label for="rate-4" class="fas fa-star"></label>
@@ -111,36 +147,37 @@
                         <label for="rate-2" class="fas fa-star"></label>
                         <input type="radio" name="rate" value="1" id="rate-1" />
                         <label for="rate-1" class="fas fa-star"></label>
-                    </div> 
+                    </div>
                     <form class="product-bid-form" style="margin-bottom:15px">
                         <input type="text" placeholder="Enter you comment">
                         <button type="submit" class="custom-button" id="btnComent">Submit comment</button>
                     </form>
                     <ul class="price-table mb-30">
                         <li class="header">
-                            <h5 class="current">Current Price</h5>
-                            <h3 class="price">US $700.00</h3>
+                            <h5 class="current">Current Bid</h5>
+                            <h3 class="price">$@CurrentBid</h3>
                         </li>
                         <li>
-                            <span class="details">Buyer's Premium</span>
-                            <h5 class="info">10.00%</h5>
+                            <span class="details">Begin Bid</span>
+                            <h5 class="info">$@Auction.ReservePrice</h5>
                         </li>
                         <li>
                             <span class="details">Bid Increment (US)</span>
-                            <h5 class="info">$50.00</h5>
+                            <h5 class="info">$@Auction.StepPrice</h5>
                         </li>
                     </ul>
                     <div class="product-bid-area">
-                        <form class="product-bid-form">
+                        <form class="product-bid-form" method="post" action="@Url.Action("AddBid","index")">
                             <div class="search-icon">
                                 <img src="~/assetsIndex/images/product/search-icon.png" alt="product">
                             </div>
-                            <input type="text" placeholder="Enter you bid amount">
+                            <input type="text" placeholder="Enter you bid amount" name="bid">
+                            <input type="hidden" name="auctionId" value="@Auction.Id">
                             <button type="submit" class="custom-button">Submit a bid</button>
                         </form>
                     </div>
+
                     <div class="buy-now-area" id="BuyNow">
-                        <a href="#0" class="custom-button">Buy Now: $4,200</a>
                         <a href="#0" class="rating custom-button active border">
                             <i class="fas fa-star"></i> Add to
                             Wishlist
@@ -250,120 +287,8 @@
             <div class="tab-pane fade show active" id="details">
                 <div class="tab-details-content">
                     <div class="header-area">
-                        <h3 class="title">2012 Ford Escape Hybrid (Brooklyn, NY 11214)</h3>
-                        <div class="item">
-                            <table class="product-info-table">
-                                <tbody>
-                                    <tr>
-                                        <th>Condition</th>
-                                        <td>New</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Mileage</th>
-                                        <td>15,000 miles</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Year</th>
-                                        <td>09-2017</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Engine</th>
-                                        <td>I-4 1,5 l</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Fuel</th>
-                                        <td>Regular</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Transmission</th>
-                                        <td>Automatic</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Color</th>
-                                        <td>Blue</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Doors</th>
-                                        <td>5</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="item">
-                            <h5 class="subtitle">
-                                NYC Fleet / DCAS units may be located at either of two locations:
-                            </h5>
-                            <ul>
-                                <li>Brooklyn, NY (1908 Shore Parkway)</li>
-                                <li>Medford, NY (66 Peconic Ave)</li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <h5 class="subtitle">This unit is located at:</h5>
-                            <ul>
-                                <li>Kenben Industries Ltd.</li>
-                                <li>1908 Shore Parkway</li>
-                                <li>Brooklyn, NY 11214</li>
-                            </ul>
-                        </div>
-                        <div class="item">
-                            <h5 class="subtitle">Acceptance of condition - buyer inspection/preview</h5>
-                            <p>
-                                Vehicles and equipment often display significant wear and tear. Assets are sold AS IS
-                                with no warranty, express or implied, and we highly recommend previewing them before
-                                bidding. The preview period is the only opportunity to inspect an asset to verify
-                                condition and suitability. No refunds, adjustments or returns will be entertained.
-                            </p>
-                            <p>
-                                Vehicle preview inspections of the vehicle can be done at the below location on
-                                Monday and Tuesday from 10am - 2pm. See Preview Rules Here.
-                            </p>
-                            <ul>
-                                <li>Kenben Industries Ltd.</li>
-                                <li>1908 Shore Parkway</li>
-                                <li>Brooklyn, NY 11214</li>
-                            </ul>
-                            <p>
-                                BUYER is responsible for all storage fees at time of pick-up. See above under
-                                IMPORTANT PICK-UP TIMES for specific requirements for this asset, but generally
-                                assets must be picked up within 2 business days of payment otherwise additional
-                                storage fees will be applied.
-                            </p>
-                        </div>
-                        <div class="item">
-                            <h5 class="subtitle">Legal Notice</h5>
-                            <p>
-                                Vehicles may not be driven off the lot except with a dealer plate affixed. By law,
-                                vehicles are not permitted to be parked on or to drive on the streets of New York
-                                without registration and plates registered to the vehicle. If the buyer cannot
-                                obtain the required registration and plates prior to pick up, they should have the
-                                vehicle towed at their own expense. The buyer should have the vehicle towed at their
-                                own expense.
-                            </p>
-                            <p>Condition: Untested - Sold As-Is</p>
-                            <p>
-                                Employees of Sbidu, its subcontractors and affiliated companies, employees of the NYC
-                                Government and those bidding on behalf of PropertyRoom.com, its subcontractors and
-                                affiliated companies and employees of the NYC Government are not permitted to bid on
-                                or purchase NYC Fleet/DCAS assets.
-                            </p>
-                        </div>
-                        <div class="item">
-                            <h5 class="subtitle">Condition</h5>
-                            <p>
-                                This ASSET is being listed on behalf of a law enforcement agency or other partner
-                                ("SELLER") by PropertyRoom.com on a Sold AS IS, WHERE IS, WITH ALL FAULTS basis,
-                                with no representation or warranty from PropertyRoom.com or SELLER. In many cases,
-                                the car, boat, truck, motorcycle, aircraft, mowers/tractors, etc. ("ASSET") sold on
-                                PropertyRoom.com comes from seizure or forfeiture, and the SELLER typically does not
-                                possess use-based knowledge of the ASSET. Further, PropertyRoom.com does not
-                                physically inspect the ASSET and cannot attest to actual working conditions.
-                                PropertyRoom.com and SELLER gather information about the ASSET from authoritative
-                                sources; still, errors may appear from time to time in the listing. PropertyRoom.com
-                                cautions any website user, shopper, bidder, etc. ("BUYER") to attempt to confirm,
-                                with us, information material to a bidding/purchasing decision.
-                            </p>
-                        </div>
+                        <h3 class="title">@Auction.Artwork.Name</h3>
+                        <p>@Auction.Artwork.Description</p>
                         <div class="item">
                             <h5 class="subtitle">Bidding</h5>
                             <p>
@@ -459,86 +384,28 @@
                                     <tr>
                                         <th>Bidder</th>
                                         <th>date</th>
-                                        <th>time</th>
                                         <th>unit price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td data-history="bidder">
-                                            <div class="user-info">
-                                                <div class="thumb">
-                                                    <img src="~/assetsIndex/images/history/01.png" alt="history">
+                                    @foreach (var item in AuctionRecords)
+                                    {
+                                        <tr>
+                                            <td data-history="bidder">
+                                                <div class="user-info">
+                                                    <div class="thumb">
+                                                        <img src="~/assetsIndex/images/history/01.png" alt="history">
+                                                    </div>
+                                                    <div class="content">
+                                                        @item.Customer.Name
+                                                    </div>
                                                 </div>
-                                                <div class="content">
-                                                    Moses Watts
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-history="date">06/16/2021</td>
-                                        <td data-history="time">02:45:25 PM</td>
-                                        <td data-history="unit price">$900.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-history="bidder">
-                                            <div class="user-info">
-                                                <div class="thumb">
-                                                    <img src="~/assetsIndex/images/history/02.png" alt="history">
-                                                </div>
-                                                <div class="content">
-                                                    Pat Powell
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-history="date">06/16/2021</td>
-                                        <td data-history="time">02:45:25 PM</td>
-                                        <td data-history="unit price">$900.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-history="bidder">
-                                            <div class="user-info">
-                                                <div class="thumb">
-                                                    <img src="~/assetsIndex/images/history/03.png" alt="history">
-                                                </div>
-                                                <div class="content">
-                                                    Jack Rodgers
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-history="date">06/16/2021</td>
-                                        <td data-history="time">02:45:25 PM</td>
-                                        <td data-history="unit price">$900.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-history="bidder">
-                                            <div class="user-info">
-                                                <div class="thumb">
-                                                    <img src="~/assetsIndex/images/history/04.png" alt="history">
-                                                </div>
-                                                <div class="content">
-                                                    Arlene Paul
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-history="date">06/16/2021</td>
-                                        <td data-history="time">02:45:25 PM</td>
-                                        <td data-history="unit price">$900.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td data-history="bidder">
-                                            <div class="user-info">
-                                                <div class="thumb">
-                                                    <img src="~/assetsIndex/images/history/05.png" alt="history">
-                                                </div>
-                                                <div class="content">
-                                                    Marcia Clarke
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td data-history="date">06/16/2021</td>
-                                        <td data-history="time">02:45:25 PM</td>
-                                        <td data-history="unit price">$900.00</td>
-                                    </tr>
+                                            </td>
+                                            <td data-history="date">@item.Day.ToString("dd/MM/yyyy")</td>
+                                            <td data-history="unit price">$@item.BidPrice</td>
+                                        </tr>
+                                    }
+
                                 </tbody>
                             </table>
                             <div class="text-center mb-3 mt-4">
@@ -647,3 +514,9 @@
     </div>
 </section>
 <!--============= Product Details Section Ends Here =============-->
+<script>
+    $('#select-user-type').on('change', function () {
+        $('#user-type').val($('#select-user-type').val());
+    });
+    $('#select-user-type').val($('#user-type').val());
+</script>

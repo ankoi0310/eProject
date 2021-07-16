@@ -30,7 +30,7 @@ namespace OnlineArtGallery.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<AuctionRecord>().HasKey(a => new { a.AuctionId, a.CustomerId });
+            //modelBuilder.Entity<AuctionRecord>().HasKey(a => new { a.AuctionId, a.CustomerId });
             modelBuilder.Entity<ExArtwork>().HasKey(e => new { e.ArtworkId, e.ExhibitionId });
             modelBuilder.Entity<TransactionDetail>().HasKey(t => new { t.TransactionId, t.ArtworkId });
             modelBuilder.Entity<MyGallery>().HasKey(t => new { t.CustomerId, t.ArtworkId });

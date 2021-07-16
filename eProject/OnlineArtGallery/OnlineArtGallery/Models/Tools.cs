@@ -45,6 +45,27 @@ namespace OnlineArtGallery.Models
             return user;
         }
 
+        //get Artist from Session
+        public static Artist GetArtistfromSession(string sessionString)
+        {
+            Artist artist = new();
+            if (!String.IsNullOrEmpty(sessionString))
+            {
+                artist = JsonConvert.DeserializeObject<Artist>(sessionString);
+            }
+            return artist;
+        }
+
+        public static Customer GetCustomerfromSession(string sessionString)
+        {
+            Customer cus = new();
+            if (!String.IsNullOrEmpty(sessionString))
+            {
+                cus = JsonConvert.DeserializeObject<Customer>(sessionString);
+            }
+            return cus;
+        }
+
         //check artwork is get to auction yet
         public static bool CheckAuctionExist(int id)
         {

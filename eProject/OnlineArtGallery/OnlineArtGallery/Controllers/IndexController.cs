@@ -21,6 +21,8 @@ namespace OnlineArtGallery.Controllers
 
         public IActionResult Home()
         {
+            //ViewBag.USER = Tools.GetUserfromSession(HttpContext.Session.GetString("USER"));
+            context.Users.ToList();
             return View();
         }
         public IActionResult Gallery()
@@ -31,12 +33,12 @@ namespace OnlineArtGallery.Controllers
             ViewBag.ListArtwork = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
             return View();
         }
+
         public IActionResult ArtworkDetail(int id)
         {
             context.Artists.ToList();
             ViewBag.ListArtCategory = context.ArtCategories.ToList();
             ViewBag.Artwork = context.Artworks.Find(id);
-
             return View();
         }
         public IActionResult Auction()
@@ -46,16 +48,43 @@ namespace OnlineArtGallery.Controllers
             ViewBag.ListAuction = context.Auctions.ToList();
             return View();
         }
-        public IActionResult AuctionDetail()
+        public IActionResult AuctionDetail(int auctionId)
         {
+            context.Artists.ToList();
+            context.Customers.ToList();
+            context.ArtCategories.ToList();
+            context.Artworks.ToList();
+            context.UserTypes.ToList();
+
+            Auction auct = context.Auctions.Find(auctionId);
+            ViewBag.AuctionRecords = context.AuctionRecords.Where(x => x.AuctionId == auct.Id).OrderByDescending(x=>x.BidPrice).ToList();
+            ViewBag.Auction = auct;
             return View();
         }
+
+        public IActionResult AddBid( long bid, int auctionId)
+        {
+            string sessionString = HttpContext.Session.GetString("USER");
+            Customer cus = Tools.GetCustomerfromSession(sessionString);
+            AuctionRecord aucRecord = new AuctionRecord();
+            aucRecord.BidPrice = bid;
+            aucRecord.CustomerId = cus.Id;
+            aucRecord.AuctionId = auctionId;
+            aucRecord.Day = DateTime.Now;
+            aucRecord.Qualified = true;
+            context.AuctionRecords.Add(aucRecord);
+            context.SaveChanges();
+            return RedirectToAction("AuctionDetail", new { auctionId = auctionId });
+        }
+
+
         public IActionResult ContactUs()
         {
             return View();
         }
         public IActionResult AboutUs()
         {
+
             return View();
         }
         public async Task<IActionResult> SignUp()
@@ -104,7 +133,8 @@ namespace OnlineArtGallery.Controllers
                     var user = context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
                     if (user.UsertypeId != 1)
                     {
-                        HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(user.UsertypeId == 3 ? Tools.GetCustomerFromUser(user.Id) : Tools.GetArtistFromUser(user.Id)));
+                        HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(user.UsertypeId == 3 ? Tools.GetCustomerFromUser(user.Id) :
+                            Tools.GetArtistFromUser(user.Id)));
                         return RedirectToAction("Home", "Index");
                     }
                     return RedirectToAction("Index", "Admin");

@@ -15,6 +15,7 @@ namespace OnlineArtGallery.Controllers
     {
         private readonly DBContext _context;
         private readonly IWebHostEnvironment _webHostEnvironmen;
+        private Artist _artist;
 
         public AuctionController(IWebHostEnvironment webHostEnvironmen)
         {
@@ -31,7 +32,19 @@ namespace OnlineArtGallery.Controllers
         public async Task<IActionResult> List()
         {
             _context.Artworks.ToList();
-            return View(await _context.Auctions.ToListAsync());
+            string sessionString = HttpContext.Session.GetString("USER");
+            _artist = Tools.GetArtistfromSession(sessionString);
+            _context.ArtCategories.ToList();
+            _context.Artists.ToList();
+            User user = _context.Users.Find(_artist.UserId);
+            if (user.UsertypeId == 2 && user != null)
+            {
+                return View(await _context.Auctions.Where(x => x.Artist.Id == _artist.Id).OrderByDescending(x => x.Id).ToListAsync());
+            }
+            else
+            {
+                return View(await _context.Auctions.OrderByDescending(x => x.Id).ToListAsync());
+            }
         }
 
         // GET: Auction/AddOrEdit

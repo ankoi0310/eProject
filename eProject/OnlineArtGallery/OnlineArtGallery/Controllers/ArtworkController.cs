@@ -16,7 +16,7 @@ namespace OnlineArtGallery.Controllers
     {
         private readonly DBContext _context;
         private readonly IWebHostEnvironment _webHostEnvironmen;
-        private User _user;
+        private Artist _artist;
 
         public ArtworkController(IWebHostEnvironment webHostEnvironmen)
         {
@@ -32,18 +32,20 @@ namespace OnlineArtGallery.Controllers
         // GET: Artwork
         public async Task<IActionResult> List()
         {
-            string userString = HttpContext.Session.GetString("USER");
-            _user = Tools.GetUserfromSession(userString);
+            string sessionString = HttpContext.Session.GetString("USER");
+            _artist = Tools.GetArtistfromSession(sessionString);
             _context.ArtCategories.ToList();
             _context.Artists.ToList();
-            if (_user.UsertypeId == 1)
+            User user = _context.Users.Find(_artist.UserId);
+            if (user.UsertypeId == 2 && user != null)
             {
-                return View(await _context.Artworks.ToListAsync());
+                return View(await _context.Artworks.Where(x => x.Artist.Id == _artist.Id).OrderByDescending(x=>x.Id).ToListAsync());
             }
             else
             {
-                return View(await _context.Artworks.Where(x => x.Artist.UserId == _user.Id).ToListAsync());
+                return View(await _context.Artworks.OrderByDescending(x => x.Id).ToListAsync());
             }
+            
         }
 
         // GET: Artwork/AddOrEdit
@@ -91,9 +93,9 @@ namespace OnlineArtGallery.Controllers
                     }
                     artwork.Image = UploadImage(artwork);
                     artwork.CreateDay = DateTime.Now;
-                    string userString = HttpContext.Session.GetString("USER");
-                    _user = Tools.GetUserfromSession(userString);
-                    artwork.ArtistId = _context.Artists.Where(x => x.UserId == _user.Id).SingleOrDefault().Id;
+                    string sessionString = HttpContext.Session.GetString("USER");
+                    _artist = Tools.GetArtistfromSession(sessionString);
+                    artwork.ArtistId = _artist.Id;
                     _context.Add(artwork);
                     await _context.SaveChangesAsync();
                 }
