@@ -1513,3 +1513,25 @@ function payment() {
         };
     }
 }
+
+function categoryGallery() {
+    var a = document.querySelectorAll("#myBtnContainer button.btn");
+    for (var i = 0, length = a.length; i < length; i++) {
+        a[i].onclick = function () {
+            var b = document.querySelector("#myBtnContainer button.btn.active");
+            if (b) b.classList.remove("active");
+            this.classList.add('active');
+        };
+    }
+}
+
+function cutString(x) {
+    var c = 100;
+    var a = "........";
+    while (x[c] != " ") {
+        c++;
+    }
+    var d = x.substring(0, c) + a;
+    return d;
+}
+
