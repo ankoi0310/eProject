@@ -1,6 +1,6 @@
 ﻿@using Newtonsoft.Json;
 @using Microsoft.AspNetCore.Http;
-
+@using OnlineArtGallery.Models
 @{
     if (Context.Session.GetString("USER") != null)
     {
@@ -40,3 +40,4 @@
 
 <!-- Mirrored from pixner.net/sbidu/main/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 26 Jun 2021 00:49:01 GMT -->
 </html>
+@RenderSection("Scripts", false)

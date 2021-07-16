@@ -13,11 +13,12 @@
         AuctionRecords = ViewBag.AuctionRecords;
     }
 
-    //User User = null;
-    //if (ViewBag.User != null)
-    //{
-    //    User = ViewBag.User;
-    //}
+    User User = null;
+    if (ViewBag.User != null)
+    {
+        User = ViewBag.User;
+    }
+
 
     long CurrentBid = 0;
     if (Auction.AuctionRecords != null)
@@ -167,14 +168,25 @@
                         </li>
                     </ul>
                     <div class="product-bid-area">
-                        <form class="product-bid-form" method="post" action="@Url.Action("AddBid","index")">
+                        <form class="product-bid-form" method="post" action="@Url.Action("AddBid","index")" id="BidForm">
                             <div class="search-icon">
                                 <img src="~/assetsIndex/images/product/search-icon.png" alt="product">
                             </div>
-                            <input type="text" placeholder="Enter you bid amount" name="bid">
+                            <input type="text" placeholder="Enter you bid amount" name="bid" id="bidPrice">
                             <input type="hidden" name="auctionId" value="@Auction.Id">
+                            @if (User != null)
+                            {
+                                <input type="hidden" id="usertypeId" value="@User.UsertypeId">
+                                <input type="hidden" name="userId" value="@User.Id">
+                            }
+                            <input type="hidden" id="currentBid" value="@CurrentBid">
+                            <input type="hidden" id="stepPrice" value="@Auction.StepPrice">
                             <button type="submit" class="custom-button">Submit a bid</button>
                         </form>
+                        <br />
+                        <div class="alert alert-info d-none" role="alert" id="alertBox">
+                            This is a info alert—check it out!
+                        </div>
                     </div>
 
                     <div class="buy-now-area" id="BuyNow">
@@ -268,7 +280,7 @@
                         <div class="thumb">
                             <img src="~/assetsIndex/images/product/tab3.png" alt="product">
                         </div>
-                        <div class="content">Bid History (36)</div>
+                        <div class="content">Bid History (@AuctionRecords.Count())</div>
                     </a>
                 </li>
                 <li>
@@ -514,9 +526,34 @@
     </div>
 </section>
 <!--============= Product Details Section Ends Here =============-->
-<script>
-    $('#select-user-type').on('change', function () {
-        $('#user-type').val($('#select-user-type').val());
-    });
-    $('#select-user-type').val($('#user-type').val());
-</script>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //$("#bidPrice").on("change", function () {
+            //    $("#alertBox").html($(this).val());
+            //    $("#alertBox").removeClass("d-none");
+            //});
+            $("form").submit(function (e) {
+                var userTypeId = $("#usertypeId").val();
+                if (userTypeId == null || userTypeId != 3) {
+                    $("#alertBox").html("You need to login/register as Customer to bid this Artwork");
+                    $("#alertBox").removeClass("d-none");
+                    e.preventDefault(e);
+                } else {
+                    var bidPrice = $("#bidPrice").val();
+                    var currentBid = $("#currentBid").val();
+                    var stepPrice = $("#stepPrice").val();
+                    var bidDif = bidPrice - currentBid;
+                    if (bidDif <= 0 || (bidDif % stepPrice != 0)) {
+                        $("#alertBox").html("This bid need to larger current bid and follow to step price");
+                        $("#alertBox").removeClass("d-none");
+                        e.preventDefault(e);
+                    }
+                }
+            });
+        })
+
+    </script>
+}

@@ -21,8 +21,6 @@ namespace OnlineArtGallery.Controllers
 
         public IActionResult Home()
         {
-            //ViewBag.USER = Tools.GetUserfromSession(HttpContext.Session.GetString("USER"));
-            context.Users.ToList();
             return View();
         }
         public IActionResult Gallery()
@@ -54,21 +52,21 @@ namespace OnlineArtGallery.Controllers
             context.Customers.ToList();
             context.ArtCategories.ToList();
             context.Artworks.ToList();
-            context.UserTypes.ToList();
+            string sessionString = HttpContext.Session.GetString("USER");
+            Customer cus = Tools.GetCustomerfromSession(sessionString);
+            ViewBag.User = context.Users.Find(cus.UserId);
 
             Auction auct = context.Auctions.Find(auctionId);
-            ViewBag.AuctionRecords = context.AuctionRecords.Where(x => x.AuctionId == auct.Id).OrderByDescending(x=>x.BidPrice).ToList();
+            ViewBag.AuctionRecords = context.AuctionRecords.Where(x => x.AuctionId == auct.Id).OrderByDescending(x => x.BidPrice).ToList();
             ViewBag.Auction = auct;
             return View();
         }
 
-        public IActionResult AddBid( long bid, int auctionId)
+        public IActionResult AddBid(long bid, int auctionId, int userId)
         {
-            string sessionString = HttpContext.Session.GetString("USER");
-            Customer cus = Tools.GetCustomerfromSession(sessionString);
             AuctionRecord aucRecord = new AuctionRecord();
             aucRecord.BidPrice = bid;
-            aucRecord.CustomerId = cus.Id;
+            aucRecord.CustomerId = context.Customers.Where(x => x.UserId == userId).SingleOrDefault().Id;
             aucRecord.AuctionId = auctionId;
             aucRecord.Day = DateTime.Now;
             aucRecord.Qualified = true;
@@ -76,7 +74,6 @@ namespace OnlineArtGallery.Controllers
             context.SaveChanges();
             return RedirectToAction("AuctionDetail", new { auctionId = auctionId });
         }
-
 
         public IActionResult ContactUs()
         {
