@@ -87,14 +87,15 @@
                                 for (var i = 0; i < smg.length; i++) {
                                     var b = smg[i].description;
                                     var z = cutString(b);
-                                    a += `<div class="columnArt">
+                                    var root= '@Url.Content("~")';
+                                    a +=`<div class="columnArt" >
                                             <div class="content">
-                                                <a data-lightbox="mygallery"><img src="~/assets/img/artwork/` + smg[i].image + `" alt=""></a>
-                                                <h4>`+ smg[i].name + `</h4>
-                                                <b>`+ smg[i].artist.name + `</b>
-                                                <h5>$`+ smg[i].defautPrice + `</h5>
-                                                <p class="para">`+ z + `</p>
-                                                <a href='/Index/artworkdetail?id=`+ smg[i].id + `'>Readmore</a>
+                                                <a data-lightbox="mygallery"><img src="`+root+`/assets/img/artwork/`+smg[i].image+`" alt=""></a>
+                                                <h4>`+smg[i].name+`</h4>
+                                                <b>`+smg[i].artist.name+`</b>
+                                                <h5>$`+smg[i].defautPrice+`</h5>
+                                                <p>`+z+`</p>
+                                                <a href='/Index/artworkdetail?id=`+smg[i].id+`'>Readmore</a>
                                                 <div class="text-center">
                                                     <a href="#0" class="custom-button">Add to Favorites</a>
                                                 </div>
@@ -108,7 +109,7 @@
                         }
                     })
                 }
-                else {               
+                else {
                         $.ajax({
                             type: 'POST',
                             url: '@Url.Action("getAllGallery","Index")',
@@ -118,13 +119,14 @@
                                     for (var i = 0; i < smg.length; i++) {
                                         var b = smg[i].description;
                                         var z = cutString(b);
+                                        var root= '@Url.Content("~")';
                                         a += `<div class="columnArt">
                                             <div class="content">
-                                                <a data-lightbox="mygallery"><img src="~/assets/img/artwork/` + smg[i].image + `" alt=""></a>
+                                                <a data-lightbox="mygallery"><img src="`+ root + `/assets/img/artwork/` + smg[i].image +`" alt=""></a>
                                                 <h4>`+ smg[i].name + `</h4>
                                                 <b>`+ smg[i].artist.name + `</b>
                                                 <h5>$`+ smg[i].defautPrice + `</h5>
-                                                <p class="para">`+ z + `</p>
+                                                <p>`+ z + `</p>
                                                 <a href='/Index/artworkdetail?id=`+ smg[i].id + `'>Readmore</a>
                                                 <div class="text-center">
                                                     <a href="#0" class="custom-button">Add to Favorites</a>
