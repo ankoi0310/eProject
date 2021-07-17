@@ -196,5 +196,15 @@ namespace OnlineArtGallery.Controllers
             aw = context.Artworks.Where(p => p.ArtCategoryId == id && !ListAuction.Select(y => y.ArtworkId).Contains(p.Id)).ToList();
             return new JsonResult(aw);
         }
+
+        [HttpPost]
+        public IActionResult getAllGallery()
+        {
+            context.Artists.ToList();
+            List<Artwork> aw = new List<Artwork>();
+            var ListAuction = context.Auctions.ToList();
+            aw = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
+            return new JsonResult(aw);
+        }
     }
 }
