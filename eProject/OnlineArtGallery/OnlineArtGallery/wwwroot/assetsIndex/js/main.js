@@ -1422,7 +1422,15 @@ function AddToCardCliked(event) {
      var card = document.getElementById("productItem").innerHTML;
      localStorage.setItem("cards", card);
  }
+function AddToCart() {
+//    var srcImg = $("#srcImg").attr("src");
+//    var price = $("#txtPrice").text();
+//    var name = $("#txtName").text();
+    //    var artworkId = $("a[name=btnAdd]").data("id");
+    var srcImg = document.getElementById("artworkFull").getElementsByTagName('img').src;
+    console.log(srcImg);
 
+}
 
 
 function AddItemToCard(title, price, srcImg, artworkId) {
