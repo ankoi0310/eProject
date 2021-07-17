@@ -46,6 +46,7 @@ namespace OnlineArtGallery.Controllers
         {
             context.Artists.ToList();
             context.Artworks.ToList();
+            context.AuctionRecords.ToList();
             ViewBag.ListAuction = context.Auctions.ToList();
             return View();
         }
@@ -161,10 +162,23 @@ namespace OnlineArtGallery.Controllers
         }
         public IActionResult MyBid()
         {
+            context.Artworks.ToList();
+            context.AuctionRecords.ToList();
+            string sessionString = HttpContext.Session.GetString("USER");
+            Customer cus = Tools.GetCustomerfromSession(sessionString);
+            ViewBag.MyBid = context.Auctions.Where(x => x.AuctionRecords.Any(y => y.CustomerId == cus.Id)).ToList();
             return View();
         }
         public IActionResult WinningBid()
         {
+            context.Artworks.ToList();
+            DateTime now = DateTime.Now;
+            string sessionString = HttpContext.Session.GetString("USER");
+            Customer cus = Tools.GetCustomerfromSession(sessionString);
+            List<AuctionRecord> ListAuctionRecord = context.AuctionRecords.Where(x => x.CustomerId == cus.Id).ToList();
+
+            ViewBag.MyBid = context.Auctions.Where(x => x.AuctionRecords.Any(y => y.CustomerId == cus.Id) && DateTime.Compare(x.EndDay, now) <= 0).ToList();
+            ViewBag.ListAuctionRecord = ListAuctionRecord;
             return View();
         }
         public IActionResult MyAlerts()

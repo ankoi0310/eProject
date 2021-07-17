@@ -34,6 +34,16 @@
     {
         CurrentBid = Auction.ReservePrice;
     }
+
+    int BidCount = 0;
+    int BidderCount = 0;
+
+    if (Auction.AuctionRecords != null)
+    {
+        BidCount = Auction.AuctionRecords.Count();
+        BidderCount = Auction.AuctionRecords.GroupBy(x => x.CustomerId).Count();
+    }
+    DateTime now = DateTime.Now;
 }
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section style-2">
@@ -158,6 +168,9 @@
                             <button id="btnComent" class="custom-button">Submit comment</button>
                         </div>
                     </div>
+                    <div class="alert alert-info d-none" role="alert" id="alertBox">
+                        This is a info alert—check it out!
+                    </div>
                     <ul class="price-table mb-30">
                         <li class="header">
                             <h5 class="current">Current Bid</h5>
@@ -186,10 +199,13 @@
                             }
                             <input type="hidden" id="currentBid" value="@CurrentBid">
                             <input type="hidden" id="stepPrice" value="@Auction.StepPrice">
+                            <input type="hidden" id="now" value="@now.ToOADate()">
+                            <input type="hidden" id="endDay" value="@Auction.EndDay.ToOADate()">
+                            <input type="hidden" id="beginDay" value="@Auction.BeginDay.ToOADate()">
                             <button type="submit" class="custom-button">Submit a bid</button>
                         </form>
                         <br />
-                        <div class="alert alert-info d-none" role="alert" id="alertBox">
+                        <div class="alert alert-info d-none" role="alert" id="alertBoxBid">
                             This is a info alert—check it out!
                         </div>
                     </div>
@@ -232,7 +248,7 @@
                                     <img src="~/assetsIndex/images/product/icon1.png" alt="product">
                                 </div>
                                 <div class="content">
-                                    <h3 class="count-title"><span class="counter">61</span></h3>
+                                    <h3 class="count-title"><span class="counter">@BidderCount</span></h3>
                                     <p>Active Bidders</p>
                                 </div>
                             </div>
@@ -250,7 +266,7 @@
                                     <img src="~/assetsIndex/images/product/icon3.png" alt="product">
                                 </div>
                                 <div class="content">
-                                    <h3 class="count-title"><span class="counter">82</span></h3>
+                                    <h3 class="count-title"><span class="counter">@BidCount</span></h3>
                                     <p>Total Bids</p>
                                 </div>
                             </div>
@@ -540,11 +556,22 @@
             //    $("#alertBox").html($(this).val());
             //    $("#alertBox").removeClass("d-none");
             //});
-            $("form").submit(function (e) {
+            $("#BidForm").submit(function (e) {
                 var userTypeId = $("#usertypeId").val();
+                var now = $("#now").val();
+                var beginDay = $("#beginDay").val();
+                var endDay = $("#endDay").val();
                 if (userTypeId == null || userTypeId != 3) {
-                    $("#alertBox").html("You need to login/register as Customer to bid this Artwork");
-                    $("#alertBox").removeClass("d-none");
+                    $("#alertBoxBid").html("You need to login/register as Customer to bid this Artwork");
+                    $("#alertBoxBid").removeClass("d-none");
+                    e.preventDefault(e);
+                } else if (beginDay > now) {
+                    $("#alertBoxBid").html("This bid will be comming soon, not now");
+                    $("#alertBoxBid").removeClass("d-none");
+                    e.preventDefault(e);
+                } else if (endDay <= now) {
+                    $("#alertBoxBid").html("This bid is overtime, please check other bids");
+                    $("#alertBoxBid").removeClass("d-none");
                     e.preventDefault(e);
                 } else {
                     var bidPrice = $("#bidPrice").val();
@@ -552,13 +579,20 @@
                     var stepPrice = $("#stepPrice").val();
                     var bidDif = bidPrice - currentBid;
                     if (bidDif <= 0 || (bidDif % stepPrice != 0)) {
-                        $("#alertBox").html("This bid need to larger current bid and follow to step price");
-                        $("#alertBox").removeClass("d-none");
+                        $("#alertBoxBid").html("This bid need to larger current bid and follow to step price");
+                        $("#alertBoxBid").removeClass("d-none");
                         e.preventDefault(e);
                     }
                 }
             });
+            $("#RemarkForm").submit(function (e) {
+                var userTypeId = $("#usertypeId").val();
+                if (userTypeId == null || userTypeId != 3) {
+                    $("#alertBox").html("You need to login/register as Customer to bid this Artwork");
+                    $("#alertBox").removeClass("d-none");
+                    e.preventDefault(e);
+                }
+            });
         })
-
     </script>
 }

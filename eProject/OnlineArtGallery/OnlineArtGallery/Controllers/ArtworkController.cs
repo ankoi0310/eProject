@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Controllers
@@ -39,13 +40,13 @@ namespace OnlineArtGallery.Controllers
             User user = _context.Users.Find(_artist.UserId);
             if (user.UsertypeId == 2 && user != null)
             {
-                return View(await _context.Artworks.Where(x => x.Artist.Id == _artist.Id).OrderByDescending(x=>x.Id).ToListAsync());
+                return View(await _context.Artworks.Where(x => x.Artist.Id == _artist.Id).OrderByDescending(x => x.Id).ToListAsync());
             }
             else
             {
                 return View(await _context.Artworks.OrderByDescending(x => x.Id).ToListAsync());
             }
-            
+
         }
 
         // GET: Artwork/AddOrEdit
@@ -158,7 +159,7 @@ namespace OnlineArtGallery.Controllers
             if (artwork.FileImage != null)
             {
                 string uploadDir = Path.Combine(_webHostEnvironmen.WebRootPath, "assets/img/artwork");
-                fileName = artwork.Name + "-" + artwork.FileImage.FileName;
+                fileName = Regex.Replace(artwork.Name, @"\s+", "") + "-" + artwork.FileImage.FileName;
                 string filePath = Path.Combine(uploadDir, fileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {

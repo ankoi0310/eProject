@@ -57,10 +57,11 @@
             @foreach (Auction item in ListAuction)
             {
                 long CurrentBid = 0;
+                int BidCount = 0;
                 if (item.AuctionRecords != null)
                 {
                     CurrentBid = item.AuctionRecords.Max(x => x.BidPrice);
-
+                    BidCount = item.AuctionRecords.Count();
                     if (CurrentBid == 0)
                     {
                         CurrentBid = item.ReservePrice;
@@ -106,7 +107,7 @@
                                 <div class="countdown">
                                     <div id="bid_counter1"></div>
                                 </div>
-                                <span class="total-bids">30 Bids</span>
+                                <span class="total-bids">@BidCount Bids</span>
                             </div>
                             <div class="text-center">
                                 <a href="/Index/auctiondetail?auctionId=@item.Id" class="custom-button">Submit a bid</a>
