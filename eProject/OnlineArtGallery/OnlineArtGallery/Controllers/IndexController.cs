@@ -37,6 +37,9 @@ namespace OnlineArtGallery.Controllers
             context.Artists.ToList();
             ViewBag.ListArtCategory = context.ArtCategories.ToList();
             ViewBag.Artwork = context.Artworks.Find(id);
+            string sessionString = HttpContext.Session.GetString("USER");
+            Customer cus = Tools.GetCustomerfromSession(sessionString);
+            ViewBag.User = context.Users.Find(cus.UserId);
             return View();
         }
         public IActionResult Auction()

@@ -58,10 +58,6 @@
         }
         removeCard();
 
-        if (document.getElementsByName("rate") != null) {
-            getRate();
-        }
-
         if (document.getElementById("MenuMethod") != null) {
             payment();
             method(0);
@@ -145,5 +141,17 @@
             })
         }
 
+    })
+
+
+    $(document).ready(function () {
+        $("#btnComent").click(function () {
+                var Rate = $("input[name='rate']:checked").val();
+                var Remark = $("#txtCmt").val();
+                var IdArtWork = $("#artWorkId").val();
+                var IdUsertype = $("#usertypeId").val();
+                var IdUser = $("#userId").val();
+                    console.log(Rate, Remark, IdArtWork, IdUsertype, IdUser);
+        })
     })
 </script>

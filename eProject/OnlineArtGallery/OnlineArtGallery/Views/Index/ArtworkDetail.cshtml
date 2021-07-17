@@ -1,6 +1,12 @@
 ﻿@{
     Layout = "~/Views/UserLayout/MainLayout.cshtml";
 
+    User User = null;
+    if (ViewBag.User != null)
+    {
+        User = ViewBag.User;
+    }
+
     Artwork Artwork = null;
     if (ViewBag.Artwork != null)
     {
@@ -42,7 +48,7 @@
                 <div class="product-details-content">
                     <div class="product-details-header">
                         <h2 class="title" id="title">@Artwork.Name</h2>
-                        <input type="hidden" name="artworkId" value="@Artwork.Id" />
+                        <input type="hidden" name="artworkId"id="artWorkId" value="@Artwork.Id" />
                     </div>
                     <div id="rating">
                         <input type="radio" name="rate" value="5" id="rate-5" />
@@ -56,10 +62,21 @@
                         <input type="radio" name="rate" value="1" id="rate-1" />
                         <label for="rate-1" class="fas fa-star"></label>
                     </div>
-                    <form class="product-bid-form" style="margin-bottom:15px">
-                        <input type="text" placeholder="Enter you comment">
-                        <button type="submit" class="custom-button" id="btnComent">Submit comment</button>
-                    </form>
+                    <div>
+                        @if (User != null)
+                        {
+                            <input type="hidden" id="usertypeId" value="@User.UsertypeId">
+                            <input type="hidden" id="userId" value="@User.Id">
+                        }
+                    </div>
+                    <div style="margin-bottom:15px" class="row">
+                        <div class="col-md-8">
+                        <input id="txtCmt" type="text" placeholder="Enter you comment">
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btnComent" class="custom-button">Submit comment</button>
+                        </div>
+                    </div>
                     <ul class="price-table mb-30">
                         <li class="header">
                             <h5 >Artist</h5>

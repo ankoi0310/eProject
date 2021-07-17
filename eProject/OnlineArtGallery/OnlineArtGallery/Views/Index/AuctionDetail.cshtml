@@ -135,6 +135,7 @@
                 <div class="product-details-content">
                     <div class="product-details-header">
                         <h2 class="title" id="title">@Auction.Artwork.Name</h2>
+                        <input type="hidden" name="artworkId" id="artWorkId" value="@Auction.Artwork.Id" />
                     </div>
 
                     <div id="rating">
@@ -149,10 +150,14 @@
                         <input type="radio" name="rate" value="1" id="rate-1" />
                         <label for="rate-1" class="fas fa-star"></label>
                     </div>
-                    <form class="product-bid-form" style="margin-bottom:15px">
-                        <input type="text" placeholder="Enter you comment">
-                        <button type="submit" class="custom-button" id="btnComent">Submit comment</button>
-                    </form>
+                    <div style="margin-bottom:15px" class="row">
+                        <div class="col-md-8">
+                            <input id="txtCmt" type="text" placeholder="Enter you comment">
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btnComent" class="custom-button">Submit comment</button>
+                        </div>
+                    </div>
                     <ul class="price-table mb-30">
                         <li class="header">
                             <h5 class="current">Current Bid</h5>
@@ -177,7 +182,7 @@
                             @if (User != null)
                             {
                                 <input type="hidden" id="usertypeId" value="@User.UsertypeId">
-                                <input type="hidden" name="userId" value="@User.Id">
+                                <input type="hidden" id="userId" name="userId" value="@User.Id">
                             }
                             <input type="hidden" id="currentBid" value="@CurrentBid">
                             <input type="hidden" id="stepPrice" value="@Auction.StepPrice">

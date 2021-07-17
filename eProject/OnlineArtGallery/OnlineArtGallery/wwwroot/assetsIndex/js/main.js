@@ -1477,15 +1477,7 @@ $("#btnCheck").click(function () {
         }
     })
 })
-function getRate() {
-    var star = document.getElementsByName("rate");
-    var prev = null;
-    for (var i = 0; i < star.length; i++) {
-        star[i].addEventListener('change', function () {
-            console.log(this.value)
-        });
-    }
-}
+
 /*divide end Page for Gallery*/
 
 function method(x) {
