@@ -151,6 +151,13 @@ namespace OnlineArtGallery.Controllers
             HttpContext.Session.Remove("USER");
             return RedirectToAction("Home", "Index");
         }
+        public IActionResult Artwork()
+        {
+            context.Artists.ToList();
+            ViewBag.listAuction = context.Auctions.ToList();
+            ViewBag.listArtwork = context.Artworks.ToList();
+            return View();
+        }
         public IActionResult DashBoard()
         {
             return View();
