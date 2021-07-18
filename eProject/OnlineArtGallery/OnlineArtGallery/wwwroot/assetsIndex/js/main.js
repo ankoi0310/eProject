@@ -1443,7 +1443,28 @@ function payment() {
             this.classList.add('active');
             var x= this.getAttribute("data-id");
             method(x);
+            required();
         };
+    }
+}
+
+function required() {
+    var a = document.getElementById("MenuMethod");
+    var b = a.querySelector(".active");
+    var id=b.getAttribute("data-id");
+    if (id == 1) {
+        $("#User").attr("required","");
+        $("#PassWord").attr("required","");
+        $("#Visa").removeAttr("required");
+        $("#SecurityCode").removeAttr("required");
+        $("#ExpirationDate").removeAttr("required");
+    }
+    else {
+        $("#Visa").attr("required", "");
+        $("#SecurityCode").attr("required", "");
+        $("#ExpirationDate").attr("required", "");
+        $("#User").removeAttr("required");
+        $("#PassWord").removeAttr("required");
     }
 }
 
