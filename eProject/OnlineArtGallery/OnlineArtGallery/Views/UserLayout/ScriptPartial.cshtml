@@ -15,6 +15,10 @@
 <script src="/assetsIndex/js/lightbox-plus-jquery.min.js"></script>
 <script>
     window.onload = function () {
+        AddToCart();
+        AddItemTominiCart();
+        AddItemToBigCart();
+        AddtoCartDetail();
         var amount = document.getElementById("Amount");
 
         if (localStorage.getItem("amount") == null) {
@@ -56,12 +60,14 @@
             var btnAddToCard = document.getElementById("BuyNow").getElementsByTagName("a")[0];
             btnAddToCard.addEventListener("click", AddToCardCliked);
         }
-        removeCard();
+
 
         if (document.getElementById("MenuMethod") != null) {
             payment();
             method(0);
         }
+        removeCart();
+        RemoveBigCard();
     }
 
     $(document).ready(function () {

@@ -48,7 +48,7 @@
             <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                 <div class="slide-top-item">
                     <div class="slide-inner">
-                        <img src="~/assets/img/artwork/@Artwork.Image" alt="product">
+                        <img id="imagex" src="~/assets/img/artwork/@Artwork.Image" alt="product">
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                     <ul class="price-table mb-30">
                         <li class="header">
                             <h5>Artist</h5>
-                            <h3>@Artwork.Artist.Name</h3>
+                            <h3 id="nameArtist">@Artwork.Artist.Name</h3>
                         </li>
                         <li class="header">
                             <h5 class="current">Price</h5>
@@ -105,6 +105,9 @@
                             <h5 class="info">@Artwork.Quote</h5>
                         </li>
                     </ul>
+                    <div class="alert alert-info" style="display:none" role="alert" id="alertBoxBid">
+                        This is a info alert—check it out!
+                    </div>
                     <div class="buy-now-area" id="BuyNow">
                         <a href="#0" class="custom-button">Add to Cart</a>
                         <a href="#0" class="rating custom-button active border">

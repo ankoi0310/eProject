@@ -1,5 +1,5 @@
 ﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";
-     
+
     List<int> listToCart = null;
     long sum = 0;
     if (ViewBag.listToCart != null)
@@ -45,45 +45,39 @@
                                         <th scope="col" width="200" class="text-right">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach (var id in listToCart)
-                                    {
-                                        Artwork artwork = new Artwork();
-                                        artwork = Tools.GetArtworkById(id);
-                                        sum += artwork.DefautPrice;
-                                        <tr>
-                                            <td>
-                                                <figure class="media">
-                                                    <div class="img-wrap"><img src="/assets/img/artwork/@artwork.Image" class="img-thumbnail img-sm"></div>
-                                                    <figcaption class="media-body">
-                                                        <h6 class="title text-truncate">@artwork.Name</h6>
-                                                        <dl class="param param-inline small">
-                                                            <dt>Author: </dt>
-                                                            <dd>@artwork.ArtistId</dd>
-                                                        </dl>
-                                                    </figcaption>
-                                                </figure>
-                                            </td>
-                                            <td>
-                                                <span class="form-control">
-                                                    1
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div class="price-wrap">
-                                                    <var class="price">$@artwork.DefautPrice</var>
-                                                </div>
-                                            </td>
-                                            <td class="text-right">
-                                                <a href="" class="btn btn-outline-danger"> × Remove</a>
-                                            </td>
-                                        </tr>
-                                    }                                  
+                                <tbody id="bigCart">
+                                    <tr>
+                                        <td>
+                                            <figure class="media">
+                                                <div class="img-wrap"><img src="/assets/img/artwork/cat2.jpg" class="img-thumbnail img-sm"></div>
+                                                <figcaption class="media-body">
+                                                    <h6 class="title text-truncate">xyz</h6>
+                                                    <dl class="param param-inline small">
+                                                        <dt>Author: </dt>
+                                                        <dd>name</dd>
+                                                    </dl>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <span class="form-control">
+                                                1
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap">
+                                                <var class="price">price</var>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="" class="btn btn-outline-danger">Remove</a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
-                        </div> 
+                        </div>
                         <div id="total">
-                            <span id="TotalPrice"><b>Total:  </b><var>$@sum</var></span>
+                            <span id="TotalPrice"><b>Total:  </b><var>xxxx</var></span>
                         </div>
                         <div>
                             <button type="submit" id="btnCheckout" class="custom-button">Payment</button>
@@ -94,4 +88,9 @@
         </div>
     </div>
 </section>
-<!--============= Contact Section Ends Here =============
+
+@section Scripts{
+<script>
+    $(".cart-button").css("display", "none");
+</script>
+}

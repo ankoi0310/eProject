@@ -208,7 +208,7 @@
                         </div>
                         <div class="auction-content">
                             <h6 class="title">
-                                <a id="txtName" href="#0">@item.Name</a>
+                                <a href="#0">@item.Name</a>
                             </h6>
                             <div class="bid-area">
                                 <div class="bid-amount">
@@ -217,18 +217,18 @@
                                     </div>
                                     <div class="amount-content">
                                         <div class="current">Price</div>
-                                        <div id="txtPrice" class="amount">@item.DefautPrice</div>
+                                        <div class="amount">@item.Artist.Name</div>
                                     </div>
                                 </div>
-                                @*<div class="bid-amount">
+                                <div class="bid-amount">
                                     <div class="icon">
                                         <i class="flaticon-money"></i>
                                     </div>
                                     <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="amount">$5,00.00</div>
+                                        <div class="current">Price</div>
+                                        <div class="amount" data-id="@item.Id">@item.DefautPrice</div>
                                     </div>
-                                </div>*@
+                                </div>
                             </div>
                             @*<div class="countdown-area">
                                 <div class="countdown">
@@ -238,6 +238,9 @@
                             </div>*@
                             <div class="text-center">
                                 <a href="#0" id="btnAdd" name="btnAdd" data-id="@item.Id" class="custom-button"><i class="fas fa-shopping-cart"></i>ADD TO CART</a>
+                                <div class="alert alert-info" style="display:none" role="alert" id="alertBoxBid">
+                                    This is a info alert—check it out!
+                                </div>
                             </div>
                         </div>
                     </div>
