@@ -13,6 +13,18 @@
         AuctionRecords = ViewBag.AuctionRecords;
     }
 
+    List<MyGallery> Comments = null;
+    if (ViewBag.Comments != null)
+    {
+        Comments = ViewBag.Comments;
+    }
+
+    MyGallery MyComment = null;
+    if (ViewBag.MyComment != null)
+    {
+        MyComment = ViewBag.MyComment;
+    }
+
     User User = null;
     if (ViewBag.User != null)
     {
@@ -53,10 +65,10 @@
                 <a href="index.html">Home</a>
             </li>
             <li>
-                <a href="#0">Pages</a>
+                <a href="#0">Auction</a>
             </li>
             <li>
-                <span>Vehicles</span>
+                <span>Auction Detail</span>
             </li>
         </ul>
     </div>
@@ -160,12 +172,13 @@
                         <input type="radio" name="rate" value="1" id="rate-1" />
                         <label for="rate-1" class="fas fa-star"></label>
                     </div>
+                    <input type="hidden" id="myRate" value="@(MyComment == null?0:MyComment.Rate)">
                     <div style="margin-bottom:15px" class="row">
                         <div class="col-md-8">
-                            <input id="txtCmt" type="text" placeholder="Enter you comment">
+                            <input id="txtCmt" type="text" value="@(MyComment == null?"":MyComment.Remark)" placeholder="Enter you comment">
                         </div>
                         <div class="col-md-4">
-                            <button id="btnComent" class="custom-button">Submit comment</button>
+                            <button id="btnComent" data-url="@Url.Action("RateAndComment")" class="custom-button">Submit comment</button>
                         </div>
                     </div>
                     <div class="alert alert-info d-none" role="alert" id="alertBox">
@@ -191,7 +204,7 @@
                                 <img src="~/assetsIndex/images/product/search-icon.png" alt="product">
                             </div>
                             <input type="text" placeholder="Enter you bid amount" name="bid" id="bidPrice">
-                            <input type="hidden" name="auctionId" value="@Auction.Id">
+                            <input type="hidden" name="auctionId" id="auctionId" value="@Auction.Id">
                             @if (User != null)
                             {
                                 <input type="hidden" id="usertypeId" value="@User.UsertypeId">
@@ -367,39 +380,20 @@
                         <div class="table-wrapper">
                             <table class="shipping-table" style="margin-left:15px">
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in Comments)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                <span><b>@item.Customer.Name</b></span>
+                                                <br />
+                                                <span id="comment" style="margin-left:20px">@item.Remark</span>
+                                            </td>
+                                            <td>
+                                                @item.Rate<i class="fa fa-star" aria-hidden="true"></i>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -556,6 +550,7 @@
             //    $("#alertBox").html($(this).val());
             //    $("#alertBox").removeClass("d-none");
             //});
+
             $("#BidForm").submit(function (e) {
                 var userTypeId = $("#usertypeId").val();
                 var now = $("#now").val();
@@ -585,14 +580,14 @@
                     }
                 }
             });
-            $("#RemarkForm").submit(function (e) {
-                var userTypeId = $("#usertypeId").val();
-                if (userTypeId == null || userTypeId != 3) {
-                    $("#alertBox").html("You need to login/register as Customer to bid this Artwork");
-                    $("#alertBox").removeClass("d-none");
-                    e.preventDefault(e);
-                }
-            });
+            //$("#btnComent").click(function (e) {
+            //    var userTypeId = $("#usertypeId").val();
+            //    if (userTypeId == null || userTypeId != 3) {
+            //        $("#alertBox").html("You need to login/register as Customer to bid this Artwork");
+            //        $("#alertBox").removeClass("d-none");
+            //        e.preventDefault(e);
+            //    }
+            //});
         })
     </script>
 }

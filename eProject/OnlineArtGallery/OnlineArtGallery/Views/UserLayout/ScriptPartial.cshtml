@@ -145,13 +145,39 @@
 
 
     $(document).ready(function () {
+
+        var myRate = $("#myRate").val();
+        if (myRate > 0) {
+            $("input[name='rate'][value=" + myRate + "]").prop('checked', true);
+        }
+
         $("#btnComent").click(function () {
-                var Rate = $("input[name='rate']:checked").val();
-                var Remark = $("#txtCmt").val();
-                var IdArtWork = $("#artWorkId").val();
-                var IdUsertype = $("#usertypeId").val();
-                var IdUser = $("#userId").val();
-                    console.log(Rate, Remark, IdArtWork, IdUsertype, IdUser);
+            var Rate = $("input[name='rate']:checked").val();
+            var Remark = $("#txtCmt").val();
+            var artWorkId = $("#artWorkId").val();
+            var userTypeId = $("#usertypeId").val();
+            var userId = $("#userId").val();
+            var AuctionId = $("#auctionId").val();
+            //console.log(Rate, Remark, IdArtWork, IdUsertype, IdUser);
+            if (userTypeId == null || userTypeId != 3) {
+                $("#alertBox").html("You need to login/register as Customer to remark this Artwork");
+                $("#alertBox").removeClass("d-none");
+                e.preventDefault(e);
+            }
+            else {
+                var url = $("#btnComent").data("url");
+                $.ajax({
+                    url: url,
+                    data: 'rate=' + Rate + '&remark=' + Remark + '&artworkId=' + artWorkId + '&userId=' + userId + '&auctionId=' + AuctionId,
+                    type: "get",
+                    success: function (res) {
+
+                        //$('#mainBody').html(res);
+                        alert("Successful")
+                    }
+                })   
+            }
+
         })
     })
 </script>
