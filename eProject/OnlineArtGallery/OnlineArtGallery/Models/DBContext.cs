@@ -50,6 +50,7 @@ namespace OnlineArtGallery.Models
         public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<MyGallery> MyGalleries { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
     }
 }

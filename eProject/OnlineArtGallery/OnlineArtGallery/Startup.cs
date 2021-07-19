@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineArtGallery.IService;
+using OnlineArtGallery.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,7 @@ namespace OnlineArtGallery
             services.AddHttpContextAccessor();
             services.AddSession();
             services.AddControllersWithViews();
+            services.AddScoped<INotiService, NotiService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

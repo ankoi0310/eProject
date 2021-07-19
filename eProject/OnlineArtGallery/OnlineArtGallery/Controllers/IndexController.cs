@@ -184,6 +184,12 @@ namespace OnlineArtGallery.Controllers
         }
         public IActionResult DashBoard()
         {
+            Customer cus = null;
+            cus = Tools.GetCustomerfromSession(HttpContext.Session.GetString("USER")) == null ? null : Tools.GetCustomerfromSession(HttpContext.Session.GetString("USER"));
+            if (cus != null)
+            {
+                ViewBag.listTransaction = Tools.GetTransactionsFromCustomerId(cus.Id);
+            }
             return View();
         }
         public IActionResult UserProfile()

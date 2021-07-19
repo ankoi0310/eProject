@@ -49,11 +49,15 @@
                     <li>
                         <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount" id="Amount">5</span></a>
                     </li>
-                    <li>
-                        <a href="sign-in.html" class="user-button"><i class="flaticon-user"></i></a>
-                    </li>
+
                     @if (HttpContextAccessor.HttpContext.Session.GetString("USER") != null)
                     {
+                        <li>
+                            <div id="noti_Container"></div>
+                        </li>
+                        <li>
+                            <a href="sign-in.html" class="user-button"><i class="flaticon-user"></i></a>
+                        </li>
                         <li>
                             <a href="~/index/signout" style="color: white">Sign out</a>
                         </li>
@@ -94,9 +98,12 @@
                     <li>
                         <a href="/Index/auction">Auction</a>
                     </li>
-                    <li>
-                        <a href="/Index/userprofile">My Account</a>
-                    </li>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("USER") != null)
+                    {
+                        <li>
+                            <a href="/index/userprofile">My Account</a>
+                        </li>
+                    }
                     <li>
                         <a href="/Index/AboutUs">About Us</a>
                     </li>

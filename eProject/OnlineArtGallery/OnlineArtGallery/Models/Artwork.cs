@@ -46,6 +46,7 @@ namespace OnlineArtGallery.Models
         public FormFile FileImage { get; set; }
 
         public List<Auction> Auctions { get; set; }
-
+        [NotMapped]
+        public static int countRecord = 0;
     }
 }

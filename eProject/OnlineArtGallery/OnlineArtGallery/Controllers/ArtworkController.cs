@@ -99,6 +99,25 @@ namespace OnlineArtGallery.Controllers
                     artwork.ArtistId = _artist.Id;
                     _context.Add(artwork);
                     await _context.SaveChangesAsync();
+                    Artwork.countRecord++;
+                    if (Artwork.countRecord == 5)
+                    {
+                        foreach (var user in _context.Users)
+                        {
+                            if (user.Id != 1)
+                            {
+                                _context.Notifications.Add(new Notification()
+                                {
+                                    Header = "There are some new artwork",
+                                    IsRead = false,
+                                    Url = "/index/product",
+                                    UserId = user.Id,
+                                });
+                            }
+                        }
+                        Artwork.countRecord = 0;
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 else
                 {
