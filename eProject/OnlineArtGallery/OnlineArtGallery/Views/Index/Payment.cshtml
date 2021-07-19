@@ -1,4 +1,10 @@
-﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";
+    User User = null;
+    if (ViewBag.User != null)
+    {
+        User = ViewBag.User;
+    }
+}
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section">
     <div class="container">
@@ -8,6 +14,8 @@
             </li>
             <li>
                 <span>Payment</span>
+            </li>
+            <li>
             </li>
         </ul>
     </div>
@@ -19,41 +27,49 @@
             <div class="section-header">
                 <h2 class="title">Payment</h2>
                 <p>We'd love to hear from you! Let us know how we can help.</p>
+                <div class="alert alert-danger d-none" role="alert" id="alertBoxBid">
+                    This is a info alert—check it out!
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-7">
-                    <form action="" method="post" style="color:black">
+                    <form action="" method="POST" style="color:black" id="purchase">
                         <b>1. Personal Information</b>
                         <div class="row">
                             <div class="col">
                                 <label for="FirstName"> First Name</label>
-                                <input type="text" class="form-control" name="name" value="" id="FirstName" />
+                                <input type="text" class="form-control" name="name" value="" id="FirstName" required />
+                                @if (User != null)
+                                {
+                                    <input type="hidden" id="usertypeId" value="@User.UsertypeId">
+                                    <input type="hidden" id="userId" name="userId" value="@User.Id">
+                                }
                             </div>
                             <div class="col">
                                 <label for="LastName"> Last Name</label>
-                                <input type="text" class="form-control" name="name" value="" id="LastName" />
+                                <input type="text" class="form-control" name="name" value="" id="LastName" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <label for="Email"> Email</label>
-                                <input type="text" class="form-control" name="name" value="" id="Email" />
+                                <input type="text" class="form-control" name="name" value="" id="Email" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <label for="Contry"> Contry</label>
-                                <input type="text" class="form-control" name="name" value="" id="Contry" />
+                                <input type="text" class="form-control" name="name" value="" id="Contry" required />
                             </div>
                             <div class="col">
                                 <label for="PostalCode"> Postal Code</label>
-                                <input type="text" class="form-control" name="name" value="" id="PostalCode" />
+                                <input type="text" class="form-control" name="name" value="" id="PostalCode" required />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <label for="PhoneNumber"> Phone Number</label>
-                                <input type="text" class="form-control" name="name" value="" id="PhoneNumber" />
+                                <input type="text" class="form-control" name="name" value="" id="PhoneNumber" required />
                             </div>
                         </div>
                         <b>2. Paymen Detail</b>
@@ -81,17 +97,17 @@
                             <div class="row">
                                 <div class="col">
                                     <i class="fa fa-cc-visa"></i><label for="Visa"> Creditcard Number</label>
-                                    <input type="text" class="form-control" name="name" value="" id="Visa" />
+                                    <input type="text" class="form-control" name="name" value="" id="Visa" required />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="SecurityCode"> Security Code</label>
-                                    <input type="text" class="form-control" name="name" value="" id="SecurityCode" />
+                                    <input type="text" class="form-control" name="name" value="" id="SecurityCode" required />
                                 </div>
                                 <div class="col">
                                     <label for="ExpirationDate"> Expiration Date</label>
-                                    <input type="text" class="form-control" name="name" value="" id="ExpirationDate" />
+                                    <input type="text" class="form-control" name="name" value="" id="ExpirationDate" required />
                                 </div>
                             </div>
                         </div>
@@ -109,6 +125,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </form>
                 </div>
                 <div class="col-md-4" style="margin-top:50px;color:black">
@@ -117,22 +134,38 @@
                             <div class="row" style="margin:15px">
                                 <p style="font-weight:bold;font-size:100%;">YOUR ORDER</p>
                             </div>
-                            <div style="border-bottom:solid 0.1px; border-color:gainsboro;height:auto"  id="myOrder">
-                               
+                            <div style="border-bottom:solid 0.1px; border-color:gainsboro;height:auto" id="myOrder">
+
                             </div>
                             <div class="row" style="margin-top:15px">
                                 <div class="col" style="text-align:center;font-weight:bold;">
-                                    Total Purchase
+                                    Total
                                 </div>
                                 <div class="col" style="text-align:center" id="totalPrice">
-                                   
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px">
+                                <div class="col" style="text-align:center;font-weight:bold;">
+                                    VATFee 10%:
+                                </div>
+                                <div class="col" style="text-align:center" id="Fee">
+
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px">
+                                <div class="col" style="text-align:center;font-weight:bold;">
+                                    Total price :
+                                </div>
+                                <div class="col" style="text-align:center" id="totalPurchase">
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12" style="text-align:center;margin:auto;margin-top:50px">
-                    <button class="custom-button" type="submit" id="btnPayment"><i class="fa fa-shopping-cart ">Complete Purchase</i></button>
+                    <button class="custom-button" id="btnPayment"><i class="fa fa-shopping-cart ">Complete Purchase</i></button>
                 </div>
             </div>
         </div>
@@ -148,21 +181,92 @@
                 var y = "";
                 for (var i = 0; i < x.length; i++) {
                     y += `<div class="row">
-                        <div class="col" style="text-align:left">
-                           ${x[i]["name"]}
-                         </div>
-                         <div class="col" style="text-align:left">
-                           ${x[i]["nameArtist"]}
-                         </div>
-                        <div class="col" style="text-align:left">
-                                $${x[i]["price"]}
-                        </div>
-                    </div>`
+                            <div class="col" style="text-align:left">
+                               ${x[i]["name"]}
+                             </div>
+                             <div class="col" style="text-align:left">
+                               ${x[i]["nameArtist"]}
+                             </div>
+                            <div class="col" style="text-align:left">
+                                    $${x[i]["price"]}
+                            </div>
+                        </div>`
                     total += parseInt(x[i]["price"]);
                 }
                 $("#myOrder").html(y);
                 $("#totalPrice").html("$" + total);
+                $("#Fee").html("$" + Math.round(total * 10/100, 2))
+                $("#totalPurchase").html("$" + Math.round(total*110/100,2))
             }
         })
+
+        function checkEmpty() {
+            if ($("#FirstName").val() == "" || $("#LastName").val() == "" || $("#Email").val() == "" || $("#Contry").val() == "" || $("#PostalCode").val() == "" || $("#PhoneNumber").val() == "" ) {
+                
+                return(false);
+            }
+            if ($("#MenuMethod .active").data("id") == 0) {
+                if ($("#Visa").val() == "" || $("#SecurityCode").val() == "" || $("#ExpirationDate").val() == "" ) {
+                    return(false);
+                }
+            }
+            else {
+                if ($("#User").val() == "" || $("#PassWord").val() == "" ) {
+                    return (false);
+                }
+            }
+        }
+
+        $(document).ready(function () {
+            $("#btnPayment").click(function (e) {
+                var userTypeId = $("#usertypeId").val();
+                if (userTypeId == null || userTypeId != 3) {
+                    $("#alertBoxBid").html("You need to login/register as Customer to buy this Artwork");
+                    $("#alertBoxBid").removeClass("d-none");
+                    return;
+                }
+                else {
+                    if (JSON.parse(localStorage.getItem("cart")) == null) {
+                        $("#alertBoxBid").html("Cart is empty! Buy somethings and comeback!");
+                        $("#alertBoxBid").removeClass("d-none");
+                        return;
+                    }
+                    if (checkEmpty() == false) {
+                        $("#alertBoxBid").html("you need to fill all the field to preOrder");
+                        $("#alertBoxBid").removeClass("d-none");
+                        return;
+                    } 
+                    else {
+                        var cart = localStorage.getItem("cart");
+                        var Cartlist = JSON.parse(cart);
+                        var IdUser =parseInt($("#userId").val());
+                        var x = 0;
+                        for (var i = 0; i < Cartlist.length; i++) {
+                            x += parseInt(Cartlist[i]["price"]);
+                        }
+                        var TotalPrice = x;
+                        var TotalFee = Math.round(x * 10 / 100, 2);
+                        if ($("#MenuMethod .active").data("id") == 0) {
+                            var PaymentId = 1;
+                        }
+                        else {
+                           var PaymentId = 2;
+                        }
+                        var StatusId = 4;
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("PaymentSuccess", "Index")',
+                            data: { cart: cart, IdUser: IdUser, TotalPrice: TotalPrice, TotalFee: TotalFee, PaymentId: PaymentId,StatusId:StatusId },
+                            dataType: 'json',
+                            success: function (smg) {
+                                localStorage.removeItem("cart");
+                                localStorage.removeItem("amount");
+                                window.location.href = "http://localhost:13979/Index/Success";
+                            }
+                        })
+                    }
+                }
+            })
+        })
     </script>
-}
+    }

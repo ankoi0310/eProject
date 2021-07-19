@@ -1,0 +1,47 @@
+﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";
+
+}
+
+<div class="hero-section">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <span>Payment</span>
+            </li>
+            <li>
+            </li>
+        </ul>
+    </div>
+    <div class="bg_img hero-bg bottom_center" data-background='@Url.Content("~/assetsIndex/images/banner/hero-bg.png")'></div>
+</div>
+<section class="contact-section padding-bottom">
+    <div class="container">
+        <div class="contact-wrapper padding-top padding-bottom mt--100 mt-lg--440" style="height:1000px">
+            <div class="section-header">
+                <h2 class="title">Success!</h2>
+                <h3>Thank you for your order.</h3>
+                <h5 style="margin-top:50px">Please waitting! We are preparing your order.</h5>
+                <h5>
+                    It will delivery as soon as possible!
+                    We love to servse you!
+                </h5>
+                <div>
+                    <i class="fa fa-ellipsis-h fa-5x" style="color:green;" aria-hidden="true"></i>
+                    <i class="fa fa-truck fa-10x" style="color:green;margin-top:200px;" aria-hidden="true"></i>
+                </div>
+                <div class="text-center" style="margin-top:100px">
+                    <a class="custom-button" href="Home"><i class="fa fa-hand-o-right"></i>continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(".cart-button").css("display", "none");
+     </script>
+}

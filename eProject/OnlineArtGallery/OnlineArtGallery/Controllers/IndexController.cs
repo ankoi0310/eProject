@@ -231,7 +231,11 @@ namespace OnlineArtGallery.Controllers
         {
             return View();
         }
-        
+        public IActionResult Success()
+        {
+            return View();
+        }
+
         public IActionResult Cart(List<int> listArtwork)
         {
             ViewBag.listToCart = listArtwork;
@@ -239,6 +243,9 @@ namespace OnlineArtGallery.Controllers
         }
         public IActionResult Payment()
         {
+            string sessionString = HttpContext.Session.GetString("USER");
+            Customer cus = Tools.GetCustomerfromSession(sessionString);
+            ViewBag.User = context.Users.Find(cus.UserId);
             return View();
         }
 
@@ -260,6 +267,47 @@ namespace OnlineArtGallery.Controllers
             var ListAuction = context.Auctions.ToList();
             aw = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
             return new JsonResult(aw);
+        }
+
+        public class carta
+        {
+            public string srcImg { get; set; }
+            public string name { get; set; }
+            public int price { get; set; }
+            public string nameArtist { get; set; }
+            public int artworkId { get; set; }
+        }
+        [HttpPost]
+        public IActionResult PaymentSuccess(string cart, int IdUser, int TotalPrice, int TotalFee, int PaymentId, int StatusId)
+        {
+            var y = JsonConvert.DeserializeObject<List<carta>>(cart);
+            Transaction payments = new Transaction();
+            payments.CustomerId = IdUser;
+            payments.TotalPrice = TotalPrice;
+            payments.TotalFee = TotalFee;
+            payments.PaymentId = PaymentId;
+            payments.StatusId = StatusId;
+            payments.Active = true;
+            context.Transactions.Add(payments);
+            context.SaveChanges();
+            var x = payments;
+            TransactionDetail detailTrans = new TransactionDetail();
+            foreach (var item in y)
+            {
+                detailTrans.TransactionId = x.Id;
+                detailTrans.ArtworkId = item.artworkId;
+                detailTrans.Price = item.price;
+                detailTrans.Fee = item.price * 10 / 100; ;
+                context.TransactionDetails.Add(detailTrans);
+                context.SaveChanges();
+            }
+            foreach (var item in y)
+            {
+                var a = context.Artworks.First(a => a.Id == item.artworkId);
+                a.Active = false;
+                context.SaveChanges();
+            }
+            return new JsonResult("success");
         }
 
         public IActionResult RateAndComment(int rate, string remark, int artworkId, int userId, int auctionId)
