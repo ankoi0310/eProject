@@ -179,11 +179,45 @@
                     success: function (res) {
 
                         //$('#mainBody').html(res);
-                        alert("Successful")
+                        alert("Successful");
                     }
                 })   
             }
 
         })
+
+        $("#FavoriteBtn").click(function () {
+            var artWorkId = $("#artWorkId").val();
+            var userTypeId = $("#usertypeId").val();
+            var userId = $("#userId").val();
+            var AuctionId = $("#auctionId").val();
+            if (userTypeId == null || userTypeId != 3) {
+                $("#alertBoxRate").html("You need to login/register as Customer to add this Artwork to favorite");
+                $("#alertBoxRate").removeClass("d-none");
+                e.preventDefault(e);
+            }
+            else {
+                var url = $(this).data("url");
+                //var favorite = $("#currentFavorite").val();
+                $.ajax({
+                    url: url,
+                    data: 'artworkId=' + artWorkId + '&userId=' + userId + '&auctionId=' + AuctionId,
+                    type: "get",
+                    success: function (res) {
+                        var favorite = $("#currentFavorite").val();
+                        if (favorite == 1) {
+                            $("#FavoriteBtn").html('<i class="fas fa-star"></i>' + ' Add to favorites');
+                            $("#currentFavorite").val("0");
+                        } else {
+                            $("#FavoriteBtn").html('<i class="fas fa-star"></i>' + " My Favorite");
+                            $("#currentFavorite").val("1");
+                        }
+                        alert("Successful");
+                    }
+                })
+            }
+
+        })
+
     })
 </script>

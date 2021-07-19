@@ -24,6 +24,8 @@
     {
         MyComment = ViewBag.MyComment;
     }
+    bool currentFavorite = MyComment == null ? false : MyComment.Favorite;
+    string FavoriteString = currentFavorite ? "My Favorite" : "Add to favorites";
 
     User User = null;
     if (ViewBag.User != null)
@@ -56,6 +58,7 @@
         BidderCount = Auction.AuctionRecords.GroupBy(x => x.CustomerId).Count();
     }
     DateTime now = DateTime.Now;
+
 }
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section style-2">
@@ -224,9 +227,10 @@
                     </div>
 
                     <div class="buy-now-area" id="BuyNow">
-                        <a href="#0" class="rating custom-button active border">
-                            <i class="fas fa-star"></i> Add to
-                            Wishlist
+                        <input type="hidden" name="currentFavorite" id="currentFavorite" value="@(currentFavorite==true?'1':'0')">
+                        <a data-url="@Url.Action("EditFavorite")" class="rating custom-button active border" id="FavoriteBtn">
+                            <i class="fas fa-star"></i> 
+                            @FavoriteString
                         </a>
                         <div class="share-area">
                             <span>Share to:</span>
@@ -244,6 +248,9 @@
                                     <a href="#0"><i class="fab fa-instagram"></i></a>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="alert alert-info d-none" role="alert" id="alertBoxRate">
+                            This is a info alert—check it out!
                         </div>
                     </div>
                 </div>
@@ -265,7 +272,7 @@
                                     <p>Active Bidders</p>
                                 </div>
                             </div>
-                            <div class="side-counter-item">
+                            @*<div class="side-counter-item">
                                 <div class="thumb">
                                     <img src="~/assetsIndex/images/product/icon2.png" alt="product">
                                 </div>
@@ -273,7 +280,7 @@
                                     <h3 class="count-title"><span class="counter">203</span></h3>
                                     <p>Watching</p>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="side-counter-item">
                                 <div class="thumb">
                                     <img src="~/assetsIndex/images/product/icon3.png" alt="product">

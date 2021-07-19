@@ -162,8 +162,10 @@ namespace OnlineArtGallery.Controllers
         public IActionResult Artwork()
         {
             context.Artists.ToList();
+            List<Auction> listAuction = context.Auctions.ToList();
             ViewBag.listAuction = context.Auctions.ToList();
-            ViewBag.listArtwork = context.Artworks.ToList();
+            ViewBag.listArtCategory = context.ArtCategories.ToList();
+            ViewBag.listArtwork = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
             return View();
         }
         public IActionResult DashBoard()
@@ -202,6 +204,13 @@ namespace OnlineArtGallery.Controllers
         }
         public IActionResult MyFavorite()
         {
+            context.Artists.ToList();
+            context.Artworks.ToList();
+            string sessionString = HttpContext.Session.GetString("USER");
+            Customer cus = Tools.GetCustomerfromSession(sessionString);
+            List<MyGallery> listMyGallery = context.MyGalleries.Where(x => x.CustomerId == cus.Id && x.Favorite == true).ToList();
+            ViewBag.listArtwork = context.Artworks.Where(x => listMyGallery.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
+            ViewBag.auction = context.Auctions.ToList();
             return View();
         }
         public IActionResult Referral()
@@ -268,6 +277,33 @@ namespace OnlineArtGallery.Controllers
                 return RedirectToAction("AuctionDetail", new { auctionId = auctionId });
             }
         }
+
+        public string EditFavorite(int artworkId, int userId, int auctionId)
+        {
+            int CustomerId = context.Customers.Where(x => x.UserId == userId).SingleOrDefault().Id;
+            string message = "";
+            if (CheckRemarkExist(artworkId, CustomerId))
+            {
+                MyGallery mg = context.MyGalleries.Where(x => x.ArtworkId == artworkId && x.CustomerId == CustomerId).SingleOrDefault();
+                bool currentFavorite = mg.Favorite;
+                mg.Favorite = currentFavorite ? false : true;
+                message = (mg.Favorite == true) ? "Remove from Favorite": "Add to Favorite";
+                context.MyGalleries.Update(mg);
+            }
+            else
+            {
+                MyGallery mg = new MyGallery();
+                mg.CustomerId = CustomerId;
+                mg.ArtworkId = artworkId;
+                mg.Favorite = true;
+                message = "Remove from Favorite";
+                context.MyGalleries.Add(mg);
+
+            }
+            context.SaveChanges();
+            return message;
+        }
+
         public bool CheckRemarkExist(int artworkId, int CustomerId)
         {
             return context.MyGalleries.Any(x => x.ArtworkId == artworkId && x.CustomerId == CustomerId);
