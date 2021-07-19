@@ -389,6 +389,10 @@
                                 <tbody>
                                     @foreach (var item in Comments)
                                     {
+                                        if (item.Remark == null || item.Rate == 0)
+                                        {
+                                            continue;
+                                        }
                                         <tr>
                                             <td>
                                                 <i class="fa fa-user" aria-hidden="true"></i>

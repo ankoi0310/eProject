@@ -1,13 +1,35 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
 
 @inject IHttpContextAccessor HttpContextAccessor
+@{
+//if (Context.Session.GetString("USER") != null)
+//{
+//    ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
+//}
 
+
+//User user = null;
+//if (ViewBag.User != null)
+//{
+//    user = ViewBag.User;
+
+//}
+//int userTypeId = user == null ? 0 : user.UsertypeId;
+}
 
 <header>
     <div class="header-top">
         <div class="container">
             <div class="header-top-wrapper">
                 <ul class="customer-support">
+                    @*@if (userTypeId == 1)
+                    {
+                        <li>
+                            <a href="admin/index" class="mr-3"><i class="fas fa-user-circle"></i><span class="ml-2 d-none d-sm-inline-block">Admin</span></a>
+                        </li>
+                    }*@
+
                     <li>
                         <a href="#" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">Customer Support</span></a>
                     </li>

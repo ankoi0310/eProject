@@ -14,6 +14,7 @@ namespace OnlineArtGallery.Controllers
     {
 
         private DBContext context;
+        private static User _user = null;
         public IndexController()
         {
             context ??= new DBContext();
@@ -21,6 +22,7 @@ namespace OnlineArtGallery.Controllers
 
         public IActionResult Home()
         {
+            //ViewBag.User = _user;
             return View();
         }
         public IActionResult Gallery()
@@ -39,10 +41,15 @@ namespace OnlineArtGallery.Controllers
             ViewBag.Comments = context.MyGalleries.Where(x=>x.ArtworkId == id).ToList();
             ViewBag.ListArtCategory = context.ArtCategories.ToList();
             ViewBag.Artwork = context.Artworks.Find(id);
-            string sessionString = HttpContext.Session.GetString("USER");
-            Customer cus = Tools.GetCustomerfromSession(sessionString);
-            ViewBag.User = context.Users.Find(cus.UserId);
-            ViewBag.MyComment = context.MyGalleries.Where(x => x.ArtworkId == id && x.CustomerId == cus.Id).SingleOrDefault();
+            //string sessionString = HttpContext.Session.GetString("USER");
+            //Customer cus = Tools.GetCustomerfromSession(sessionString);
+            //ViewBag.User = context.Users.Find(cus.UserId);
+            ViewBag.User = _user;
+            if (_user!= null && _user.UsertypeId == 3)
+            {
+                Customer cus = context.Customers.Where(x => x.UserId == _user.Id).SingleOrDefault();
+                ViewBag.MyComment = context.MyGalleries.Where(x => x.ArtworkId == id && x.CustomerId == cus.Id).SingleOrDefault();
+            }
             return View();
         }
         public IActionResult Auction()
@@ -61,15 +68,21 @@ namespace OnlineArtGallery.Controllers
             context.Artworks.ToList();
             context.Customers.ToList();
 
-            string sessionString = HttpContext.Session.GetString("USER");
-            Customer cus = Tools.GetCustomerfromSession(sessionString);
-            ViewBag.User = context.Users.Find(cus.UserId);
+            //string sessionString = HttpContext.Session.GetString("USER");
+            //Customer cus = Tools.GetCustomerfromSession(sessionString);
+            //ViewBag.User = context.Users.Find(cus.UserId);
 
             Auction auct = context.Auctions.Find(auctionId);
             ViewBag.AuctionRecords = context.AuctionRecords.Where(x => x.AuctionId == auct.Id).OrderByDescending(x => x.BidPrice).ToList();
             ViewBag.Auction = auct;
             ViewBag.Comments = context.MyGalleries.Where(x => x.ArtworkId == auct.ArtworkId).ToList();
-            ViewBag.MyComment = context.MyGalleries.Where(x => x.ArtworkId == auct.ArtworkId && x.CustomerId == cus.Id).SingleOrDefault();
+
+            ViewBag.User = _user;
+            if (_user != null && _user.UsertypeId == 3)
+            {
+                Customer cus = context.Customers.Where(x => x.UserId == _user.Id).SingleOrDefault();
+                ViewBag.MyComment = context.MyGalleries.Where(x => x.ArtworkId == auct.ArtworkId && x.CustomerId == cus.Id).SingleOrDefault();
+            }
             return View();
         }
 
@@ -139,6 +152,7 @@ namespace OnlineArtGallery.Controllers
                 if (context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password)) != null && username != null)
                 {
                     var user = context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
+                    _user = user;
                     if (user.UsertypeId != 1)
                     {
                         HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(user.UsertypeId == 3 ? Tools.GetCustomerFromUser(user.Id) :
