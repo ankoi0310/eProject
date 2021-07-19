@@ -110,7 +110,7 @@ namespace OnlineArtGallery.Controllers
                                 {
                                     Header = "There are some new artwork",
                                     IsRead = false,
-                                    Url = "/index/product",
+                                    Url = "/index/artwork",
                                     UserId = user.Id,
                                 });
                             }
