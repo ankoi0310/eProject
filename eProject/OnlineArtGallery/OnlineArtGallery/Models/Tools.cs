@@ -21,11 +21,12 @@ namespace OnlineArtGallery.Models
 
         // User
         public static IEnumerable<User> GetUserList() => context.Users.ToList();
-        public static User GetUser(int id) => context.Users.Find(id);
+        public static User GetUser(int id) => context.Users.FirstOrDefault(u => u.Id == id);
 
         // Customer
         public static IEnumerable<Customer> GetCustomerList() => context.Customers.ToList();
         public static Customer GetCustomerFromUser(int userId) => (from a in context.Customers where a.UserId == userId select a).FirstOrDefault();
+        public static Customer GetCustomerFromId(int id) => context.Customers.Find(id);
 
         // Artist
         public static IEnumerable<Artist> GetArtistList() => context.Artists.ToList();
@@ -36,6 +37,25 @@ namespace OnlineArtGallery.Models
 
         // Artwork
         public static Artwork GetArtworkById(int id) => context.Artworks.FirstOrDefault(a => a.Id == id);
+        // Transaction
+        public static List<Transaction> GetTransactionsFromCustomerId(int id) 
+        {
+            var q = from t in context.Transactions where t.CustomerId == id select t;
+            return q.ToList(); 
+        }
+        public static List<Transaction> GetPendingTransaction()
+        {
+            var q = from t in context.Transactions where t.Active == false select t;
+            return q.ToList();
+        }
+        // Transaction detail
+        public static List<TransactionDetail> GetTransactionDetailsFromIdTransaction(int id)
+        {
+            var q = from t in context.TransactionDetails where t.TransactionId == id select t;
+            return q.ToList();
+        }
+        // Payment
+        public static Payment GetPaymentById(int id) => context.Payments.Find(id);
         //get User from Session
         public static User GetUserfromSession(string userString)
         {

@@ -1405,67 +1405,8 @@ function element(totalPages, page, ulTag, numberArtInAPage) {
 
   ulTag.innerHTML = litag;
 }
-const listArtwork = [];
-/* cart */
-function AddToCardCliked(event) {
-   var srcImg = document.getElementById("sync1").getElementsByTagName("img")[0].src;
-   var artworkId = $("input[name=artworkId").val();
-   var price = document.getElementById("price").innerText;
-   var title = document.getElementById("title").innerText;
-   var amount = document.getElementById("Amount");
-   //var product = { title, price, srcImg, artworkId };
-   var numberAmount = parseInt(amount.innerText);
-   listArtwork.push(artworkId)
-     localStorage.setItem("amount", numberAmount += 1);
-    amount.innerHTML = localStorage.getItem("amount");
-     AddItemToCard(title, price, srcImg, artworkId);
-     var card = document.getElementById("productItem").innerHTML;
-     localStorage.setItem("cards", card);
- }
 
 
-
-function AddItemToCard(title, price, srcImg, artworkId) {
-  var card = document.getElementById("productItem");
-  var sigleProduct = `<div class="single-product-item">
-  <div class="thumb">
-      <a href="#0"><img src="${srcImg}" alt="shop"></a>
-  </div>
-  <div class="content">
-      <h4 class="title"><a href="#0">${title}</a></h4>
-      <input type="hidden" name="artId" value=${artworkId}>
-      <div class="price"><span class="pprice">$${price}</span>
-      </div>
-      <a href="#" class="remove-cart">Remove</a>
-  </div>
-</div>`
-  card.innerHTML += sigleProduct;
-  removeCard();
-}
-
-function removeCard() {
-    var btnRemoveCard = document.getElementById("productItem").getElementsByClassName("remove-cart");
-
-  for (var i = 0; i < btnRemoveCard.length; i++) {
-    var button = btnRemoveCard[i];
-    button.addEventListener("click", function (event) {
-        var buttonClicked = event.target;
-        var artworkId = $(".single-product-item .content input[name=artId").val()
-        const index = listArtwork.indexOf(artworkId);
-        buttonClicked.parentElement.parentElement.remove();
-      var amount = document.getElementById("Amount");
-        var numberAmount = parseInt(amount.innerText);
-        if (index > -1)
-            listArtwork.splice(index, 1);
-
-        localStorage.setItem("amount", numberAmount -= 1)
-        amount.innerHTML = localStorage.getItem("amount");
-        var card = document.getElementById("productItem").innerHTML;
-        localStorage.setItem("cards", card);
-    })  
-    }
-
-}
 $("#btnCheck").click(function () {
     $.ajax({
         type: 'POST',
@@ -1477,15 +1418,7 @@ $("#btnCheck").click(function () {
         }
     })
 })
-function getRate() {
-    var star = document.getElementsByName("rate");
-    var prev = null;
-    for (var i = 0; i < star.length; i++) {
-        star[i].addEventListener('change', function () {
-            console.log(this.value)
-        });
-    }
-}
+
 /*divide end Page for Gallery*/
 
 function method(x) {
@@ -1510,6 +1443,280 @@ function payment() {
             this.classList.add('active');
             var x= this.getAttribute("data-id");
             method(x);
+            required();
         };
     }
 }
+
+function required() {
+    var a = document.getElementById("MenuMethod");
+    var b = a.querySelector(".active");
+    var id=b.getAttribute("data-id");
+    if (id == 1) {
+        $("#User").attr("required","");
+        $("#PassWord").attr("required","");
+        $("#Visa").removeAttr("required");
+        $("#SecurityCode").removeAttr("required");
+        $("#ExpirationDate").removeAttr("required");
+    }
+    else {
+        $("#Visa").attr("required", "");
+        $("#SecurityCode").attr("required", "");
+        $("#ExpirationDate").attr("required", "");
+        $("#User").removeAttr("required");
+        $("#PassWord").removeAttr("required");
+    }
+}
+
+function categoryGallery() {
+    var a = document.querySelectorAll("#myBtnContainer button.btn");
+    for (var i = 0, length = a.length; i < length; i++) {
+        a[i].onclick = function () {
+            var b = document.querySelector("#myBtnContainer button.btn.active");
+            if (b) b.classList.remove("active");
+            this.classList.add('active');
+        };
+    }
+}
+
+function cutString(x) {
+    var c = 100;
+    var a = "........";
+    while (x[c] != " ") {
+        c++;
+    }
+    var d = x.substring(0, c) + a;
+    return d;
+}
+
+/*Cart*/
+
+var ArtCart = [];
+var ArtItem = null;
+function AddToCart() {
+    var btn = $("#artworkFull .text-center a");
+    for (var i = 0; i < btn.length; i++) {
+        btn[i].addEventListener("click", function (event) {
+            var buttonClicked = event.target;
+            var auctionItem2 = buttonClicked.parentElement.parentElement.parentElement;
+            var auctioncontent = buttonClicked.parentElement.parentElement;
+            var srcImg = auctionItem2.getElementsByTagName("img")[0].src;
+            var name = auctioncontent.getElementsByTagName("a")[0].innerHTML;
+            var price = auctioncontent.getElementsByClassName("amount")[1].innerHTML;
+            var nameArtist = auctioncontent.getElementsByClassName("amount")[0].innerHTML;
+            var artworkId = auctioncontent.getElementsByClassName("amount")[1].getAttribute("data-id");
+            var amount = document.getElementById("Amount");
+            var numberAmount = parseInt(amount.innerText);
+            var alertx = this.parentElement.getElementsByClassName("alert");
+            var x = JSON.parse(localStorage.getItem("cart"));
+            if (x != null) {
+                ArtCart = x;
+            }
+            ArtItem = { srcImg, name, price, nameArtist, artworkId };
+            if (removeDublicate(ArtItem) != false) {
+                ArtCart.push(ArtItem);
+                localStorage.setItem("cart", JSON.stringify(ArtCart));
+                localStorage.setItem("amount", numberAmount += 1);
+                amount.innerHTML = localStorage.getItem("amount");
+                alertx[0].style.display = "none";
+            }
+            else {
+
+                alertx[0].innerHTML = "Sorry!We have only one Artist like this";
+                alertx[0].style.display = "block";
+            }
+            AddItemTominiCart();
+            removeCart();
+        })
+    }
+}
+
+function AddtoCartDetail() {
+    if (document.getElementById("BuyNow") != null) {
+        var button = document.getElementById("BuyNow").getElementsByClassName("custom-button");
+        button[0].addEventListener("click", function () {
+            var srcImg = document.getElementById("imagex").src;
+            var name = $("#title").text();
+            var price = $("#price").text();
+            var artworkId = $("#artWorkId").val();
+            var nameArtist = $("#nameArtist").text();
+            var amount = document.getElementById("Amount");
+            var numberAmount = parseInt(amount.innerText);
+            var x = JSON.parse(localStorage.getItem("cart"));
+            if (x != null) {
+                ArtCart = x;
+            }
+            ArtItem = { srcImg, name, price, nameArtist, artworkId };
+            if (removeDublicate(ArtItem) != false) {
+                ArtCart.push(ArtItem);
+                localStorage.setItem("cart", JSON.stringify(ArtCart));
+                localStorage.setItem("amount", numberAmount += 1);
+                amount.innerHTML = localStorage.getItem("amount");
+            }
+            else {
+                var alertx = $("#alertBoxBid");
+                alertx.html("Sorry! We have only one Artist like this. Please choose another art!");
+                alertx.css("display", "block");
+            }
+            AddItemTominiCart();
+            removeCart();
+        })
+    }
+}
+
+function removeDublicate(Item) {
+    if (localStorage.getItem("cart") != null) {
+        var x = JSON.parse(localStorage.getItem("cart"));
+        for (var i = 0; i < x.length; i++) {
+            if (JSON.stringify(x[i]) == JSON.stringify(Item)) {
+                return false;
+            }
+        }
+    }
+}
+
+function AddItemTominiCart() {
+    var minicart = document.getElementById("productItem");
+    var x = "";
+    if (localStorage.getItem("cart") != null) {
+        var cart = JSON.parse(localStorage.getItem("cart"));
+        for (var i = 0; i < cart.length; i++) {
+            var b = `<div class="single-product-item">
+                      <div class="thumb">
+                          <a href="#0"><img src="${cart[i]["srcImg"]}" alt="shop"></a>
+                      </div>
+                      <div class="content">
+                          <h4 class="title"><a href="#0">${cart[i]["name"]}</a></h4>
+                          <input type="hidden" name="artId" value=${cart[i]["artworkId"]}>
+                          <div class="price"><span class="pprice">$${cart[i]["price"]}</span>
+                          </div>
+                           <div>
+                          <a href="#" class="remove-cart">Remove</a>
+                            </div>
+                      </div>
+                    </div>`
+            x += b;
+        }
+    }
+    minicart.innerHTML = x;
+}
+
+function removeCart() {
+    var buttonRemove = document.getElementById("productItem").getElementsByClassName("remove-cart");
+    for (var x = 0; x < buttonRemove.length; x++) {
+        buttonRemove[x].addEventListener("click", function (event) {
+            var parent = this.parentElement.parentElement;
+            var id = parent.getElementsByTagName("input")[0].value;
+            removeItemStorage(id);
+            var amount = document.getElementById("Amount");
+            var numberAmount = parseInt(amount.innerText);
+            localStorage.setItem("amount", numberAmount -= 1);
+            amount.innerHTML = localStorage.getItem("amount");
+            var item = parent.parentElement;
+            item.remove();
+        })
+    }
+}
+
+
+function arrayRemove(arr, value) {
+
+    return arr.filter(function (ele) {
+        return ele != value;
+    });
+}
+
+function removeItemStorage(id) {
+    if (localStorage.getItem("cart") != null) {
+        var cart = JSON.parse(localStorage.getItem("cart"));
+        for (var i = 0; i < cart.length; i++) {
+            if (cart[i]["artworkId"] == id) {
+                var x = arrayRemove(cart, cart[i]);
+                localStorage.setItem("cart", JSON.stringify(x));
+            }
+        }
+    }
+}
+
+function RemoveBigCard() {
+    if ($(".text-right a") != null) {
+        var buttonRemove = $(".text-right a");
+        for (var i = 0; i < buttonRemove.length; i++) {
+            buttonRemove[i].addEventListener("click", function () {
+                var x = this.parentElement.parentElement;
+                var id = x.getElementsByClassName("artId")[0].value;
+                x.remove();
+                removeItemStorage(id);
+                removeCart();
+                AddItemTominiCart();
+                var amount = document.getElementById("Amount");
+                var numberAmount = parseInt(amount.innerText);
+                localStorage.setItem("amount", numberAmount -= 1);
+                amount.innerHTML = localStorage.getItem("amount");
+                total();
+            })
+        }
+    }
+}
+
+function AddItemToBigCart() {
+    if (document.getElementById("bigCart") != null) {
+        var bigCat = document.getElementById("bigCart");
+        var x = " ";
+        var total = 0;
+        if (localStorage.getItem("cart") != null) {
+            var cart = JSON.parse(localStorage.getItem("cart"));
+            for (var i = 0; i < cart.length; i++) {
+                var b = `<tr>
+                             <td>
+                                  <figure class="media">
+                                    <div class="img-wrap"><img src="${cart[i]["srcImg"]}" class="img-thumbnail img-sm"></div>
+                                        <figcaption class="media-body">
+                                            <h6 class="title text-truncate">${cart[i]["name"]}</h6>
+                                            <dl class="param param-inline small">
+                                                <dt>Author: </dt>
+                                                <dd>${cart[i]["nameArtist"]}</dd>
+                                            </dl>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <td>
+                                    <span class="form-control">
+                                        1
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price">$${cart[i]["price"]}</var>
+                                         <input type="hidden" name="artId" class="artId" value=${cart[i]["artworkId"]}>
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <a href="#0" class="btn btn-outline-danger">Remove <i class="fa fa-times" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>`
+
+                x += b;
+                total += parseInt(cart[i]["price"]);
+            }
+        }
+        bigCat.innerHTML = x;
+        document.getElementById("TotalPrice").innerHTML = "Total:" + " $" + total;
+    }
+}
+
+
+
+function total() {
+    if (localStorage.getItem("cart") != null) {
+        var total = 0;
+        var cart = JSON.parse(localStorage.getItem("cart"));
+        for (var i = 0; i < cart.length; i++) {
+            var price = cart[i]["price"];
+            total += parseInt(price);
+        }
+        document.getElementById("TotalPrice").innerHTML = "Total:" + " $" + total;
+    }
+}
+
+/*EndCart */

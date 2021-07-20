@@ -13,11 +13,26 @@
         AuctionRecords = ViewBag.AuctionRecords;
     }
 
-    //User User = null;
-    //if (ViewBag.User != null)
-    //{
-    //    User = ViewBag.User;
-    //}
+    List<MyGallery> Comments = null;
+    if (ViewBag.Comments != null)
+    {
+        Comments = ViewBag.Comments;
+    }
+
+    MyGallery MyComment = null;
+    if (ViewBag.MyComment != null)
+    {
+        MyComment = ViewBag.MyComment;
+    }
+    bool currentFavorite = MyComment == null ? false : MyComment.Favorite;
+    string FavoriteString = currentFavorite ? "My Favorite" : "Add to favorites";
+
+    User User = null;
+    if (ViewBag.User != null)
+    {
+        User = ViewBag.User;
+    }
+
 
     long CurrentBid = 0;
     if (Auction.AuctionRecords != null)
@@ -33,6 +48,17 @@
     {
         CurrentBid = Auction.ReservePrice;
     }
+
+    int BidCount = 0;
+    int BidderCount = 0;
+
+    if (Auction.AuctionRecords != null)
+    {
+        BidCount = Auction.AuctionRecords.Count();
+        BidderCount = Auction.AuctionRecords.GroupBy(x => x.CustomerId).Count();
+    }
+    DateTime now = DateTime.Now;
+
 }
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section style-2">
@@ -42,10 +68,10 @@
                 <a href="index.html">Home</a>
             </li>
             <li>
-                <a href="#0">Pages</a>
+                <a href="#0">Auction</a>
             </li>
             <li>
-                <span>Vehicles</span>
+                <span>Auction Detail</span>
             </li>
         </ul>
     </div>
@@ -134,6 +160,7 @@
                 <div class="product-details-content">
                     <div class="product-details-header">
                         <h2 class="title" id="title">@Auction.Artwork.Name</h2>
+                        <input type="hidden" name="artworkId" id="artWorkId" value="@Auction.Artwork.Id" />
                     </div>
 
                     <div id="rating">
@@ -148,10 +175,18 @@
                         <input type="radio" name="rate" value="1" id="rate-1" />
                         <label for="rate-1" class="fas fa-star"></label>
                     </div>
-                    <form class="product-bid-form" style="margin-bottom:15px">
-                        <input type="text" placeholder="Enter you comment">
-                        <button type="submit" class="custom-button" id="btnComent">Submit comment</button>
-                    </form>
+                    <input type="hidden" id="myRate" value="@(MyComment == null?0:MyComment.Rate)">
+                    <div style="margin-bottom:15px" class="row">
+                        <div class="col-md-8">
+                            <input id="txtCmt" type="text" value="@(MyComment == null?"":MyComment.Remark)" placeholder="Enter you comment">
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btnComent" data-url="@Url.Action("RateAndComment")" class="custom-button">Submit comment</button>
+                        </div>
+                    </div>
+                    <div class="alert alert-info d-none" role="alert" id="alertBox">
+                        This is a info alert—check it out!
+                    </div>
                     <ul class="price-table mb-30">
                         <li class="header">
                             <h5 class="current">Current Bid</h5>
@@ -167,20 +202,35 @@
                         </li>
                     </ul>
                     <div class="product-bid-area">
-                        <form class="product-bid-form" method="post" action="@Url.Action("AddBid","index")">
+                        <form class="product-bid-form" method="post" action="@Url.Action("AddBid","index")" id="BidForm">
                             <div class="search-icon">
                                 <img src="~/assetsIndex/images/product/search-icon.png" alt="product">
                             </div>
-                            <input type="text" placeholder="Enter you bid amount" name="bid">
-                            <input type="hidden" name="auctionId" value="@Auction.Id">
+                            <input type="text" placeholder="Enter you bid amount" name="bid" id="bidPrice">
+                            <input type="hidden" name="auctionId" id="auctionId" value="@Auction.Id">
+                            @if (User != null)
+                            {
+                                <input type="hidden" id="usertypeId" value="@User.UsertypeId">
+                                <input type="hidden" id="userId" name="userId" value="@User.Id">
+                            }
+                            <input type="hidden" id="currentBid" value="@CurrentBid">
+                            <input type="hidden" id="stepPrice" value="@Auction.StepPrice">
+                            <input type="hidden" id="now" value="@now.ToOADate()">
+                            <input type="hidden" id="endDay" value="@Auction.EndDay.ToOADate()">
+                            <input type="hidden" id="beginDay" value="@Auction.BeginDay.ToOADate()">
                             <button type="submit" class="custom-button">Submit a bid</button>
                         </form>
+                        <br />
+                        <div class="alert alert-info d-none" role="alert" id="alertBoxBid">
+                            This is a info alert—check it out!
+                        </div>
                     </div>
 
                     <div class="buy-now-area" id="BuyNow">
-                        <a href="#0" class="rating custom-button active border">
-                            <i class="fas fa-star"></i> Add to
-                            Wishlist
+                        <input type="hidden" name="currentFavorite" id="currentFavorite" value="@(currentFavorite==true?'1':'0')">
+                        <a data-url="@Url.Action("EditFavorite")" class="rating custom-button active border" id="FavoriteBtn">
+                            <i class="fas fa-star"></i> 
+                            @FavoriteString
                         </a>
                         <div class="share-area">
                             <span>Share to:</span>
@@ -199,6 +249,9 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="alert alert-info d-none" role="alert" id="alertBoxRate">
+                            This is a info alert—check it out!
+                        </div>
                     </div>
                 </div>
             </div>
@@ -215,11 +268,11 @@
                                     <img src="~/assetsIndex/images/product/icon1.png" alt="product">
                                 </div>
                                 <div class="content">
-                                    <h3 class="count-title"><span class="counter">61</span></h3>
+                                    <h3 class="count-title"><span class="counter">@BidderCount</span></h3>
                                     <p>Active Bidders</p>
                                 </div>
                             </div>
-                            <div class="side-counter-item">
+                            @*<div class="side-counter-item">
                                 <div class="thumb">
                                     <img src="~/assetsIndex/images/product/icon2.png" alt="product">
                                 </div>
@@ -227,13 +280,13 @@
                                     <h3 class="count-title"><span class="counter">203</span></h3>
                                     <p>Watching</p>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="side-counter-item">
                                 <div class="thumb">
                                     <img src="~/assetsIndex/images/product/icon3.png" alt="product">
                                 </div>
                                 <div class="content">
-                                    <h3 class="count-title"><span class="counter">82</span></h3>
+                                    <h3 class="count-title"><span class="counter">@BidCount</span></h3>
                                     <p>Total Bids</p>
                                 </div>
                             </div>
@@ -268,7 +321,7 @@
                         <div class="thumb">
                             <img src="~/assetsIndex/images/product/tab3.png" alt="product">
                         </div>
-                        <div class="content">Bid History (36)</div>
+                        <div class="content">Bid History (@AuctionRecords.Count())</div>
                     </a>
                 </li>
                 <li>
@@ -334,39 +387,24 @@
                         <div class="table-wrapper">
                             <table class="shipping-table" style="margin-left:15px">
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in Comments)
+                                    {
+                                        if (item.Remark == null || item.Rate == 0)
+                                        {
+                                            continue;
+                                        }
+                                        <tr>
+                                            <td>
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                <span><b>@item.Customer.Name</b></span>
+                                                <br />
+                                                <span id="comment" style="margin-left:20px">@item.Remark</span>
+                                            </td>
+                                            <td>
+                                                @item.Rate<i class="fa fa-star" aria-hidden="true"></i>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -514,9 +552,53 @@
     </div>
 </section>
 <!--============= Product Details Section Ends Here =============-->
-<script>
-    $('#select-user-type').on('change', function () {
-        $('#user-type').val($('#select-user-type').val());
-    });
-    $('#select-user-type').val($('#user-type').val());
-</script>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //$("#bidPrice").on("change", function () {
+            //    $("#alertBox").html($(this).val());
+            //    $("#alertBox").removeClass("d-none");
+            //});
+
+            $("#BidForm").submit(function (e) {
+                var userTypeId = $("#usertypeId").val();
+                var now = $("#now").val();
+                var beginDay = $("#beginDay").val();
+                var endDay = $("#endDay").val();
+                if (userTypeId == null || userTypeId != 3) {
+                    $("#alertBoxBid").html("You need to login/register as Customer to bid this Artwork");
+                    $("#alertBoxBid").removeClass("d-none");
+                    e.preventDefault(e);
+                } else if (beginDay > now) {
+                    $("#alertBoxBid").html("This bid will be comming soon, not now");
+                    $("#alertBoxBid").removeClass("d-none");
+                    e.preventDefault(e);
+                } else if (endDay <= now) {
+                    $("#alertBoxBid").html("This bid is overtime, please check other bids");
+                    $("#alertBoxBid").removeClass("d-none");
+                    e.preventDefault(e);
+                } else {
+                    var bidPrice = $("#bidPrice").val();
+                    var currentBid = $("#currentBid").val();
+                    var stepPrice = $("#stepPrice").val();
+                    var bidDif = bidPrice - currentBid;
+                    if (bidDif <= 0 || (bidDif % stepPrice != 0)) {
+                        $("#alertBoxBid").html("This bid need to larger current bid and follow to step price");
+                        $("#alertBoxBid").removeClass("d-none");
+                        e.preventDefault(e);
+                    }
+                }
+            });
+            //$("#btnComent").click(function (e) {
+            //    var userTypeId = $("#usertypeId").val();
+            //    if (userTypeId == null || userTypeId != 3) {
+            //        $("#alertBox").html("You need to login/register as Customer to bid this Artwork");
+            //        $("#alertBox").removeClass("d-none");
+            //        e.preventDefault(e);
+            //    }
+            //});
+        })
+    </script>
+}

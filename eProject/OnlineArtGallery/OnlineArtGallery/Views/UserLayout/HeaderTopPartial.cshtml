@@ -1,13 +1,35 @@
 ﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
 
 @inject IHttpContextAccessor HttpContextAccessor
+@{
+//if (Context.Session.GetString("USER") != null)
+//{
+//    ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
+//}
 
+
+//User user = null;
+//if (ViewBag.User != null)
+//{
+//    user = ViewBag.User;
+
+//}
+//int userTypeId = user == null ? 0 : user.UsertypeId;
+}
 
 <header>
     <div class="header-top">
         <div class="container">
             <div class="header-top-wrapper">
                 <ul class="customer-support">
+                    @*@if (userTypeId == 1)
+                    {
+                        <li>
+                            <a href="admin/index" class="mr-3"><i class="fas fa-user-circle"></i><span class="ml-2 d-none d-sm-inline-block">Admin</span></a>
+                        </li>
+                    }*@
+
                     <li>
                         <a href="#" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">Customer Support</span></a>
                     </li>
@@ -27,11 +49,15 @@
                     <li>
                         <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount" id="Amount">5</span></a>
                     </li>
-                    <li>
-                        <a href="sign-in.html" class="user-button"><i class="flaticon-user"></i></a>
-                    </li>
+
                     @if (HttpContextAccessor.HttpContext.Session.GetString("USER") != null)
                     {
+                        <li>
+                            <div id="noti_Container"></div>
+                        </li>
+                        <li>
+                            <a href="sign-in.html" class="user-button"><i class="flaticon-user"></i></a>
+                        </li>
                         <li>
                             <a href="~/index/signout" style="color: white">Sign out</a>
                         </li>
@@ -67,16 +93,22 @@
                         <a href="/Index/Gallery">Gallery</a>
                     </li>
                     <li>
+                        <a href="/Index/artwork">For Sale</a>
+                    </li>
+                    <li>
                         <a href="/Index/auction">Auction</a>
                     </li>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("USER") != null)
+                    {
+                        <li>
+                            <a href="/index/userprofile">My Account</a>
+                        </li>
+                    }
                     <li>
-                        <a href="DashBoard">My Account</a>
+                        <a href="/Index/AboutUs">About Us</a>
                     </li>
                     <li>
-                        <a href="AboutUs">AboutUs</a>
-                    </li>
-                    <li>
-                        <a href="ContactUs">Contact</a>
+                        <a href="/Index/ContactUs">Contact Us</a>
                     </li>
                 </ul>
                 <form class="search-form">

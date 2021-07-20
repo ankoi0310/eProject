@@ -1,11 +1,30 @@
 ﻿@{
     Layout = "~/Views/UserLayout/MainLayout.cshtml";
 
+    User User = null;
+    if (ViewBag.User != null)
+    {
+        User = ViewBag.User;
+    }
+    List<MyGallery> Comments = null;
+    if (ViewBag.Comments != null)
+    {
+        Comments = ViewBag.Comments;
+    }
     Artwork Artwork = null;
     if (ViewBag.Artwork != null)
     {
         Artwork = ViewBag.Artwork;
     }
+
+    MyGallery MyComment = null;
+    if (ViewBag.MyComment != null)
+    {
+        MyComment = ViewBag.MyComment;
+    }
+
+    bool currentFavorite = MyComment == null ? false : MyComment.Favorite;
+    string FavoriteString = currentFavorite ? "My Favorite" : "Add to favorites";
 }
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section style-2">
@@ -32,7 +51,7 @@
             <div class="product-details-slider owl-theme owl-carousel" id="sync1">
                 <div class="slide-top-item">
                     <div class="slide-inner">
-                        <img src="~/assets/img/artwork/@Artwork.Image" alt="product">
+                        <img id="imagex" src="~/assets/img/artwork/@Artwork.Image" alt="product">
                     </div>
                 </div>
             </div>
@@ -42,7 +61,7 @@
                 <div class="product-details-content">
                     <div class="product-details-header">
                         <h2 class="title" id="title">@Artwork.Name</h2>
-                        <input type="hidden" name="artworkId" value="@Artwork.Id" />
+                        <input type="hidden" name="artworkId" id="artWorkId" value="@Artwork.Id" />
                     </div>
                     <div id="rating">
                         <input type="radio" name="rate" value="5" id="rate-5" />
@@ -56,14 +75,29 @@
                         <input type="radio" name="rate" value="1" id="rate-1" />
                         <label for="rate-1" class="fas fa-star"></label>
                     </div>
-                    <form class="product-bid-form" style="margin-bottom:15px">
-                        <input type="text" placeholder="Enter you comment">
-                        <button type="submit" class="custom-button" id="btnComent">Submit comment</button>
-                    </form>
+                    <div>
+                        @if (User != null)
+                        {
+                            <input type="hidden" id="usertypeId" value="@User.UsertypeId">
+                            <input type="hidden" id="userId" value="@User.Id">
+                        }
+                    </div>
+                    <input type="hidden" id="myRate" value="@(MyComment == null?0:MyComment.Rate)">
+                    <div style="margin-bottom:15px" class="row">
+                        <div class="col-md-8">
+                            <input id="txtCmt" type="text" value="@(MyComment == null?"":MyComment.Remark)" placeholder="Enter you comment">
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btnComent" data-url="@Url.Action("RateAndComment")" class="custom-button">Submit comment</button>
+                        </div>
+                    </div>
+                    <div class="alert alert-info d-none" role="alert" id="alertBox">
+                        This is a info alert—check it out!
+                    </div>
                     <ul class="price-table mb-30">
                         <li class="header">
-                            <h5 >Artist</h5>
-                            <h3 >@Artwork.Artist.Name</h3>
+                            <h5>Artist</h5>
+                            <h3 id="nameArtist">@Artwork.Artist.Name</h3>
                         </li>
                         <li class="header">
                             <h5 class="current">Price</h5>
@@ -74,11 +108,15 @@
                             <h5 class="info">@Artwork.Quote</h5>
                         </li>
                     </ul>
+                    <div class="alert alert-info" style="display:none" role="alert" id="alertBoxBid">
+                        This is a info alert—check it out!
+                    </div>
                     <div class="buy-now-area" id="BuyNow">
                         <a href="#0" class="custom-button">Add to Cart</a>
-                        <a href="#0" class="rating custom-button active border">
-                            <i class="fas fa-star"></i> Add to
-                            Wishlist
+                        <input type="hidden" name="currentFavorite" id="currentFavorite" value="@(currentFavorite==true?'1':'0')">
+                        <a data-url="@Url.Action("EditFavorite")" class="rating custom-button active border" id="FavoriteBtn">
+                            <i class="fas fa-star"></i>
+                            @FavoriteString
                         </a>
                         <div class="share-area">
                             <span>Share to:</span>
@@ -96,6 +134,9 @@
                                     <a href="#0"><i class="fab fa-instagram"></i></a>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="alert alert-info d-none" role="alert" id="alertBoxRate">
+                            This is a info alert—check it out!
                         </div>
                     </div>
                 </div>
@@ -176,39 +217,24 @@
                         <div class="table-wrapper">
                             <table class="shipping-table" style="margin-left:15px">
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                            <span><b>UserName</b></span>
-                                            <br />
-                                            <span id="comment" style="margin-left:20px">Sản Phẩm như quần què</span>
-                                        </td>
-                                        <td>
-                                            4<i class="fa fa-star" aria-hidden="true"></i>
-                                        </td>
-                                    </tr>
+                                    @foreach (var item in Comments)
+                                    {
+                                        if (item.Remark == null || item.Rate == 0)
+                                        {
+                                            continue;
+                                        }
+                                        <tr>
+                                            <td>
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                <span><b>@item.Customer.Name</b></span>
+                                                <br />
+                                                <span id="comment" style="margin-left:20px">@item.Remark</span>
+                                            </td>
+                                            <td>
+                                                @item.Rate<i class="fa fa-star" aria-hidden="true"></i>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

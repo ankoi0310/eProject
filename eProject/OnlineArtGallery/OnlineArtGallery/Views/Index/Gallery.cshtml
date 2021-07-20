@@ -38,10 +38,10 @@
     </div>
 </section>
 <div id="myBtnContainer">
-    <button class="btn active">Show All</button>
+    <button class="btn active" data-id="50">Show All</button>
     @foreach (var item in ListArtCategory)
     {
-        <button class="btn" >@item.Name</button>
+        <button class="btn" data-id="@item.Id">@item.Name</button>
     }
 
 </div>
@@ -51,15 +51,22 @@
         {
             <div class="columnArt">
                 <div class="content">
-                    <a data-lightbox="mygallery"><img src="~/assets/img/artwork/@item.Image" alt=""></a>
+                    <a data-lightbox="mygallery" href="~/assets/img/artwork/@item.Image"><img src="~/assets/img/artwork/@item.Image" alt=""></a>
                     <h4>@item.Name</h4>
                     <b>@item.Artist.Name</b>
                     <h5>$@item.DefautPrice</h5>
                     <p>@item.Description</p>
                     <a href='/Index/artworkdetail?id=@item.Id'>Readmore</a>
+                    @*<input type="hidden" name="currentFavorite" id="currentFavorite" value="@(currentFavorite==true?'1':'0')">
                     <div class="text-center">
-                        <a href="#0" class="custom-button">Add to Favorites</a>
+                        <a data-url="@Url.Action("EditFavorite")" class="custom-button" id="FavoriteBtn">
+                            <i class="fas fa-star"></i>
+                            @FavoriteString
+                        </a>
                     </div>
+                    <div class="alert alert-info d-none" role="alert" id="alertBoxRate">
+                        This is a info alert—check it out!
+                    </div>*@
                 </div>
             </div>
         }
