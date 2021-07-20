@@ -11,6 +11,11 @@
     {
         ListAuctionRecord = ViewBag.ListAuctionRecord;
     }
+    Customer cus = null;
+    if (ViewBag.Customer != null)
+    {
+        cus = ViewBag.Customer;
+    }
     DateTime now = DateTime.Now;
 }
 <!--============= Hero Section Starts Here =============-->
@@ -98,7 +103,7 @@
                                                 <i class="flaticon-auction"></i>
                                             </div>
                                             <div class="amount-content">
-                                                <div class="current">Current Bid</div>
+                                                <div class="current">Winning Bid</div>
                                                 <div class="amount">$@CurrentBid</div>
                                             </div>
                                         </div>
@@ -116,7 +121,7 @@
                                         <span class="total-bids">@BidCount Bids</span>
                                     </div>
                                     <div class="text-center">
-                                        <a href="" class="custom-button">Check out</a>
+                                        <a href="/Index/paymentWinningBid?artworkId=@item.ArtworkId&customerId=@cus.Id&winningBid=@CurrentBid" class="custom-button">Check out</a>
                                     </div>
                                 </div>
                             </div>
