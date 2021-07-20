@@ -1,5 +1,11 @@
 ﻿@model IEnumerable<OnlineArtGallery.Models.Artwork>
-
+@{ 
+    User User = null;
+    if (ViewBag.User != null)
+    {
+        User = ViewBag.User;
+    }
+}
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -34,9 +40,12 @@
                             <th>
                                 Active
                             </th>
-                            <th>
-                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", null, Context.Request.Scheme)', 'New Artwork')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
-                            </th>
+                            @if (User != null && User.UsertypeId == 2)
+                            {
+                                <th>
+                                    <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", null, Context.Request.Scheme)', 'New Artwork')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
+                                </th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -71,20 +80,25 @@
                                 @item.ArtCategory.Name
                             </td>
                             <td class="text-center">@ViewBag.Active</td>
-                            <td>
-                                <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", new { item.Id }, Context.Request.Scheme)', 'Update Artwork')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
-                                <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                    <input type="submit" value="Delete" class="btn btn-danger" />
-                                </form>
-                                @if (Tools.CheckAuctionExist(item.Id))
-                                {
-                                    <a href="/auction/list" class="btn btn-dark"><i class="fas fa-angle-double-right"></i></a>
-                                }
-                                else
-                                {
-                                    <a onclick="showInPopup('@Url.Action("AddorEdit", "Auction", new { artworkId = item.Id , artistId = item.ArtistId}, Context.Request.Scheme)', 'Add Auction')" class="btn btn-warning"><i class="fas fa-chevron-circle-right"></i></a>
-                                }
-                            </td>
+
+                            @if (User != null && User.UsertypeId == 2)
+                            {
+                                <td>
+                                    <a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", new { item.Id }, Context.Request.Scheme)', 'Update Artwork')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                                    <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                                        <input type="submit" value="Delete" class="btn btn-danger" />
+                                    </form>
+                                    @if (Tools.CheckAuctionExist(item.Id))
+                                    {
+                                        <a href="/auction/list" class="btn btn-dark"><i class="fas fa-angle-double-right"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="showInPopup('@Url.Action("AddorEdit", "Auction", new { artworkId = item.Id , artistId = item.ArtistId}, Context.Request.Scheme)', 'Add Auction')" class="btn btn-warning"><i class="fas fa-chevron-circle-right"></i></a>
+                                    }
+                                </td>
+                            }
+
                         </tr>
                         }
                     </tbody>

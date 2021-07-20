@@ -3,19 +3,10 @@
 
 @inject IHttpContextAccessor HttpContextAccessor
 @{
-//if (Context.Session.GetString("USER") != null)
-//{
-//    ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
-//}
 
-
-//User user = null;
-//if (ViewBag.User != null)
-//{
-//    user = ViewBag.User;
-
-//}
-//int userTypeId = user == null ? 0 : user.UsertypeId;
+    var session = HttpContextAccessor.HttpContext.Session.GetString("USER");
+    Artist artist = session == null ? null:Tools.GetArtistfromSession(session);
+    User user = session == null ? null : Tools.GetUserfromSession(session);
 }
 
 <header>
@@ -23,12 +14,12 @@
         <div class="container">
             <div class="header-top-wrapper">
                 <ul class="customer-support">
-                    @*@if (userTypeId == 1)
+                    @if (user!= null && user.UsertypeId == 1)
                     {
                         <li>
-                            <a href="admin/index" class="mr-3"><i class="fas fa-user-circle"></i><span class="ml-2 d-none d-sm-inline-block">Admin</span></a>
+                            <a href="/admin/index" class="mr-3"><i class="fas fa-user-circle"></i><span class="ml-2 d-none d-sm-inline-block">Admin Management</span></a>
                         </li>
-                    }*@
+                    }
 
                     <li>
                         <a href="#" class="mr-3"><i class="fas fa-phone-alt"></i><span class="ml-2 d-none d-sm-inline-block">Customer Support</span></a>
@@ -50,7 +41,7 @@
                         <a href="#0" class="cart-button"><i class="flaticon-shopping-basket"></i><span class="amount" id="Amount">5</span></a>
                     </li>
 
-                    @if (HttpContextAccessor.HttpContext.Session.GetString("USER") != null)
+                    @if (session != null)
                     {
                         <li>
                             <div id="noti_Container"></div>
@@ -98,11 +89,18 @@
                     <li>
                         <a href="/Index/auction">Auction</a>
                     </li>
-                    @if (HttpContextAccessor.HttpContext.Session.GetString("USER") != null)
+                    @if (user != null && user.UsertypeId != 1)
                     {
+
                         <li>
                             <a href="/index/userprofile">My Account</a>
                         </li>
+                        @*if (user.UsertypeId == 2)
+                        {
+                            <li>
+                                <a href="/admin/index">My Artwork</a>
+                            </li>
+                        }*@
                     }
                     <li>
                         <a href="/Index/AboutUs">About Us</a>

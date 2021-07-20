@@ -18,6 +18,8 @@ namespace OnlineArtGallery.Models
         public int CustomerId { get; set; }
         [ForeignKey("CustomerId")]
         public Customer Customer { get; set; }
+        [Column("Date", TypeName = "date")]
+        public DateTime Date { get; set; }
         [Column("TotalPrice", TypeName = "bigint")]
         public Int64 TotalPrice { get; set; }
         [Column("TotalFee", TypeName = "bigint")]

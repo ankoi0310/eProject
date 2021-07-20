@@ -4,6 +4,19 @@
     {
         User = ViewBag.User;
     }
+    Customer Customer = null;
+    if (ViewBag.Customer != null)
+    {
+        Customer = ViewBag.Customer;
+    }
+
+    TransactionDetail TransDetail = null;
+    if (ViewBag.TransDetail != null)
+    {
+        TransDetail = ViewBag.TransDetail;
+    }
+
+
 }
 <!--============= Hero Section Starts Here =============-->
 <div class="hero-section">
@@ -31,8 +44,8 @@
                     This is a info alert—check it out!
                 </div>
                 @*<div>
-                    <button class="custom-button" id="close">×</button>
-                </div>*@
+                        <button class="custom-button" id="close">×</button>
+                    </div>*@
             </div>
             <div class="row">
                 <div class="col-md-7">
@@ -46,6 +59,10 @@
                                 {
                                     <input type="hidden" id="usertypeId" value="@User.UsertypeId">
                                     <input type="hidden" id="userId" name="userId" value="@User.Id">
+                                    <input type="hidden" id="customerId" name="customerId" value="@Customer.Id">
+                                    <input type="hidden" id="artworkId" name="artworkId" value="@TransDetail.ArtworkId">
+                                    <input type="hidden" id="totalPrice" name="totalPrice" value="@TransDetail.Price">
+                                    <input type="hidden" id="totalFee" name="totalFee" value="@TransDetail.Fee">
                                 }
                             </div>
                             <div class="col">
@@ -176,36 +193,9 @@
 </section>
 @section Scripts{
     <script>
-        $(".cart-button").css("display", "none");
-        $(document).ready(function () {
-            if (localStorage.getItem("cart") != null) {
-                var x = JSON.parse(localStorage.getItem("cart"));
-                var total = 0;
-                var y = "";
-                for (var i = 0; i < x.length; i++) {
-                    y += `<div class="row">
-                            <div class="col" style="text-align:left">
-                               ${x[i]["name"]}
-                             </div>
-                             <div class="col" style="text-align:left">
-                               ${x[i]["nameArtist"]}
-                             </div>
-                            <div class="col" style="text-align:left">
-                                    $${x[i]["price"]}
-                            </div>
-                        </div>`
-                    total += parseInt(x[i]["price"]);
-                }
-                $("#myOrder").html(y);
-                $("#totalPrice").html("$" + total);
-                $("#Fee").html("$" + Math.round(total * 10/100, 2))
-                $("#totalPurchase").html("$" + Math.round(total*110/100,2))
-            }
-        })
-
         function checkEmpty() {
             if ($("#FirstName").val() == "" || $("#LastName").val() == "" || $("#Email").val() == "" || $("#Contry").val() == "" || $("#PostalCode").val() == "" || $("#PhoneNumber").val() == "" ) {
-                
+
                 return(false);
             }
             if ($("#MenuMethod .active").data("id") == 0) {
@@ -222,57 +212,22 @@
 
         $(document).ready(function () {
             $("#btnPayment").click(function (e) {
-
-                var userTypeId = $("#usertypeId").val();
-                if (userTypeId == null || userTypeId != 3) {
-                    $("#alertBoxBid").html("You need to login/register as Customer to buy this Artwork ")
-                    $("#alertBoxBid").append(`<button id="close">×</button>`);    
-                    $("#alertBoxBid").removeClass("d-none");
-                    return;
-                }
-                else {
-                    if (JSON.parse(localStorage.getItem("cart")) == null) {
-                        $("#alertBoxBid").html("Cart is empty! Buy somethings and comeback! ");
-                        $("#alertBoxBid").append(`<button class="custom-button" id="close">×</button>`);    
-                        $("#alertBoxBid").removeClass("d-none");
-                        return;
+                var artworkId = $("#artworkId").val();
+                var customerId = $("#customerId").val();
+                var totalPrice = $("#totalPrice").val();
+                var totalFee = $("#totalFee").val();
+                var PaymentId = $("#MenuMethod .active").data("id") + 1;
+                var StatusId = 4;
+                $.ajax({
+                    type: "get",
+                    url: '@Url.Action("PaymentSuccessBid", "Index")',
+                    data: 'artworkId=' + artworkId + '&customerId=' + customerId + '&totalPrice=' + totalPrice
+                        + '&totalFee=' + totalFee + '&paymentId=' + PaymentId + '&statusId=' + StatusId,
+                    dataType: 'json',
+                    success: function (smg) {
+                        window.location.href = "http://localhost:13979/Index/Success";
                     }
-                    if (checkEmpty() == false) {
-                        $("#alertBoxBid").html("you need to fill all the field to preOrder ");
-                        $("#alertBoxBid").append(`<button class="custom-button" id="close">×</button>`);    
-                        $("#alertBoxBid").removeClass("d-none");
-                        return;
-                    } 
-                    else {
-                        var cart = localStorage.getItem("cart");
-                        var Cartlist = JSON.parse(cart);
-                        var IdUser =parseInt($("#userId").val());
-                        var x = 0;
-                        for (var i = 0; i < Cartlist.length; i++) {
-                            x += parseInt(Cartlist[i]["price"]);
-                        }
-                        var TotalPrice = x;
-                        var TotalFee = Math.round(x * 10 / 100, 2);
-                        if ($("#MenuMethod .active").data("id") == 0) {
-                            var PaymentId = 1;
-                        }
-                        else {
-                           var PaymentId = 2;
-                        }
-                        var StatusId = 4;
-                        $.ajax({
-                            type: "POST",
-                            url: '@Url.Action("PaymentSuccess", "Index")',
-                            data: { cart: cart, IdUser: IdUser, TotalPrice: TotalPrice, TotalFee: TotalFee, PaymentId: PaymentId,StatusId:StatusId },
-                            dataType: 'json',
-                            success: function (smg) {
-                                localStorage.removeItem("cart");
-                                localStorage.removeItem("amount");
-                                window.location.href = "http://localhost:13979/Index/Success";
-                            }
-                        })
-                    }
-                }
+                })
             })
         })
         $(document).ready(function () {
@@ -281,5 +236,8 @@
 
             })
         })
+
+
+
     </script>
-    }
+}
