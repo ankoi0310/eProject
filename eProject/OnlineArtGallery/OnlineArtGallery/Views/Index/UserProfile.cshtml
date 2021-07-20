@@ -33,95 +33,57 @@
         <div class="row justify-content-center">
             @Html.Partial("~/Views/UserLayout/MenuUserPartial.cshtml")
             <div class="col-lg-8">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="dash-pro-item mb-30 dashboard-widget">
-                            <div class="header">
-                                <h4 class="title">Personal Details</h4>
-                                <span class="edit"><i class="flaticon-edit"></i> Edit</span>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="dash-pro-item mb-30 dashboard-widget">
+                                <div class="header">
+                                    <h4 class="title">Personal Details</h4>
+                                    <a onclick="showInPopup('@Url.Action("AddOrEdit", "Index", new { ViewBag.USER.Id }, Context.Request.Scheme)', 'Update Profile')"><span class="edit"><i class="flaticon-edit"></i> Edit</span></a>
+                                </div>
+                                <ul class="dash-pro-body">
+                                    <li>
+                                        <div class="info-name">Name</div>
+                                        <div class="info-value">@ViewBag.USER.Name</div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">Gender</div>
+                                        <div class="info-value">
+                                            @if (ViewBag.USER.Gender == true)
+                                                {
+                                                    ViewBag.Gender = "Male";
+                                                }
+                                                else
+                                                {
+                                                    ViewBag.Gender = "Female";
+                                                }
+                                            @ViewBag.Gender
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">Date of Birth</div>
+                                        <div class="info-value">@ViewBag.USER.Birthday.ToString("dd-MM-yyyy")</div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">Address</div>
+                                        <div class="info-value">@ViewBag.USER.Address</div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">Email</div>
+                                        <div class="info-value">@ViewBag.USER.Email</div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">Mobile</div>
+                                        <div class="info-value">@ViewBag.USER.Phone</div>
+                                    </li>
+                                    <li>
+                                        <div class="info-name">Password</div>
+                                        <div class="info-value">xxxxxxxxxxxxxxxx</div>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="dash-pro-body">
-                                <li>
-                                    <div class="info-name">Name</div>
-                                    <div class="info-value">@ViewBag.USER.Name</div>
-                                </li>
-                                <li>
-                                    <div class="info-name">Date of Birth</div>
-                                    <div class="info-value">@ViewBag.USER.Birthday.ToString("dd-MM-yyyy")</div>
-                                </li>
-                                <li>
-                                    <div class="info-name">Address</div>
-                                    <div class="info-value">@ViewBag.USER.Address</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="dash-pro-item mb-30 dashboard-widget">
-                            <div class="header">
-                                <h4 class="title">Account Settings</h4>
-                                <span class="edit"><i class="flaticon-edit"></i> Edit</span>
-                            </div>
-                            <ul class="dash-pro-body">
-                                <li>
-                                    <div class="info-name">Language</div>
-                                    <div class="info-value">English (United States)</div>
-                                </li>
-                                <li>
-                                    <div class="info-name">Time Zone</div>
-                                    <div class="info-value">(GMT-06:00) Central America</div>
-                                </li>
-                                <li>
-                                    <div class="info-name">Status</div>
-                                    <div class="info-value"><i class="flaticon-check text-success"></i> Active</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="dash-pro-item mb-30 dashboard-widget">
-                            <div class="header">
-                                <h4 class="title">Email Address</h4>
-                                <span class="edit"><i class="flaticon-edit"></i> Edit</span>
-                            </div>
-                            <ul class="dash-pro-body">
-                                <li>
-                                    <div class="info-name">Email</div>
-                                    <div class="info-value">@ViewBag.USER.Email</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="dash-pro-item mb-30 dashboard-widget">
-                            <div class="header">
-                                <h4 class="title">Phone</h4>
-                                <span class="edit"><i class="flaticon-edit"></i> Edit</span>
-                            </div>
-                            <ul class="dash-pro-body">
-                                <li>
-                                    <div class="info-name">Mobile</div>
-                                    <div class="info-value">@ViewBag.USER.Phone</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="dash-pro-item dashboard-widget">
-                            <div class="header">
-                                <h4 class="title">Security</h4>
-                                <span class="edit"><i class="flaticon-edit"></i> Edit</span>
-                            </div>
-                            <ul class="dash-pro-body">
-                                <li>
-                                    <div class="info-name">Password</div>
-                                    <div class="info-value">xxxxxxxxxxxxxxxx</div>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </section>
