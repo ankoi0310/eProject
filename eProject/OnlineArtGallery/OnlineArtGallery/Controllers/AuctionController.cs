@@ -37,7 +37,8 @@ namespace OnlineArtGallery.Controllers
             _context.ArtCategories.ToList();
             _context.Artists.ToList();
             User user = _context.Users.Find(_artist.UserId);
-            if (user.UsertypeId == 2 && user != null)
+            ViewBag.User = user;
+            if (user != null && user.UsertypeId == 2)
             {
                 return View(await _context.Auctions.Where(x => x.Artist.Id == _artist.Id).OrderByDescending(x => x.Id).ToListAsync());
             }

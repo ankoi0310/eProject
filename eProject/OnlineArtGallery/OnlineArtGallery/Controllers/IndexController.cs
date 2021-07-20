@@ -160,6 +160,7 @@ namespace OnlineArtGallery.Controllers
                             Tools.GetArtistFromUser(user.Id)));
                         return RedirectToAction("Home", "Index");
                     }
+                    HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(user));
                     return RedirectToAction("Index", "Admin");
                 }
                 else if (context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password)) == null && (username != null || password != null))
@@ -305,6 +306,7 @@ namespace OnlineArtGallery.Controllers
             Customer buyCus = context.Customers.Where(x => x.UserId == IdUser).SingleOrDefault();
             Transaction payments = new Transaction();
             payments.CustomerId = buyCus.Id;
+            payments.Date = DateTime.Now;
             payments.TotalPrice = TotalPrice;
             payments.TotalFee = TotalFee;
             payments.PaymentId = PaymentId;
@@ -332,6 +334,7 @@ namespace OnlineArtGallery.Controllers
         {
             Transaction payments = new Transaction();
             payments.CustomerId = customerId;
+            payments.Date = DateTime.Now;
             payments.TotalPrice = totalPrice;
             payments.TotalFee = totalFee;
             payments.PaymentId = paymentId;
