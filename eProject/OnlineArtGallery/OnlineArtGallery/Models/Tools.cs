@@ -22,6 +22,7 @@ namespace OnlineArtGallery.Models
         // User
         public static IEnumerable<User> GetUserList() => context.Users.ToList();
         public static User GetUser(int id) => context.Users.FirstOrDefault(u => u.Id == id);
+        public static User GetUser(string username, string password) => context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
 
         // Customer
         public static IEnumerable<Customer> GetCustomerList() => context.Customers.ToList();
