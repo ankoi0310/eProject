@@ -287,8 +287,9 @@ namespace OnlineArtGallery.Controllers
         public IActionResult PaymentSuccess(string cart, int IdUser, int TotalPrice, int TotalFee, int PaymentId, int StatusId)
         {
             var y = JsonConvert.DeserializeObject<List<carta>>(cart);
+            Customer buyCus = context.Customers.Where(x => x.UserId == IdUser).SingleOrDefault();
             Transaction payments = new Transaction();
-            payments.CustomerId = IdUser;
+            payments.CustomerId = buyCus.Id;
             payments.TotalPrice = TotalPrice;
             payments.TotalFee = TotalFee;
             payments.PaymentId = PaymentId;
@@ -296,21 +297,17 @@ namespace OnlineArtGallery.Controllers
             payments.Active = true;
             context.Transactions.Add(payments);
             context.SaveChanges();
-            var x = payments;
-            TransactionDetail detailTrans = new TransactionDetail();
             foreach (var item in y)
             {
-                detailTrans.TransactionId = x.Id;
+                TransactionDetail detailTrans = new TransactionDetail();
+                detailTrans.TransactionId = payments.Id;
                 detailTrans.ArtworkId = item.artworkId;
                 detailTrans.Price = item.price;
                 detailTrans.Fee = item.price * 10 / 100; ;
                 context.TransactionDetails.Add(detailTrans);
-                context.SaveChanges();
-            }
-            foreach (var item in y)
-            {
-                var a = context.Artworks.First(a => a.Id == item.artworkId);
-                a.Active = false;
+                Artwork aw = context.Artworks.Find(item.artworkId);
+                aw.Active = false;
+                context.Update(aw);
                 context.SaveChanges();
             }
             return new JsonResult("success");
