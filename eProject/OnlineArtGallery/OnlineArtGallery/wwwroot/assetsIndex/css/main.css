@@ -9159,3 +9159,24 @@ ul#MenuMethod li.active {
     color: black;
     box-shadow: 2px 2px 2px #888;
 }
+div #close {
+    
+    width:30px;
+    height:30px;
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius:30px;
+}
+    div #close:hover {
+        outline: 0;
+        color: black;
+        font-weight: 900;
+        text-shadow: 1px 1px #000000;
+    }
+    div #close:focus {
+        outline: 0;
+        text-shadow: 0.5px 0.5px #000000;
+    }

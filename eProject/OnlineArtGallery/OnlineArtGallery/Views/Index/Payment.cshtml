@@ -27,9 +27,12 @@
             <div class="section-header">
                 <h2 class="title">Payment</h2>
                 <p>We'd love to hear from you! Let us know how we can help.</p>
-                <div class="alert alert-danger d-none" role="alert" id="alertBoxBid">
+                <div class="alert alert-danger d-none" role="alert" id="alertBoxBid" aria-hidden="true">
                     This is a info alert—check it out!
                 </div>
+                @*<div>
+                    <button class="custom-button" id="close">×</button>
+                </div>*@
             </div>
             <div class="row">
                 <div class="col-md-7">
@@ -219,20 +222,24 @@
 
         $(document).ready(function () {
             $("#btnPayment").click(function (e) {
+
                 var userTypeId = $("#usertypeId").val();
                 if (userTypeId == null || userTypeId != 3) {
-                    $("#alertBoxBid").html("You need to login/register as Customer to buy this Artwork");
+                    $("#alertBoxBid").html("You need to login/register as Customer to buy this Artwork ")
+                    $("#alertBoxBid").append(`<button id="close">×</button>`);    
                     $("#alertBoxBid").removeClass("d-none");
                     return;
                 }
                 else {
                     if (JSON.parse(localStorage.getItem("cart")) == null) {
-                        $("#alertBoxBid").html("Cart is empty! Buy somethings and comeback!");
+                        $("#alertBoxBid").html("Cart is empty! Buy somethings and comeback! ");
+                        $("#alertBoxBid").append(`<button class="custom-button" id="close">×</button>`);    
                         $("#alertBoxBid").removeClass("d-none");
                         return;
                     }
                     if (checkEmpty() == false) {
-                        $("#alertBoxBid").html("you need to fill all the field to preOrder");
+                        $("#alertBoxBid").html("you need to fill all the field to preOrder ");
+                        $("#alertBoxBid").append(`<button class="custom-button" id="close">×</button>`);    
                         $("#alertBoxBid").removeClass("d-none");
                         return;
                     } 
@@ -266,6 +273,12 @@
                         })
                     }
                 }
+            })
+        })
+        $(document).ready(function () {
+            $("body").on("click","#close", function () {
+                $("#alertBoxBid").addClass("d-none");
+
             })
         })
     </script>
