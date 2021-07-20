@@ -1,10 +1,12 @@
 
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OnlineArtGallery.Models;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -149,19 +151,24 @@ namespace OnlineArtGallery.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password)) != null && username != null)
+                var user = Tools.GetUser(username, password);
+                if (user != null)
                 {
-                    var user = context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password));
-                    _user = user;
                     if (user.UsertypeId != 1)
                     {
-                        HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(user.UsertypeId == 3 ? Tools.GetCustomerFromUser(user.Id) :
-                            Tools.GetArtistFromUser(user.Id)));
-                        return RedirectToAction("Home", "Index");
+                        if (user.UsertypeId == 3)
+                        {
+                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetCustomerFromUser(user.Id)));
+                            return RedirectToAction("Home", "Index");
+                        } else
+                        {
+                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetArtistFromUser(user.Id)));
+                            return RedirectToAction("Home", "Index");
+                        }
                     }
                     return RedirectToAction("Index", "Admin");
                 }
-                else if (context.Users.FirstOrDefault(u => u.Username.Equals(username) && u.Password.Equals(password)) == null && (username != null || password != null))
+                else if (username != null || password != null)
                 {
                     ViewBag.Error = "Wrong username or password!!!";
                 }
@@ -182,6 +189,7 @@ namespace OnlineArtGallery.Controllers
             ViewBag.listArtwork = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
             return View();
         }
+
         public IActionResult DashBoard()
         {
             Customer cus = null;
@@ -192,10 +200,57 @@ namespace OnlineArtGallery.Controllers
             }
             return View();
         }
+
         public IActionResult UserProfile()
         {
+            if (HttpContext.Session.GetString("USER") == null)
+            {
+                return RedirectToAction("Home", "Index");
+            }
             return View();
         }
+
+        [NoDirectAccess]
+        public IActionResult AddOrEdit()
+        {
+            UserUpdate userUpdate = JsonConvert.DeserializeObject<UserUpdate>(HttpContext.Session.GetString("USER"));
+            return View(userUpdate);
+        }
+
+        public async Task<IActionResult> Update([Bind("Id,Name,Gender,Birthday,Phone,Email,Address,UserId")] UserUpdate userUpdate)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Tools.GetUser(userUpdate.UserId).UsertypeId == 3)
+                {
+                    Customer oldCustomer = await context.Customers.FindAsync(userUpdate.Id);
+                    oldCustomer.Name = userUpdate.Name;
+                    oldCustomer.Gender = userUpdate.Gender;
+                    oldCustomer.Birthday = userUpdate.Birthday;
+                    oldCustomer.Address = userUpdate.Address;
+                    oldCustomer.Phone = userUpdate.Phone;
+                    oldCustomer.Email = userUpdate.Email;
+                    HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(oldCustomer));
+                    context.Update(oldCustomer);
+                }
+                else if (Tools.GetUser(userUpdate.UserId).UsertypeId == 2)
+                {
+                    Artist oldArtist = await context.Artists.FindAsync(userUpdate.Id);
+                    oldArtist.Name = userUpdate.Name;
+                    oldArtist.Gender = userUpdate.Gender;
+                    oldArtist.Birthday = userUpdate.Birthday;
+                    oldArtist.Address = userUpdate.Address;
+                    oldArtist.Phone = userUpdate.Phone;
+                    oldArtist.Email = userUpdate.Email;
+                    HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(oldArtist));
+                    context.Update(oldArtist);
+                }
+                await context.SaveChangesAsync();
+                return Json(new { isValid = true, html = Helper.RenderRazorViewString(this, "userprofile") });
+            }
+            return Json(new { isValid = false, html = Helper.RenderRazorViewString(this, "AddOrEdit", userUpdate) });
+        }
+
         public IActionResult MyBid()
         {
             context.Artworks.ToList();
@@ -222,6 +277,7 @@ namespace OnlineArtGallery.Controllers
         {
             return View();
         }
+
         public IActionResult MyFavorite()
         {
             context.Artists.ToList();
