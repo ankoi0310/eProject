@@ -176,19 +176,17 @@
                 <select name="sort-by" class="select-bar">
                     <option value="all">All</option>
                     <option value="name">Name</option>
-                    <option value="date">Date</option>
-                    <option value="type">Type</option>
-                    <option value="car">Car</option>
+                    <option value="date">Price</option>
                 </select>
             </div>
             <div class="product-header-item">
                 <div class="item">Show : </div>
                 <select name="sort-by" class="select-bar" id="devidePage" onchange="PageDivide();">
-                    <option value="09">3</option>
-                    <option value="21">6</option>
-                    <option value="30">30</option>
-                    <option value="39">39</option>
-                    <option value="60">60</option>
+                    <option value="09">9</option>
+                    <option value="21">18</option>
+                    <option value="30">27</option>
+                    <option value="39">36</option>
+                    <option value="60">45</option>
                 </select>
             </div>
             <form class="product-search ml-auto">
@@ -212,9 +210,6 @@
                             </h6>
                             <div class="bid-area">
                                 <div class="bid-amount">
-                                    @*<div class="icon">
-                                        <i class="flaticon-auction"></i>
-                                    </div>*@
                                     <div class="amount-content">
                                         <div class="current">Artist</div>
                                         <div class="amount">@item.Artist.Name</div>
@@ -230,12 +225,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="countdown-area">
-                                <div class="countdown">
-                                    <div id="bid_counter1"></div>
-                                </div>
-                                <span class="total-bids">30 Bids</span>
-                            </div>*@
                             <div class="text-center">
                                 <a href="#0" id="btnAdd" name="btnAdd" data-id="@item.Id" class="custom-button"><i class="fas fa-shopping-cart"></i>ADD TO CART</a>
                                 <div class="alert alert-info" style="display:none" role="alert" id="alertBoxBid">
