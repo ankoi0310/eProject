@@ -13,6 +13,8 @@
         <form asp-action="Update" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <input type="hidden" asp-for="Image" value="@Model.Image" />
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -44,9 +46,9 @@
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <label asp-for="FileImage" class="control-label"></label>
+                <input asp-for="FileImage" type="file" class="form-control" />
+                <span asp-validation-for="FileImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="hidden" asp-for="UserId" class="form-control" />

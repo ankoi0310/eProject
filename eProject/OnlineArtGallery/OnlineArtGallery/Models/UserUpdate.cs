@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,5 +17,7 @@ namespace OnlineArtGallery.Models
         public string Address { get; set; }
         public string Image { get; set; }
         public int UserId { get; set; }
+
+        public FormFile FileImage { get; set; }
     }
 }

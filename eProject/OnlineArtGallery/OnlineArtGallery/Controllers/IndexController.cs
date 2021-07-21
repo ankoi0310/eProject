@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,9 @@ using OnlineArtGallery.Models;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace OnlineArtGallery.Controllers
@@ -16,10 +19,12 @@ namespace OnlineArtGallery.Controllers
     {
 
         private DBContext context;
+        private readonly IWebHostEnvironment _webHostEnvironmen;
         private static User _user = null;
-        public IndexController()
+        public IndexController(IWebHostEnvironment webHostEnvironmen)
         {
             context ??= new DBContext();
+            _webHostEnvironmen = webHostEnvironmen;
         }
 
         public IActionResult Home()
@@ -152,18 +157,22 @@ namespace OnlineArtGallery.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = Tools.GetUser(username, password);
+                //var user = Tools.GetUser(username, password);
+                var user = context.Users.FirstOrDefault(u => u.Username== username && u.Password == password);
+                _user = user;
                 if (user != null)
                 {
                     if (user.UsertypeId != 1)
                     {
                         if (user.UsertypeId == 3)
                         {
-                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetCustomerFromUser(user.Id)));
+                            //HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetCustomerFromUser(user.Id)));
+                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(context.Customers.Where(x => x.UserId == user.Id).SingleOrDefault()));
                             return RedirectToAction("Home", "Index");
                         } else
                         {
-                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetArtistFromUser(user.Id)));
+                            //HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetArtistFromUser(user.Id)));
+                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(context.Artists.Where(x=>x.UserId == user.Id).SingleOrDefault()));
                             return RedirectToAction("Home", "Index");
                         }
                     }
@@ -219,12 +228,28 @@ namespace OnlineArtGallery.Controllers
             return View(userUpdate);
         }
 
-        public async Task<IActionResult> Update([Bind("Id,Name,Gender,Birthday,Phone,Email,Address,UserId")] UserUpdate userUpdate)
+        //[Bind("Id,Name,Gender,Birthday,Phone,Email,Address,UserId")]
+        public async Task<IActionResult> Update( UserUpdate userUpdate)
         {
             if (ModelState.IsValid)
             {
+                List<IFormFile> files = Request.Form.Files.ToList();
+                foreach (FormFile formFile in files)
+                {
+                    if (formFile.Length > 0)
+                    {
+                        if (!string.IsNullOrEmpty(userUpdate.Image))
+                        {
+                            DeleteImage(userUpdate);
+                        }
+                        userUpdate.FileImage = formFile;
+                        userUpdate.Image = UploadImage(userUpdate);
+                    }
+                }
+
                 if (Tools.GetUser(userUpdate.UserId).UsertypeId == 3)
                 {
+
                     Customer oldCustomer = await context.Customers.FindAsync(userUpdate.Id);
                     oldCustomer.Name = userUpdate.Name;
                     oldCustomer.Gender = userUpdate.Gender;
@@ -232,6 +257,7 @@ namespace OnlineArtGallery.Controllers
                     oldCustomer.Address = userUpdate.Address;
                     oldCustomer.Phone = userUpdate.Phone;
                     oldCustomer.Email = userUpdate.Email;
+                    oldCustomer.Image = userUpdate.Image;
                     HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(oldCustomer));
                     context.Update(oldCustomer);
                 }
@@ -244,6 +270,11 @@ namespace OnlineArtGallery.Controllers
                     oldArtist.Address = userUpdate.Address;
                     oldArtist.Phone = userUpdate.Phone;
                     oldArtist.Email = userUpdate.Email;
+                    oldArtist.Image = userUpdate.Image;
+                    //if (!string.IsNullOrEmpty(userUpdate.Image))
+                    //{
+                        
+                    //}
                     HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(oldArtist));
                     context.Update(oldArtist);
                 }
@@ -470,6 +501,30 @@ namespace OnlineArtGallery.Controllers
         public bool CheckRemarkExist(int artworkId, int CustomerId)
         {
             return context.MyGalleries.Any(x => x.ArtworkId == artworkId && x.CustomerId == CustomerId);
+        }
+
+        private string UploadImage(UserUpdate userUpdate)
+        {
+            string fileName = null;
+            if (userUpdate.FileImage != null)
+            {
+                string uploadDir = Path.Combine(_webHostEnvironmen.WebRootPath, "assets/img/userImage");
+                fileName = Regex.Replace(userUpdate.Name, @"\s+", "") + "-" + userUpdate.FileImage.FileName;
+                string filePath = Path.Combine(uploadDir, fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    userUpdate.FileImage.CopyTo(fileStream);
+                }
+            }
+            return fileName;
+        }
+
+        private void DeleteImage(UserUpdate userUpdate)
+        {
+            string uploadDir = Path.Combine(_webHostEnvironmen.WebRootPath, "assets/img/userImage");
+            string filePath = Path.Combine(uploadDir, userUpdate.Image);
+            System.IO.File.Delete(filePath);
+
         }
     }
 }

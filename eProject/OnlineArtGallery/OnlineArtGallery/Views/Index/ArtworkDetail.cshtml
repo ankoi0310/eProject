@@ -225,7 +225,15 @@
                                         }
                                         <tr>
                                             <td>
-                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                @*<i class="fa fa-user" aria-hidden="true"></i>*@
+                                                @if (string.IsNullOrEmpty(item.Customer.Image))
+                                                {
+                                                    <img src="~/assets/img/userImage/uservodanh.jpeg" alt="user" class="rounded-circle" height="55">
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/assets/img/userImage/@item.Customer.Image" alt="user" class="rounded-circle" height="55">
+                                                }
                                                 <span><b>@item.Customer.Name</b></span>
                                                 <br />
                                                 <span id="comment" style="margin-left:20px">@item.Remark</span>
