@@ -47,7 +47,7 @@ namespace OnlineArtGallery.Models
         }
         public static List<Transaction> GetPendingTransaction()
         {
-            var q = from t in context.Transactions where t.Active == false select t;
+            var q = from t in context.Transactions where t.StatusId == 1 select t;
             return q.ToList();
         }
         // Transaction detail
@@ -58,6 +58,8 @@ namespace OnlineArtGallery.Models
         }
         // Payment
         public static Payment GetPaymentById(int id) => context.Payments.Find(id);
+        // Status
+        public static Status GetStatusById(int id) => context.Status.Find(id);
         //get User from Session
         public static User GetUserfromSession(string userString)
         {
