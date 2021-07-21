@@ -1,0 +1,107 @@
+﻿
+@model IEnumerable<OnlineArtGallery.Models.Auction>
+@{
+    ViewData["Title"] = "Auction Bid Record";
+    Layout = "~/Views/AdminLayout/MainLayout.cshtml";
+    List<AuctionRecord> auctionRecords = null;
+    if (ViewBag.auctionRecords != null)
+    {
+        auctionRecords = ViewBag.auctionRecords;
+    }
+    DateTime now = DateTime.Now;
+}
+
+<h1 class="text-center"><i class="fas fa-money-check-alt"></i>&ensp;Auction Bid Record</h1>
+
+<div id="view-all">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table id="user" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Auction ID
+                                </th>
+                                <th>
+                                    Artwork
+                                </th>
+                                <th>
+                                    Artist
+                                </th>
+                                <th>
+                                    Begin day
+                                </th>
+                                <th>
+                                    End day
+                                </th>
+                                <th>
+                                    Begin Bid
+                                </th>
+                                <th>
+                                    Step price
+                                </th>
+                                <th>
+                                    Current Bid/Winning Bid
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                string status = "";
+                                @if (DateTime.Compare(item.BeginDay, now) > 0)
+                                {
+                                    status = "Coming";
+                                } else if (DateTime.Compare(item.EndDay, now) <= 0)
+                                {
+                                    status = "Over";
+                                }
+                                else
+                                {
+                                    status = "Ongoing";
+                                }
+                            
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Artwork.Name
+                                </td>
+                                <td>
+                                    @item.Artist.Name
+                                </td>
+                                <td>
+                                    @item.BeginDay.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.EndDay.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.ReservePrice
+                                </td>
+                                <td>
+                                    @item.StepPrice
+                                </td>
+                                <td>
+                                    @auctionRecords.Where(x => x.AuctionId == item.Id).Max(x => x.BidPrice)
+                                </td>
+                                <td>
+                                    @status
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</div>

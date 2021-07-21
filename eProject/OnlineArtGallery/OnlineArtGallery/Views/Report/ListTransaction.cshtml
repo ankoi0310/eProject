@@ -1,0 +1,77 @@
+﻿
+@model IEnumerable<OnlineArtGallery.Models.Transaction>
+@{
+    ViewData["Title"] = "Transaction";
+    Layout = "~/Views/AdminLayout/MainLayout.cshtml";
+
+}
+
+<h1 class="text-center"><i class="fas fa-money-check-alt"></i>&ensp;Transaction</h1>
+
+<div id="view-all">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table id="user" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Transaction ID
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Fee
+                                </th>
+                                <th>
+                                    Payment
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {                            
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Customer.Name
+                                </td>
+                                <td>
+                                    @item.Date.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @item.TotalPrice
+                                </td>
+                                <td>
+                                    @item.TotalFee
+                                </td>
+                                <td>
+                                    @item.Payment.Name
+                                </td>
+                                <td>
+                                    @item.Status.Name
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</div>

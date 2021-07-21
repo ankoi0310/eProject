@@ -436,6 +436,8 @@ namespace OnlineArtGallery.Controllers
             detailTrans.Price = totalPrice;
             detailTrans.Fee = totalFee;
             Artwork aw = context.Artworks.Find(artworkId);
+            Auction au = context.Auctions.Where(x=>x.ArtworkId==artworkId).SingleOrDefault();
+            au.Active = false;
             aw.Active = false;
             context.Update(aw);
             context.SaveChanges();

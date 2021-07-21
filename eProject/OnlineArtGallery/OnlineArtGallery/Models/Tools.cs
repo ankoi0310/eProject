@@ -33,6 +33,7 @@ namespace OnlineArtGallery.Models
         public static IEnumerable<Artist> GetArtistList() => context.Artists.ToList();
         public static Artist GetArtistFromUser(int userId) => (from a in context.Artists where a.UserId == userId select a).FirstOrDefault();
         public static Artist GetArtistById(int id) => context.Artists.FirstOrDefault(a => a.Id == id);
+        public static Artist GetArtistByUserId(int id) => context.Artists.FirstOrDefault(a => a.UserId == id);
         // Art Category
         public static List<ArtCategory> GetArtCategoryList() => context.ArtCategories.ToList();
 

@@ -1,4 +1,15 @@
-﻿<aside class="main-sidebar sidebar-dark-primary elevation-4">
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+@{
+    if (Context.Session.GetString("USER") != null)
+    {
+        ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
+    }
+    int userId = ViewBag.USER == null ? 0 : ViewBag.USER.UserId??ViewBag.USER.Id;
+    DBContext context = new DBContext();
+    int userTypeId = userId == 0 ? 0 : context.Users.Find(userId).UsertypeId;
+}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/admin" class="brand-link">
         <img src="~/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -9,12 +20,28 @@
     <div class="sidebar">
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <img src="~/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
-            </div>
+
+            @if (userTypeId == 2)
+            {
+                Artist a = Tools.GetArtistByUserId(userId);
+                <div class="image">
+                    <img src="~/assets/img/userImage/@a.Image" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">@a.Name</a>
+                </div>
+
+            }
+            else
+            {
+                <div class="image">
+                    <img src="~/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">Admin</a>
+                </div>
+            }
+
         </div>
 
         <!-- SidebarSearch Form -->
@@ -51,71 +78,119 @@
                 </li>
             </ul>
         </li>*@
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            User
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/artist/list" class="nav-link">
-                                <i class="far fa-circle nav-icon text-success"></i>
-                                <p>Artist</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/customer/list" class="nav-link">
-                                <i class="far fa-circle nav-icon text-danger"></i>
-                                <p>Customer</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="/user/list" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>Account</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/artwork/list" class="nav-link">
-                        <i class="nav-icon fas fa-palette"></i>
-                        <p>Artwork</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/auction/list" class="nav-link">
-                        <i class="nav-icon fab fa-sellcast"></i>
-                        <p>Auction</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/Exhibition/list" class="nav-link">
-                        <i class="nav-icon fas fa-eye"></i>
-                        <p>Exhibition</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/artcategory/list" class="nav-link">
-                        <i class="nav-icon fas fa-list"></i>
-                        <p>Art Category</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/payment/list" class="nav-link">
-                        <i class="nav-icon fas fa-money-check-alt"></i>
-                        <p>Payment</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/status/list" class="nav-link">
-                        <i class="nav-icon fas fa-question-circle"></i>
-                        <p>Transaction Status</p>
-                    </a>
-                </li>
+                @if (userTypeId == 2)
+                {
+                    <li class="nav-item">
+                        <a href="/artwork/list" class="nav-link">
+                            <i class="nav-icon fas fa-palette"></i>
+                            <p>Artwork</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/auction/list" class="nav-link">
+                            <i class="nav-icon fab fa-sellcast"></i>
+                            <p>Auction</p>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>
+                                User
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/artist/list" class="nav-link">
+                                    <i class="far fa-circle nav-icon text-success"></i>
+                                    <p>Artist</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/customer/list" class="nav-link">
+                                    <i class="far fa-circle nav-icon text-danger"></i>
+                                    <p>Customer</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user/list" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
+                            <p>Account</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/artwork/list" class="nav-link">
+                            <i class="nav-icon fas fa-palette"></i>
+                            <p>Artwork</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/auction/list" class="nav-link">
+                            <i class="nav-icon fab fa-sellcast"></i>
+                            <p>Auction</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/Exhibition/list" class="nav-link">
+                            <i class="nav-icon fas fa-eye"></i>
+                            <p>Exhibition</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/artcategory/list" class="nav-link">
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>Art Category</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/payment/list" class="nav-link">
+                            <i class="nav-icon fas fa-money-check-alt"></i>
+                            <p>Payment</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/status/list" class="nav-link">
+                            <i class="nav-icon fas fa-question-circle"></i>
+                            <p>Transaction Status</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-clipboard"></i>
+                            <p>
+                                Report
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/report/listArtwork" class="nav-link">
+                                    <i class="far fa-circle nav-icon text-info"></i>
+                                    <p>Artworks Inventory</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/report/ListTransaction" class="nav-link">
+                                    <i class="far fa-circle nav-icon text-success"></i>
+                                    <p>Transaction Records</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/report/ListAuctionBid" class="nav-link">
+                                    <i class="far fa-circle nav-icon text-warning"></i>
+                                    <p>Auction Bid Records</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

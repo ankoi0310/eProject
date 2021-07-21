@@ -1,0 +1,97 @@
+﻿
+@model IEnumerable<OnlineArtGallery.Models.Artwork>
+@{
+    ViewData["Title"] = "Artwork Inventory";
+    Layout = "~/Views/AdminLayout/MainLayout.cshtml";
+    List<MyGallery> rates = null;
+    if (ViewBag.Rate != null)
+    {
+        rates = ViewBag.Rate;
+    }
+}
+
+<h1 class="text-center"><i class="fas fa-money-check-alt"></i>&ensp;Artwork Inventory</h1>
+
+<div id="view-all">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table id="user" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Artwork ID
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    CreateDay
+                                </th>
+                                <th>
+                                    Image
+                                </th>
+                                <th>
+                                    Size
+                                </th>
+                                <th>
+                                    DefautPrice
+                                </th>
+                                <th>
+                                    Rate
+                                </th>
+                                <th>
+                                    Artist
+                                </th>
+                                <th>
+                                    Art Category
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                ViewBag.Active = item.Active ? "True" : "False";
+                                var artRate = rates.Where(x => x.ArtworkId == item.Id && x.Rate != 0).ToList();
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.CreateDay.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <img src="~/assets/img/artwork/@item.Image" class="rounded-pill" alt="Alternate Text" style=" height:50px; width: 80px" />
+                                    </div>
+                                </td>
+                                <td>
+                                    @item.Size
+                                </td>
+                                <td>
+                                    @item.DefautPrice
+                                </td>
+                                <td>
+                                    @(artRate.Count() == 0?"No any Rate":artRate.Average(x=>x.Rate))
+                                </td>
+                                <td>
+                                    @item.Artist.Name
+                                </td>
+                                <td>
+                                    @item.ArtCategory.Name
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</div>

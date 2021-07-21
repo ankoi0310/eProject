@@ -6,6 +6,8 @@
     {
         ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
     }
+    int userId = ViewBag.USER == null ? 0 : ViewBag.USER.UserId;
+    int userTypeId = userId == 0 ? 0: Tools.GetUser(userId).UsertypeId;
 }
 <div class="col-sm-10 col-md-7 col-lg-4">
     <div class="dashboard-widget mb-30 mb-lg-0 sticky-menu">
@@ -41,18 +43,28 @@
             <li>
                 <a href="UserProfile"><i class="flaticon-settings"></i>Personal Profile </a>
             </li>
-            <li>
-                <a href="MyBid"><i class="flaticon-auction"></i>My Bids</a>
-            </li>
-            <li>
-                <a href="WinningBid"><i class="flaticon-best-seller"></i>Winning Bids</a>
-            </li>
-            <li>
-                <a href="MyAlerts"><i class="flaticon-alarm"></i>My Alerts</a>
-            </li>
-            <li>
-                <a href="MyFavorite"><i class="flaticon-star"></i>My Favorites</a>
-            </li>
+            @if (userTypeId == 3)
+            {
+                <li>
+                    <a href="MyBid"><i class="flaticon-auction"></i>My Bids</a>
+                </li>
+                <li>
+                    <a href="WinningBid"><i class="flaticon-best-seller"></i>Winning Bids</a>
+                </li>
+                <li>
+                    <a href="MyAlerts"><i class="flaticon-alarm"></i>My Alerts</a>
+                </li>
+                <li>
+                    <a href="MyFavorite"><i class="flaticon-star"></i>My Favorites</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="/artwork/list"><i class="flaticon-star"></i>My Artwork</a>
+                </li>
+            }
+
             <li>
                 <a href="Referral"><i class="flaticon-shake-hand"></i>Referrals</a>
             </li>

@@ -31,9 +31,12 @@
                             <th>
                                 DefautPrice
                             </th>
-                            <th>
-                                Artist
-                            </th>
+                            @if (User != null && User.UsertypeId != 2)
+                            {
+                                <th>
+                                    Artist
+                                </th>
+                            }
                             <th>
                                 Art Category
                             </th>
@@ -73,9 +76,13 @@
                             <td>
                                 @item.DefautPrice
                             </td>
-                            <td>
-                                @item.Artist.Name
-                            </td>
+                            @if (User != null && User.UsertypeId != 2)
+                            {
+                                <td>
+                                    @item.Artist.Name
+                                </td>
+                            }
+
                             <td>
                                 @item.ArtCategory.Name
                             </td>
