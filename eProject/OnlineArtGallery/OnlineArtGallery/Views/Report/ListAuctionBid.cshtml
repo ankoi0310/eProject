@@ -56,10 +56,10 @@
                                 string status = "";
                                 @if (DateTime.Compare(item.BeginDay, now) > 0)
                                 {
-                                    status = "Coming";
+                                    status = "Comming soon";
                                 } else if (DateTime.Compare(item.EndDay, now) <= 0)
                                 {
-                                    status = "Over";
+                                    status = "Expired";
                                 }
                                 else
                                 {

@@ -217,6 +217,7 @@
                             <input type="hidden" id="stepPrice" value="@Auction.StepPrice">
                             <input type="hidden" id="now" value="@now.ToOADate()">
                             <input type="hidden" id="endDay" value="@Auction.EndDay.ToOADate()">
+                            <input type="hidden" id="endDayCount" value="@Auction.EndDay.ToString("yyyy/MM/dd")">
                             <input type="hidden" id="beginDay" value="@Auction.BeginDay.ToOADate()">
                             <button type="submit" class="custom-button">Submit a bid</button>
                         </form>
@@ -258,10 +259,21 @@
             <div class="col-lg-4">
                 <div class="product-sidebar-area">
                     <div class="product-single-sidebar mb-3">
-                        <h6 class="title">This Auction Ends in:</h6>
-                        <div class="countdown">
-                            <div id="bid_counter1"></div>
-                        </div>
+                        @if (DateTime.Compare(Auction.BeginDay, DateTime.Now) > 0)
+                        {
+                            <h6 class="title">This Auction Begin on:</h6>
+                            <div class="countdown">
+                                <p>@Auction.BeginDay.ToString("dd/MM/yyyy")</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <h6 class="title">This Auction Ends in:</h6>
+                            <div class="countdown">
+                                <div id="bid_counter"></div>
+                            </div>
+                        }
+
                         <div class="side-counter-area">
                             <div class="side-counter-item">
                                 <div class="thumb">
@@ -272,15 +284,7 @@
                                     <p>Active Bidders</p>
                                 </div>
                             </div>
-                            @*<div class="side-counter-item">
-                                <div class="thumb">
-                                    <img src="~/assetsIndex/images/product/icon2.png" alt="product">
-                                </div>
-                                <div class="content">
-                                    <h3 class="count-title"><span class="counter">203</span></h3>
-                                    <p>Watching</p>
-                                </div>
-                            </div>*@
+
                             <div class="side-counter-item">
                                 <div class="thumb">
                                     <img src="~/assetsIndex/images/product/icon3.png" alt="product">
@@ -564,10 +568,6 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            //$("#bidPrice").on("change", function () {
-            //    $("#alertBox").html($(this).val());
-            //    $("#alertBox").removeClass("d-none");
-            //});
 
             $("#BidForm").submit(function (e) {
                 var userTypeId = $("#usertypeId").val();
@@ -598,14 +598,24 @@
                     }
                 }
             });
-            //$("#btnComent").click(function (e) {
-            //    var userTypeId = $("#usertypeId").val();
-            //    if (userTypeId == null || userTypeId != 3) {
-            //        $("#alertBox").html("You need to login/register as Customer to bid this Artwork");
-            //        $("#alertBox").removeClass("d-none");
-            //        e.preventDefault(e);
-            //    }
-            //});
+
+            let endDate = $("#endDayCount").val();
+            let counterElement = document.querySelector("#bid_counter");
+            let myCountDown = new ysCountDown(endDate, function (remaining, finished) {
+                let message = "";
+                if (finished) {
+                    message = "Expired";
+                } else {
+                    var re_days = remaining.totalDays;
+                    var re_hours = remaining.hours;
+                    message += re_days + "d  : ";
+                    message += re_hours + "h  : ";
+                    message += remaining.minutes + "m  : ";
+                    message += remaining.seconds + "s";
+                }
+                counterElement.textContent = message;
+            });
+
         })
     </script>
 }
