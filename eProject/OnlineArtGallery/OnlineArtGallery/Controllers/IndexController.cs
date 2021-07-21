@@ -378,6 +378,33 @@ namespace OnlineArtGallery.Controllers
             return new JsonResult(aw);
         }
 
+        [HttpPost]
+        public IActionResult sortBy(string a)
+        {
+            context.Artists.ToList();
+            List<Auction> listAuction = context.Auctions.ToList();
+            listAuction = context.Auctions.ToList();
+            List<Artwork> aw = new List<Artwork>();
+            if (a == "Price2")
+            {
+                aw = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).OrderByDescending(x => x.DefautPrice).ToList();
+            }
+            else if (a == "Price1")
+            {
+                aw = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).OrderBy(x => x.Name).ToList();
+            }
+            else if (a == "Name")
+            {
+                aw = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).OrderBy(x => x.Name).ToList();
+            }
+            else
+            {
+                aw = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).ToList();
+            }
+
+            return new JsonResult(aw);
+        }
+
         public class carta
         {
             public string srcImg { get; set; }

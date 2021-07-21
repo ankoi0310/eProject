@@ -1513,17 +1513,19 @@ function AddToCart() {
                 ArtCart = x;
             }
             ArtItem = { srcImg, name, price, nameArtist, artworkId };
+            if (removeDublicate(ArtItem) == false) {
+                var alertx = buttonClicked.parentElement.getElementsByClassName("alert");
+                alertx[0].innerHTML = "Sorry!We have only one Artist like this";
+                alertx[0].style.display = "block";
+            }
+            
             if (removeDublicate(ArtItem) != false) {
                 ArtCart.push(ArtItem);
                 localStorage.setItem("cart", JSON.stringify(ArtCart));
                 localStorage.setItem("amount", numberAmount += 1);
                 amount.innerHTML = localStorage.getItem("amount");
-                alertx[0].style.display = "none";
-            }
-            else {
-
-                alertx[0].innerHTML = "Sorry!We have only one Artist like this";
-                alertx[0].style.display = "block";
+                var alertx = buttonClicked.parentElement.getElementsByClassName("alert");
+                alertx[0].style.display = "none"; 
             }
             AddItemTominiCart();
             removeCart();
@@ -1552,11 +1554,13 @@ function AddtoCartDetail() {
                 localStorage.setItem("cart", JSON.stringify(ArtCart));
                 localStorage.setItem("amount", numberAmount += 1);
                 amount.innerHTML = localStorage.getItem("amount");
+     
             }
             else {
                 var alertx = $("#alertBoxBid");
                 alertx.html("Sorry! We have only one Artist like this. Please choose another art!");
                 alertx.css("display", "block");
+               
             }
             AddItemTominiCart();
             removeCart();
@@ -1670,7 +1674,7 @@ function AddItemToBigCart() {
                 var b = `<tr>
                              <td>
                                   <figure class="media">
-                                    <div class="img-wrap"><img src="${cart[i]["srcImg"]}" class="img-thumbnail img-sm"></div>
+                                    <div class="img-wrap"><img src="${cart[i]["srcImg"]}" class="img-thumbnail" style="width:100px;height:100px"></div>
                                         <figcaption class="media-body">
                                             <h6 class="title text-truncate">${cart[i]["name"]}</h6>
                                             <dl class="param param-inline small">

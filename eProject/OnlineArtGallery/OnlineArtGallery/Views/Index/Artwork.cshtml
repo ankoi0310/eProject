@@ -171,10 +171,11 @@
         <div class="product-header mb-40">
             <div class="product-header-item">
                 <div class="item">Sort By : </div>
-                <select name="sort-by" class="select-bar">
-                    <option value="all">All</option>
-                    <option value="name">Name</option>
-                    <option value="date">Price</option>
+                <select name="sort-by" class="select-bar" id="sortbyx" onchange="sortby()">
+                    <option value="All" selected>All</option>
+                    <option value="Name">Name</option>
+                    <option value="Price1">Price Asc</option>
+                    <option value="Price2">Price Des</option>
                 </select>
             </div>
             <div class="product-header-item">
@@ -240,3 +241,61 @@
     </div>
 </div>
 <!--============= Product Auction Section Ends Here =============-->
+@section Scripts{
+    <script>
+        function sortby() {
+            var a = $("#sortbyx").find(":selected").val();
+            $.ajax({
+                type:"POST",
+                url: '@Url.Action("sortBy","Index")',
+                data: { a: a },
+                dataType: 'json',
+                success: function (smg) {
+                    var x = $("#artworkFull");
+                    var b = "";
+                    var root= '@Url.Content("~")';
+                    for (var i = 0; i < smg.length; i++) {
+                                b += ` <div class="col-sm-10 col-md-6 col-lg-4">
+                            <div class="auction-item-2">
+                                <div class="auction-thumb">
+                                    <a href="/Index/artworkdetail?id=${smg[i].id}"><img id="srcImg" width="300px" height="300px" src="`+root+`/assets/img/artwork/${smg[i].image}" alt="product"></a>
+                                    <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                                </div>
+                                <div class="auction-content">
+                                    <h6 class="title">
+                                        <a href="#0">${smg[i].name}</a>
+                                    </h6>
+                                    <div class="bid-area">
+                                        <div class="bid-amount">
+                                            <div class="amount-content">
+                                                <div class="current">Artist</div>
+                                                <div class="amount">${smg[i].artist.name}</div>
+                                            </div>
+                                        </div>
+                                        <div class="bid-amount">
+                                            <div class="icon">
+                                                <i class="flaticon-money"></i>
+                                            </div>
+                                            <div class="amount-content">
+                                                <div class="current">Price</div>
+                                                <div class="amount" data-id="${smg[i].id}">${smg[i].defautPrice}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="#0" id="btnAdd" name="btnAdd" data-id="${smg[i].id}" class="custom-button"><i class="fas fa-shopping-cart"></i>ADD TO CART</a>
+                                        <div class="alert alert-info" style="display:none" role="alert" id="alertBoxBid">
+                                            This is a info alert—check it out!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+                    }
+                    x.html(b);
+                    AddToCart();
+                }
+            })
+        }
+    </script>
+}

@@ -3568,6 +3568,7 @@ div[class*="auction"] .custom-button {
         -webkit-box-orient: vertical;
         text-overflow: ellipsis;
         overflow: hidden;
+        height:50px;
     }
 
 .auction-item-2 .auction-content .custom-button {
