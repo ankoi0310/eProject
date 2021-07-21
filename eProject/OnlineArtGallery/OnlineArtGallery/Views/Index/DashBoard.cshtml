@@ -92,7 +92,7 @@
                                             <th>Total Price</th>
                                             <th>Total Fee</th>
                                             <th>Payment</th>
-                                            <th>Active</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,7 +103,7 @@
                                                 <td data-purchase="bid price">@item.TotalPrice</td>
                                                 <td data-purchase="highest bid">@item.TotalFee</td>
                                                 <td data-purchase="lowest bid">@Tools.GetPaymentById(item.PaymentId).Name</td>
-                                                <td data-purchase="expires">@item.Active</td>
+                                                <td data-purchase="expires">@Tools.GetStatusById(item.StatusId).Name</td>
                                             </tr>
                                         }
                                         
