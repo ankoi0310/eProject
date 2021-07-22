@@ -6657,6 +6657,7 @@ div[class*="auction"] .custom-button {
     border-radius: 5px;
     align-items: center;
     justify-content: space-between;
+    background-color: whitesmoke;
 }
 
     .product-header .product-header-item {
