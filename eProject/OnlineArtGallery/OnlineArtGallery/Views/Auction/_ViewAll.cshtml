@@ -5,6 +5,7 @@
     {
         User = ViewBag.User;
     }
+    DateTime now = DateTime.Now;
 }
 <div class="row">
     <div class="col-12">
@@ -52,6 +53,19 @@
                         @foreach (var item in Model)
                         {
                             ViewBag.Active = item.Active ? "True" : "False";
+                            string status = "";
+                            @if (DateTime.Compare(item.BeginDay, now) > 0)
+                            {
+                                status = "Comming soon";
+                            }
+                            else if (DateTime.Compare(item.EndDay, now) <= 0)
+                            {
+                                status = "Expired";
+                            }
+                            else
+                            {
+                                status = "Ongoing";
+                            }
                             <tr>
                                 <td>
                                     @item.Id
@@ -74,17 +88,18 @@
                                 <td>
                                     @item.Description
                                 </td>
-                                <td class="text-center">@ViewBag.Active</td>
-                                @if (User != null && User.UsertypeId == 2)
-                                {
-                                    <td>
+                                <td class="text-center">@status</td>
+                                <td>
+                                    @if (User != null && User.UsertypeId == 2 && status != "Expired")
+                                    {
+
                                         <a onclick="showInPopup('@Url.Action("AddOrEdit", "Auction", new { item.Id }, Context.Request.Scheme)', 'Update Auction')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
                                         <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                                             <input type="submit" value="Delete" class="btn btn-danger" />
                                         </form>
-                                    </td>
-                                }
 
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>

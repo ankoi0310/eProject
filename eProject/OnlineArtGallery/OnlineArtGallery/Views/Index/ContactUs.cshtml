@@ -61,13 +61,13 @@
 @section Scripts{
     <script>
         var a = $("#btnemail");
+        console.log(emailx());
         a.click(function () {
             var name = $("#name").val();
             var email = $("#email").val();
             var message = $("#message").val();
             var stringEmail = email.toString();
             var subEmail = stringEmail.substring(stringEmail.length - 10, stringEmail.length);
-            console.log(subEmail);
             if (email == ""||message==""||name=="") {
                 $("#aleartall").html("You need to fill all to send mesage");
                 $("#aleartall").append(`<button id="close">×</button>`);

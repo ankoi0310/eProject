@@ -200,6 +200,14 @@
                             <span class="details">Bid Increment (US)</span>
                             <h5 class="info">$@Auction.StepPrice</h5>
                         </li>
+                        <li>
+                            <span class="details">Begin Day</span>
+                            <h5 class="info">@Auction.BeginDay.ToString("dd/MM/yyyy")</h5>
+                        </li>
+                        <li>
+                            <span class="details">End Day</span>
+                            <h5 class="info">@Auction.EndDay.ToString("dd/MM/yyyy")</h5>
+                        </li>
                     </ul>
                     <div class="product-bid-area">
                         <form class="product-bid-form" method="post" action="@Url.Action("AddBid","index")" id="BidForm">

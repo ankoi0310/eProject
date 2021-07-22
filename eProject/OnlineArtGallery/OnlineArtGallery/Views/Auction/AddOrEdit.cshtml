@@ -14,11 +14,11 @@
                 <label asp-for="BeginDay" class="control-label"></label>
                 @if (Model.Id == 0)
                 {
-                    <input asp-for="BeginDay" type="date" class="form-control" placeholder="dd/MM/yyyy" value="@now.ToShortDateString()" />
+                    <input asp-for="BeginDay" type="date" class="form-control" placeholder="dd/MM/yyyy" value="@now.ToString("yyyy-MM-dd")" />
                 }
                 else
                 {
-                    <input asp-for="BeginDay" type="date" class="form-control" placeholder="dd/MM/yyyy" />
+                    <input asp-for="BeginDay" type="date" class="form-control" placeholder="dd/MM/yyyy" value="@Model.BeginDay.ToString("yyyy-MM-dd")"/>
                 }
                 <span asp-validation-for="BeginDay" class="text-danger"></span>
             </div>
@@ -26,11 +26,11 @@
                 <label asp-for="EndDay" class="control-label"></label>
                 @if (Model.Id == 0)
                 {
-                    <input asp-for="EndDay" type="date" class="form-control" placeholder="dd/MM/yyyy" value="@now.ToShortDateString()" />
+                    <input asp-for="EndDay" type="date" class="form-control" placeholder="dd/MM/yyyy" value="@now.ToString("yyyy-MM-dd")" />
                 }
                 else
                 {
-                    <input asp-for="EndDay" type="date" class="form-control" placeholder="dd/MM/yyyy" />
+                    <input asp-for="EndDay" type="date" class="form-control" placeholder="dd/MM/yyyy" value="@Model.EndDay.ToString("yyyy-MM-dd")"/>
                 }
                 <span asp-validation-for="EndDay" class="text-danger"></span>
             </div>

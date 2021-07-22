@@ -83,14 +83,14 @@
             <div class="section-header-3">
                 <div class="left">
                     <div class="thumb">
-                        <img src="~/assetsIndex/images/header-icons/car-1.png" alt="header-icons">
+                        <img src="~/assetsIndex/images/header-icons/art-1.png" alt="header-icons">
                     </div>
                     <div class="title-area">
                         <h2 class="title">New Artwork</h2>
                         <p>We offer affordable deal</p>
                     </div>
                 </div>
-                <a href="#0" class="normal-button">View All</a>
+                <a href="/index/artwork" class="normal-button">View All</a>
             </div>
             <div class="row justify-content-center mb-30-none">
                 @foreach (var item in ListArtwork)
@@ -106,7 +106,7 @@
                                 <h6 class="title">
                                     <a href="#0">@item.Name</a>
                                 </h6>
-                                <div class="bid-area">
+                                <div class="bid-area" >
                                     <div class="bid-amount">
                                         <div class="amount-content">
                                             <div class="current">Artist</div>
@@ -123,12 +123,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center">
+                                @*<div class="text-center">
                                     <a href="#0" id="btnAdd" name="btnAdd" data-id="@item.Id" class="custom-button"><i class="fas fa-shopping-cart"></i>ADD TO CART</a>
                                     <div class="alert alert-info" style="display:none" role="alert" id="alertBoxBid">
                                         This is a info alert—check it out!
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
                     <p>Online auctions where you can bid now and save money</p>
                 </div>
             </div>
-            <a href="#0" class="normal-button">View All</a>
+            <a href="/index/auction" class="normal-button">View All</a>
         </div>
         <div class="row justify-content-center mb-30-none">
             @foreach (Auction item in ListAuctionShow)

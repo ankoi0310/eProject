@@ -216,7 +216,18 @@ namespace OnlineArtGallery.Controllers
             cus = Tools.GetCustomerfromSession(HttpContext.Session.GetString("USER")) == null ? null : Tools.GetCustomerfromSession(HttpContext.Session.GetString("USER"));
             if (cus != null)
             {
-                ViewBag.listTransaction = Tools.GetTransactionsFromCustomerId(cus.Id);
+                if (_user.UsertypeId == 3)
+                {
+                    ViewBag.listTransaction = Tools.GetTransactionsFromCustomerId(cus.Id);
+                }
+                else
+                {
+                    context.Artworks.ToList();
+                    context.Artists.ToList();
+                    List<TransactionDetail> ListTransDetail = context.TransactionDetails.Where(x => x.Artwork.Artist.UserId == _user.Id).ToList();
+                    ViewBag.listTransaction = context.Transactions.Where(x => ListTransDetail.Select(x => x.TransactionId).Contains(x.Id)).ToList();
+            }
+                
             }
             return View();
         }
