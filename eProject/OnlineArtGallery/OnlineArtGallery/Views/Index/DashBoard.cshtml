@@ -1,5 +1,5 @@
 ﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";
-    List <Transaction> listTransaction = null;
+    List<Transaction> listTransaction = null;
     if (ViewBag.listTransaction != null)
     {
         listTransaction = ViewBag.listTransaction;
@@ -80,7 +80,7 @@
                                 <a href="#pending" data-toggle="tab">Transaction Detail</a>
                             </li>
                             @*<li>
-                                <a href="#history" data-toggle="tab">History</a>
+                                <a href="#history" data-toggle="tab">Auction Bid</a>
                             </li>*@
                         </ul>
                         <div class="tab-content">
@@ -96,7 +96,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach(var item in listTransaction)
+                                        @foreach (var item in listTransaction)
                                         {
                                             <tr>
                                                 <td data-purchase="item">@item.Id</td>
@@ -106,7 +106,7 @@
                                                 <td data-purchase="expires">@Tools.GetStatusById(item.StatusId).Name</td>
                                             </tr>
                                         }
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -138,6 +138,95 @@
                                 </table>
                             </div>
                             @*<div class="tab-pane show fade" id="history">
+                                <table class="purchasing-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Transaction ID</th>
+                                            <th>Artwork</th>
+                                            <th>Price</th>
+                                            <th>Fee</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in listTransaction)
+                                        {
+                                            foreach (var td in Tools.GetTransactionDetailsFromIdTransaction(item.Id))
+                                            {
+                                                <tr>
+                                                    <td data-purchase="item">@td.TransactionId</td>
+                                                    <td data-purchase="bid price">@Tools.GetArtworkById(td.ArtworkId).Name</td>
+                                                    <td data-purchase="highest bid">@td.Price</td>
+                                                    <td data-purchase="lowest bid">@td.Fee</td>
+                                                </tr>
+                                            }
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>*@
+                            @*<div class="tab-pane show fade" id="history">
+                                <table class="purchasing-table">
+                                    <thead>
+                                    <th>Item</th>
+                                    <th>Bid Price</th>
+                                    <th>Highest Bid</th>
+                                    <th>Lowest Bid</th>
+                                    <th>Expires</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td data-purchase="item">2018 Hyundai Sonata</td>
+                                            <td data-purchase="bid price">$1,775.00</td>
+                                            <td data-purchase="highest bid">$1,775.00</td>
+                                            <td data-purchase="lowest bid">$1,400.00</td>
+                                            <td data-purchase="expires">7/2/2021</td>
+                                        </tr>
+                                        <tr>
+                                            <td data-purchase="item">2018 Hyundai Sonata</td>
+                                            <td data-purchase="bid price">$1,775.00</td>
+                                            <td data-purchase="highest bid">$1,775.00</td>
+                                            <td data-purchase="lowest bid">$1,400.00</td>
+                                            <td data-purchase="expires">7/2/2021</td>
+                                        </tr>
+                                        <tr>
+                                            <td data-purchase="item">2018 Hyundai Sonata</td>
+                                            <td data-purchase="bid price">$1,775.00</td>
+                                            <td data-purchase="highest bid">$1,775.00</td>
+                                            <td data-purchase="lowest bid">$1,400.00</td>
+                                            <td data-purchase="expires">7/2/2021</td>
+                                        </tr>
+                                        <tr>
+                                            <td data-purchase="item">2018 Hyundai Sonata</td>
+                                            <td data-purchase="bid price">$1,775.00</td>
+                                            <td data-purchase="highest bid">$1,775.00</td>
+                                            <td data-purchase="lowest bid">$1,400.00</td>
+                                            <td data-purchase="expires">7/2/2021</td>
+                                        </tr>
+                                        <tr>
+                                            <td data-purchase="item">2018 Hyundai Sonata</td>
+                                            <td data-purchase="bid price">$1,775.00</td>
+                                            <td data-purchase="highest bid">$1,775.00</td>
+                                            <td data-purchase="lowest bid">$1,400.00</td>
+                                            <td data-purchase="expires">7/2/2021</td>
+                                        </tr>
+                                        <tr>
+                                            <td data-purchase="item">2018 Hyundai Sonata</td>
+                                            <td data-purchase="bid price">$1,775.00</td>
+                                            <td data-purchase="highest bid">$1,775.00</td>
+                                            <td data-purchase="lowest bid">$1,400.00</td>
+                                            <td data-purchase="expires">7/2/2021</td>
+                                        </tr>
+                                        <tr>
+                                            <td data-purchase="item">2018 Hyundai Sonata</td>
+                                            <td data-purchase="bid price">$1,775.00</td>
+                                            <td data-purchase="highest bid">$1,775.00</td>
+                                            <td data-purchase="lowest bid">$1,400.00</td>
+                                            <td data-purchase="expires">7/2/2021</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane show fade" id="history">
                                 <table class="purchasing-table">
                                     <thead>
                                     <th>Item</th>

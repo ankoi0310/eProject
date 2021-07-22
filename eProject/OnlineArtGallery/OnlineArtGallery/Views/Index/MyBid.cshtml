@@ -5,6 +5,12 @@
     {
         MyBid = ViewBag.MyBid;
     }
+
+    List<Auction> MyPassBid = null;
+    if (ViewBag.MyPassBid != null)
+    {
+        MyPassBid = ViewBag.MyPassBid;
+    }
 }
 
 <!--============= Hero Section Starts Here =============-->
@@ -68,7 +74,7 @@
                                 <div class="col-sm-10 col-md-6">
                                     <div class="auction-item-2">
                                         <div class="auction-thumb">
-                                            <a href="product-details.html"><img src="~/assets/img/artwork/@item.Artwork.Image" alt="car"></a>
+                                            <a href="product-details.html"><img src="~/assets/img/artwork/@item.Artwork.Image" height="300" alt="car"></a>
                                             <a href="#0" class="rating"><i class="far fa-star"></i></a>
                                             <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
                                         </div>
@@ -115,178 +121,69 @@
                     </div>
                     <div class="tab-pane fade" id="past">
                         <div class="row justify-content-center mb-30-none">
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.html"><img src="~/assetsIndex/images/auction/jewelry/auction-1.jpg" alt="jewelry"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="product-details.html">Gold Ring With Clear Stones</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
-                                            </div>
+
+                            @foreach (var item in MyPassBid)
+                            {
+                                long CurrentBid = 0;
+                                int BidCount = 0;
+                                if (item.AuctionRecords != null)
+                                {
+                                    CurrentBid = item.AuctionRecords.Max(x => x.BidPrice);
+                                    BidCount = item.AuctionRecords.Count();
+                                    if (CurrentBid == 0)
+                                    {
+                                        CurrentBid = item.ReservePrice;
+                                    }
+                                }
+                                else
+                                {
+                                    CurrentBid = item.ReservePrice;
+                                }
+                                <div class="col-sm-10 col-md-6">
+                                    <div class="auction-item-2">
+                                        <div class="auction-thumb">
+                                            <a href="product-details.html"><img src="~/assets/img/artwork/@item.Artwork.Image" height="300" alt="car"></a>
+                                            <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                                            <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
                                         </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter23"></div>
-                                            </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.html"><img src="~/assetsIndex/images/auction/jewelry/auction-2.jpg" alt="jewelry"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="product-details.html">Ring With Clear Stone Accents</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
+                                        <div class="auction-content">
+                                            <h6 class="title">
+                                                <a href="#0">@item.Artwork.Name</a>
+                                            </h6>
+                                            <div class="bid-area">
+                                                <div class="bid-amount">
+                                                    <div class="icon">
+                                                        <i class="flaticon-auction"></i>
+                                                    </div>
+                                                    <div class="amount-content">
+                                                        <div class="current">Current Bid</div>
+                                                        <div class="amount">$@CurrentBid</div>
+                                                    </div>
                                                 </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
+                                                <div class="bid-amount">
+                                                    <div class="icon">
+                                                        <i class="flaticon-money"></i>
+                                                    </div>
+                                                    <div class="amount-content">
+                                                        <div class="current">Begin bid</div>
+                                                        <div class="amount">$@item.ReservePrice</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
+                                            <div class="countdown-area">
+                                                <div class="countdown">
+                                                    <div id="bid_counter26"></div>
                                                 </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
+                                                <span class="total-bids">@BidCount Bids</span>
                                             </div>
-                                        </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter24"></div>
+                                            <div class="text-center">
+                                                <a href="/Index/auctiondetail?auctionId=@item.Id" class="custom-button">Detail</a>
                                             </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.html"><img src="~/assetsIndex/images/auction/jewelry/auction-3.jpg" alt="jewelry"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="product-details.html">Gold Ring With Clear Stones</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter25"></div>
-                                            </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-10 col-md-6">
-                                <div class="auction-item-2">
-                                    <div class="auction-thumb">
-                                        <a href="product-details.html"><img src="~/assetsIndex/images/auction/product/04.png" alt="jewelry"></a>
-                                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                                    </div>
-                                    <div class="auction-content">
-                                        <h6 class="title">
-                                            <a href="product-details.html">Gold Ring With Clear Stones</a>
-                                        </h6>
-                                        <div class="bid-area">
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-auction"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Current Bid</div>
-                                                    <div class="amount">$876.00</div>
-                                                </div>
-                                            </div>
-                                            <div class="bid-amount">
-                                                <div class="icon">
-                                                    <i class="flaticon-money"></i>
-                                                </div>
-                                                <div class="amount-content">
-                                                    <div class="current">Buy Now</div>
-                                                    <div class="amount">$5,00.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="countdown-area">
-                                            <div class="countdown">
-                                                <div id="bid_counter30"></div>
-                                            </div>
-                                            <span class="total-bids">30 Bids</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <a href="#0" class="custom-button">Submit a bid</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            }
+
                         </div>
                     </div>
                 </div>
