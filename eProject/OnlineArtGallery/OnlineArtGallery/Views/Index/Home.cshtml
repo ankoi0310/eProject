@@ -1,4 +1,26 @@
-﻿@{Layout = "~/Views/UserLayout/MainLayout.cshtml";}
+﻿@{
+    Layout = "~/Views/UserLayout/MainLayout.cshtml";
+
+    List<Artwork> ListArtwork = null;
+    if (ViewBag.ListArtwork != null)
+    {
+        ListArtwork = ViewBag.ListArtwork;
+    }
+
+    List<Auction> ListAuctionShow = null;
+    if (ViewBag.ListAuctionShow != null)
+    {
+        ListAuctionShow = ViewBag.ListAuctionShow;
+    }
+
+    List<ArtCategory> ListArtCategory = null;
+    if (ViewBag.ListArtCategory != null)
+    {
+        ListArtCategory = ViewBag.ListArtCategory;
+    }
+
+    DateTime now = DateTime.Now;
+}
 <!--============= Banner Section Starts Here =============-->
 <section class="banner-section bg_img" data-background='@Url.Content("~/assetsIndex/2020/02/bannerx.jpg")'>
     <div class="container">
@@ -10,7 +32,7 @@
                     <p>
                         Online Auction is where everyone goes to shop, sell,and give, while discovering variety and affordability.
                     </p>
-                    <a href="#0" class="custom-button yellow btn-large">Get Started</a>
+                    <a href="/index/artwork" class="custom-button yellow btn-large">Get Started</a>
                 </div>
             </div>
             <div class="d-none d-lg-block col-lg-6">
@@ -42,30 +64,13 @@
             </div>
             <div class="m--15">
                 <div class="browse-slider owl-theme owl-carousel">
-                    <a href="#0" class="browse-item">
+                    @foreach (var item in ListArtCategory)
+                    {
+                    <a href="/Index/artwork" class="browse-item">
                         <img src="~/assetsIndex/2020/02/1.jpg" alt="auction">
-                        <span class="info">Fine</span>
+                        <span class="info">@item.Name</span>
                     </a>
-                    <a href="#0" class="browse-item">
-                        <img src="~/assetsIndex/2020/02/1.jpg" alt="auction">
-                        <span class="info">Jewelry</span>
-                    </a>
-                    <a href="#0" class="browse-item">
-                        <img src="~/assetsIndex/images/auction/03.png" alt="auction">
-                        <span class="info">Watches</span>
-                    </a>
-                    <a href="#0" class="browse-item">
-                        <img src="~/assetsIndex/images/auction/04.png" alt="auction">
-                        <span class="info">Electronics</span>
-                    </a>
-                    <a href="#0" class="browse-item">
-                        <img src="~/assetsIndex/images/auction/05.png" alt="auction">
-                        <span class="info">Sports</span>
-                    </a>
-                    <a href="#0" class="browse-item">
-                        <img src="~/assetsIndex/images/auction/06.png" alt="auction">
-                        <span class="info">Real Estate</span>
-                    </a>
+                    }
                 </div>
             </div>
         </div>
@@ -81,14 +86,54 @@
                         <img src="~/assetsIndex/images/header-icons/car-1.png" alt="header-icons">
                     </div>
                     <div class="title-area">
-                        <h2 class="title">Fine art</h2>
-                        <p>We offer affordable Vehicles</p>
+                        <h2 class="title">New Artwork</h2>
+                        <p>We offer affordable deal</p>
                     </div>
                 </div>
                 <a href="#0" class="normal-button">View All</a>
             </div>
             <div class="row justify-content-center mb-30-none">
-                <div class="col-sm-10 col-md-6 col-lg-4">
+                @foreach (var item in ListArtwork)
+                {
+                    <div class="col-sm-10 col-md-6 col-lg-4">
+                        <div class="auction-item-2">
+                            <div class="auction-thumb">
+                                <a href="/Index/artworkdetail?id=@item.Id"><img id="srcImg" width="300px" height="300px" src="~/assets/img/artwork/@item.Image" alt="product"></a>
+                                <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                                @*<a href="#0" class="bid"><i class="flaticon-auction"></i></a>*@
+                            </div>
+                            <div class="auction-content">
+                                <h6 class="title">
+                                    <a href="#0">@item.Name</a>
+                                </h6>
+                                <div class="bid-area">
+                                    <div class="bid-amount">
+                                        <div class="amount-content">
+                                            <div class="current">Artist</div>
+                                            <div class="amount">@item.Artist.Name</div>
+                                        </div>
+                                    </div>
+                                    <div class="bid-amount">
+                                        <div class="icon">
+                                            <i class="flaticon-money"></i>
+                                        </div>
+                                        <div class="amount-content">
+                                            <div class="current">Price</div>
+                                            <div class="amount" data-id="@item.Id">@item.DefautPrice</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <a href="#0" id="btnAdd" name="btnAdd" data-id="@item.Id" class="custom-button"><i class="fas fa-shopping-cart"></i>ADD TO CART</a>
+                                    <div class="alert alert-info" style="display:none" role="alert" id="alertBoxBid">
+                                        This is a info alert—check it out!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @*<div class="col-sm-10 col-md-6 col-lg-4">
                     <div class="auction-item-2">
                         <div class="auction-thumb">
                             <a href="product-details.html"><img src="~/assetsIndex/images/auction/car/aution/cat.png" alt="car"></a>
@@ -130,93 +175,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-4">
-                    <div class="auction-item-2">
-                        <div class="auction-thumb">
-                            <a href="product-details.html"><img src="~/assetsIndex/images/auction/car/aution/axtanh.png" alt="car"></a>
-                            <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                            <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                        </div>
-                        <div class="auction-content">
-                            <h6 class="title">
-                                <a href="product-details.html">2018 Nissan Versa, S</a>
-                            </h6>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="flaticon-auction"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="flaticon-money"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="amount">$5,00.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="countdown-area">
-                                <div class="countdown">
-                                    <div id="bid_counter27"></div>
-                                </div>
-                                <span class="total-bids">30 Bids</span>
-                            </div>
-                            <div class="text-center">
-                                <a href="#0" class="custom-button">Submit a bid</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-10 col-md-6 col-lg-4">
-                    <div class="auction-item-2">
-                        <div class="auction-thumb">
-                            <a href="product-details.html"><img src="~/assetsIndex/images/auction/car/aution/bird.png" alt="car"></a>
-                            <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                            <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                        </div>
-                        <div class="auction-content">
-                            <h6 class="title">
-                                <a href="product-details.html">2018 Honda Accord, Sport</a>
-                            </h6>
-                            <div class="bid-area">
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="flaticon-auction"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Current Bid</div>
-                                        <div class="amount">$876.00</div>
-                                    </div>
-                                </div>
-                                <div class="bid-amount">
-                                    <div class="icon">
-                                        <i class="flaticon-money"></i>
-                                    </div>
-                                    <div class="amount-content">
-                                        <div class="current">Buy Now</div>
-                                        <div class="amount">$5,00.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="countdown-area">
-                                <div class="countdown">
-                                    <div id="bid_counter28"></div>
-                                </div>
-                                <span class="total-bids">30 Bids</span>
-                            </div>
-                            <div class="text-center">
-                                <a href="#0" class="custom-button">Submit a bid</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div>*@
+
             </div>
         </div>
     </section>
@@ -234,14 +194,92 @@
                     <img src="~/assetsIndex/images/header-icons/coin-1.png" alt="header-icons">
                 </div>
                 <div class="title-area">
-                    <h2 class="title">Plastic Art</h2>
-                    <p>Online jewelry auctions where you can bid now and save money</p>
+                    <h2 class="title">New Artwork Auction</h2>
+                    <p>Online auctions where you can bid now and save money</p>
                 </div>
             </div>
             <a href="#0" class="normal-button">View All</a>
         </div>
         <div class="row justify-content-center mb-30-none">
-            <div class="col-sm-10 col-md-6 col-lg-4">
+            @foreach (Auction item in ListAuctionShow)
+            {
+                long CurrentBid = 0;
+                int BidCount = 0;
+                if (item.AuctionRecords != null)
+                {
+                    CurrentBid = item.AuctionRecords.Max(x => x.BidPrice);
+                    BidCount = item.AuctionRecords.Count();
+                    if (CurrentBid == 0)
+                    {
+                        CurrentBid = item.ReservePrice;
+                    }
+                }
+                else
+                {
+                    CurrentBid = item.ReservePrice;
+                }
+
+                string status = "";
+                @if (DateTime.Compare(item.BeginDay, now) > 0)
+                {
+                    status = "Comming soon";
+                }
+                else if (DateTime.Compare(item.EndDay, now) <= 0)
+                {
+                    status = "Expired";
+                    continue;
+                }
+                else
+                {
+                    status = "End day: " + item.EndDay.ToString("dd/MM/yyyy");
+                }
+
+                <div class="col-sm-10 col-md-6 col-lg-4">
+                    <div class="auction-item-2">
+                        <div class="auction-thumb">
+                            <a href="/Index/auctiondetail?auctionId=@item.Id"><img src="~/assets/img/artwork/@item.Artwork.Image" height="230" alt="product"></a>
+                            <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                            <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
+                        </div>
+                        <div class="auction-content">
+                            <h6 class="title">
+                                <a href="#0">@item.Artwork.Name</a>
+                            </h6>
+                            <div class="bid-area">
+                                <div class="bid-amount">
+                                    <div class="icon">
+                                        <i class="flaticon-auction"></i>
+                                    </div>
+                                    <div class="amount-content">
+                                        <div class="current">Current Bid</div>
+                                        <div class="amount">$@CurrentBid</div>
+                                    </div>
+                                </div>
+                                <div class="bid-amount">
+                                    <div class="icon">
+                                        <i class="flaticon-money"></i>
+                                    </div>
+                                    <div class="amount-content">
+                                        <div class="current">Begin bid</div>
+                                        <div class="amount">$@item.ReservePrice</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="countdown-area">
+                                <div class="countdown">
+                                    <span>@status</span>
+                                </div>
+                                <span class="total-bids">@BidCount Bids</span>
+                            </div>
+                            <div class="text-center">
+                                <a href="/Index/auctiondetail?auctionId=@item.Id" class="custom-button">Submit a bid</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @*<div class="col-sm-10 col-md-6 col-lg-4">
                 <div class="auction-item-2">
                     <div class="auction-thumb">
                         <a href="product-details.html"><img src="~/assetsIndex/images/auction/car/aution/color.png" alt="jewelry"></a>
@@ -283,93 +321,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-10 col-md-6 col-lg-4">
-                <div class="auction-item-2">
-                    <div class="auction-thumb">
-                        <a href="product-details.html"><img src="~/assetsIndex/images/auction/car/aution/dog2.png" alt="jewelry"></a>
-                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                    </div>
-                    <div class="auction-content">
-                        <h6 class="title">
-                            <a href="product-details.html">Ring With Clear Stone Accents</a>
-                        </h6>
-                        <div class="bid-area">
-                            <div class="bid-amount">
-                                <div class="icon">
-                                    <i class="flaticon-auction"></i>
-                                </div>
-                                <div class="amount-content">
-                                    <div class="current">Current Bid</div>
-                                    <div class="amount">$876.00</div>
-                                </div>
-                            </div>
-                            <div class="bid-amount">
-                                <div class="icon">
-                                    <i class="flaticon-money"></i>
-                                </div>
-                                <div class="amount-content">
-                                    <div class="current">Buy Now</div>
-                                    <div class="amount">$5,00.00</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="countdown-area">
-                            <div class="countdown">
-                                <div id="bid_counter24"></div>
-                            </div>
-                            <span class="total-bids">30 Bids</span>
-                        </div>
-                        <div class="text-center">
-                            <a href="#0" class="custom-button">Submit a bid</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-10 col-md-6 col-lg-4">
-                <div class="auction-item-2">
-                    <div class="auction-thumb">
-                        <a href="product-details.html"><img src="~/assetsIndex/images/auction/car/aution/hourse.png" alt="jewelry"></a>
-                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
-                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
-                    </div>
-                    <div class="auction-content">
-                        <h6 class="title">
-                            <a href="product-details.html">Gold Ring With Clear Stones</a>
-                        </h6>
-                        <div class="bid-area">
-                            <div class="bid-amount">
-                                <div class="icon">
-                                    <i class="flaticon-auction"></i>
-                                </div>
-                                <div class="amount-content">
-                                    <div class="current">Current Bid</div>
-                                    <div class="amount">$876.00</div>
-                                </div>
-                            </div>
-                            <div class="bid-amount">
-                                <div class="icon">
-                                    <i class="flaticon-money"></i>
-                                </div>
-                                <div class="amount-content">
-                                    <div class="current">Buy Now</div>
-                                    <div class="amount">$5,00.00</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="countdown-area">
-                            <div class="countdown">
-                                <div id="bid_counter25"></div>
-                            </div>
-                            <span class="total-bids">30 Bids</span>
-                        </div>
-                        <div class="text-center">
-                            <a href="#0" class="custom-button">Submit a bid</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div>*@
+
         </div>
     </div>
 </section>

@@ -29,7 +29,13 @@ namespace OnlineArtGallery.Controllers
 
         public IActionResult Home()
         {
-            //ViewBag.User = _user;
+            context.Artworks.ToList();
+            context.Artists.ToList();
+            ViewBag.ListArtCategory = context.ArtCategories.ToList();
+            var ListAuction = context.Auctions.ToList();
+            ViewBag.ListArtwork = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true)
+                .OrderByDescending(x => x.Id).Take(3).ToList();
+            ViewBag.ListAuctionShow = context.Auctions.Where(x => x.Active == true).OrderByDescending(x => x.Id).Take(3).ToList();
             return View();
         }
         public IActionResult Gallery()
@@ -64,7 +70,7 @@ namespace OnlineArtGallery.Controllers
             context.Artists.ToList();
             context.Artworks.ToList();
             context.AuctionRecords.ToList();
-            ViewBag.ListAuction = context.Auctions.Where(x=>x.Artwork.Active == true).ToList();
+            ViewBag.ListAuction = context.Auctions.Where(x => x.Artwork.Active == true).ToList();
             return View();
         }
         public IActionResult AuctionDetail(int auctionId)
@@ -158,7 +164,7 @@ namespace OnlineArtGallery.Controllers
             if (ModelState.IsValid)
             {
                 //var user = Tools.GetUser(username, password);
-                var user = context.Users.FirstOrDefault(u => u.Username== username && u.Password == password);
+                var user = context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
                 _user = user;
                 if (user != null)
                 {
@@ -169,10 +175,11 @@ namespace OnlineArtGallery.Controllers
                             //HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetCustomerFromUser(user.Id)));
                             HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(context.Customers.Where(x => x.UserId == user.Id).SingleOrDefault()));
                             return RedirectToAction("Home", "Index");
-                        } else
+                        }
+                        else
                         {
                             //HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(Tools.GetArtistFromUser(user.Id)));
-                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(context.Artists.Where(x=>x.UserId == user.Id).SingleOrDefault()));
+                            HttpContext.Session.SetString("USER", JsonConvert.SerializeObject(context.Artists.Where(x => x.UserId == user.Id).SingleOrDefault()));
                             return RedirectToAction("Home", "Index");
                         }
                     }
@@ -229,7 +236,7 @@ namespace OnlineArtGallery.Controllers
         }
 
         //[Bind("Id,Name,Gender,Birthday,Phone,Email,Address,UserId")]
-        public async Task<IActionResult> Update( UserUpdate userUpdate)
+        public async Task<IActionResult> Update(UserUpdate userUpdate)
         {
             if (ModelState.IsValid)
             {
@@ -316,9 +323,9 @@ namespace OnlineArtGallery.Controllers
             //string sessionString = HttpContext.Session.GetString("USER");
             //Customer cus = Tools.GetCustomerfromSession(sessionString);
             ViewBag.User = _user;
-            Customer cus = context.Customers.Where(x=>x.UserId == _user.Id).SingleOrDefault();
+            Customer cus = context.Customers.Where(x => x.UserId == _user.Id).SingleOrDefault();
             List<MyGallery> listMyGallery = context.MyGalleries.Where(x => x.CustomerId == cus.Id && x.Favorite == true).ToList();
-            ViewBag.listArtwork = context.Artworks.Where(x => listMyGallery.Select(y => y.ArtworkId).Contains(x.Id)&& x.Active == true).ToList();
+            ViewBag.listArtwork = context.Artworks.Where(x => listMyGallery.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).ToList();
             ViewBag.auction = context.Auctions.ToList();
             return View();
         }
@@ -463,7 +470,7 @@ namespace OnlineArtGallery.Controllers
             detailTrans.Fee = totalFee;
             context.TransactionDetails.Add(detailTrans);
             Artwork aw = context.Artworks.Find(artworkId);
-            Auction au = context.Auctions.Where(x=>x.ArtworkId==artworkId).SingleOrDefault();
+            Auction au = context.Auctions.Where(x => x.ArtworkId == artworkId).SingleOrDefault();
             au.Active = false;
             aw.Active = false;
             context.Update(au);
