@@ -9170,6 +9170,7 @@ div #close {
     cursor: pointer;
     overflow: hidden;
     border-radius:30px;
+    font-size:x-large;
 }
     div #close:hover {
         outline: 0;

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
+using MailKit.Net.Smtp;
 using Newtonsoft.Json;
 using OnlineArtGallery.Models;
 using System;
@@ -363,6 +365,32 @@ namespace OnlineArtGallery.Controllers
             ViewBag.User = context.Users.Find(cus.UserId);
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Email(string name, string email, string message)
+        {
+            var a = name;
+            var b = email;
+            var c = message;
+            var messenger = new MimeMessage();
+            messenger.From.Add(new MailboxAddress(name, "qk170295@gmail.com"));
+            messenger.To.Add(new MailboxAddress("khanh", "qk170295@gmail.com"));
+            messenger.Subject = email;
+            messenger.Body = new TextPart("plain")
+            {
+                Text = message
+            };
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("qk170295@gmail.com", "khanh754861");
+                client.Send(messenger);
+                client.Disconnect(true);
+            }
+
+            return new JsonResult("success");
+        }
+
 
         [HttpPost]
         public IActionResult categoryGalery(int id)

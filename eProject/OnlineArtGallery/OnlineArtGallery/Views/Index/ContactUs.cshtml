@@ -22,10 +22,14 @@
                 <h5 class="cate">Contact Us</h5>
                 <h2 class="title">get in touch</h2>
                 <p>We'd love to hear from you! Let us know how we can help.</p>
+                <div class="alert alert-danger d-none" role="alert" id="aleartall" aria-hidden="true">
+                    This is a info alert—check it out!
+                </div>
             </div>
-            <div class="row">
+
+            <div class="row" id="Sucess">
                 <div class="col-xl-8 col-lg-7">
-                    <form class="contact-form" id="contact_form">
+                    <div class="contact-form" id="contact_form">
                         <div class="form-group">
                             <label for="name"><i class="far fa-user"></i></label>
                             <input type="text" placeholder="Your Name" name="name" id="name">
@@ -33,15 +37,18 @@
                         <div class="form-group">
                             <label for="name"><i class="fas fa-envelope-open-text"></i></label>
                             <input type="text" placeholder="Enter Your Email ID" name="email" id="email">
+                            <div class="alert alert-danger d-none" role="alert" id="aleartemail" aria-hidden="true">
+                                This is a info alert—check it out!
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="message" class="message"><i class="far fa-envelope"></i></label>
                             <textarea name="message" id="message" placeholder="Type Your Message"></textarea>
                         </div>
                         <div class="form-group text-center mb-0">
-                            <button type="submit" class="custom-button">Send Message</button>
+                            <button id="btnemail" class="custom-button">Send Message</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 d-lg-block d-none">
                     <img src="~/assetsIndex/images/contact.png" class="w-100" alt="images">
@@ -51,3 +58,55 @@
     </div>
 </section>
 <!--============= Contact Section Ends Here =============-->
+@section Scripts{
+    <script>
+        var a = $("#btnemail");
+        a.click(function () {
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var message = $("#message").val();
+            var stringEmail = email.toString();
+            var subEmail = stringEmail.substring(stringEmail.length - 10, stringEmail.length);
+            console.log(subEmail);
+            if (email == ""||message==""||name=="") {
+                $("#aleartall").html("You need to fill all to send mesage");
+                $("#aleartall").append(`<button id="close">×</button>`);
+                $("#aleartall").removeClass("d-none");
+                return;
+            }
+            if (checkEmail(subEmail)==false) {
+                $("#aleartemail").html(`Your email have to have ${emailx()}`);
+                $("#aleartemail").append(`<button id="close" style="margin-left: 300px;">×</button>`);
+                $("#aleartall").addClass("d-none");
+                $("#aleartemail").removeClass("d-none");
+                return;
+            }
+            $.ajax({
+                type:"POST",
+                url: '@Url.Action("Email", "Index")',
+                data: { name: name, email: email, message:message},
+                dataType: 'json',
+                success: function (smg) {
+                    $(".title").html("Thanks for your opinion!")
+                    $(".cate").html("Success");
+
+                    $("#Sucess").html(
+                        `<div style="text-align:center">
+                    <i class="fa fa-check fa-10x" style="color:green;" aria-hidden="true"></i>
+                      </div>
+                    <div style="text-align:center;margin-top:50px">
+                            <a href="Home" class="custom-button">Back to home</a>
+                    </div>`
+                    );
+                  }
+                })
+        })
+        $(document).ready(function () {
+            $("body").on("click", "#close", function () {
+                $("#aleartemail").addClass("d-none");
+                $("#aleartall").addClass("d-none");
+
+            })
+        })
+    </script>
+}

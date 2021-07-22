@@ -1724,3 +1724,11 @@ function total() {
 }
 
 /*EndCart */
+function checkEmail(a) {
+    if (a != "@gmail.com") {
+        return false;
+    }
+}
+function emailx() {
+    return "@gmail.com"
+}
