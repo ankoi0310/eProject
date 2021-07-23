@@ -5,6 +5,13 @@
     {
         User = ViewBag.User;
     }
+
+    List<AuctionRecord> AuctionRecords = null;
+    if (ViewBag.AuctionRecords != null)
+    {
+        AuctionRecords = ViewBag.AuctionRecords;
+    }
+
     DateTime now = DateTime.Now;
 }
 <div class="row">
@@ -33,17 +40,27 @@
                                 Step Price
                             </th>
                             <th>
-                                Description
+                                Status
                             </th>
                             <th>
-                                Active
+                                Bids
                             </th>
+                            @if (User != null && User.UsertypeId == 1)
+                            {
+                                <th>
+                                    Artist
+                                </th>
+                            }
                             @if (User != null && User.UsertypeId == 2)
                             {
                                 <th>
                                     @*<a onclick="showInPopup('@Url.Action("AddOrEdit", "Artwork", null, Context.Request.Scheme)', 'New Artwork')" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>*@
                                     <a href="/artwork/list" class="btn btn-success btn-block"><i class="fas fa-plus"></i></a>
                                 </th>
+                            }
+                            else
+                            {
+                                <th></th>
                             }
 
 
@@ -66,41 +83,56 @@
                             {
                                 status = "Ongoing";
                             }
-                            <tr>
-                                <td>
-                                    @item.Id
-                                </td>
-                                <td>
-                                    @item.Artwork.Name
-                                </td>
-                                <td>
-                                    @item.BeginDay.ToString("dd/MM/yyyy")
-                                </td>
-                                <td>
-                                    @item.EndDay.ToString("dd/MM/yyyy")
-                                </td>
-                                <td>
-                                    @item.ReservePrice
-                                </td>
-                                <td>
-                                    @item.StepPrice
-                                </td>
-                                <td>
-                                    @item.Description
-                                </td>
-                                <td class="text-center">@status</td>
-                                <td>
-                                    @if (User != null && User.UsertypeId == 2 && status != "Expired")
-                                    {
 
-                                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Auction", new { item.Id }, Context.Request.Scheme)', 'Update Auction')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                            int bidNumber = AuctionRecords == null ? 0 : AuctionRecords.Where(x => x.AuctionId == item.Id).Count();
+                        <tr>
+                            <td>
+                                @item.Id
+                            </td>
+                            <td>
+                                @item.Artwork.Name
+                            </td>
+                            <td>
+                                @item.BeginDay.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.EndDay.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.ReservePrice
+                            </td>
+                            <td>
+                                @item.StepPrice
+                            </td>
+                            <td class="text-center">@status</td>
+                            <td>
+                                @bidNumber
+                            </td>
+                            @if (User != null && User.UsertypeId == 1)
+                            {
+                                <td>
+                                    @item.Artist.Name
+                                </td>
+                            }
+                            @if (User != null && User.UsertypeId == 2 && status != "Expired")
+                            {
+                                <td>
+                                    <a onclick="showInPopup('@Url.Action("AddOrEdit", "Auction", new { item.Id }, Context.Request.Scheme)', 'Update Auction')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                                    @if (bidNumber == 0)
+                                    {
                                         <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                                             <input type="submit" value="Delete" class="btn btn-danger" />
                                         </form>
-
                                     }
+
                                 </td>
-                            </tr>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                        </tr>
                         }
                     </tbody>
                 </table>

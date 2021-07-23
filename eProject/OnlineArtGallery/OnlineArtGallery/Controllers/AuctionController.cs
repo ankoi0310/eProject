@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using OnlineArtGallery.Models;
 using System;
 using System.Collections.Generic;
@@ -36,14 +37,17 @@ namespace OnlineArtGallery.Controllers
             _artist = Tools.GetArtistfromSession(sessionString);
             _context.ArtCategories.ToList();
             _context.Artists.ToList();
+
+            ViewBag.AuctionRecords = _context.AuctionRecords.ToList();
             User user = _context.Users.Find(_artist.UserId);
-            ViewBag.User = user;
             if (user != null && user.UsertypeId == 2)
             {
+                ViewBag.User = user;
                 return View(await _context.Auctions.Where(x => x.Artist.Id == _artist.Id).OrderByDescending(x => x.Id).ToListAsync());
             }
             else
             {
+                ViewBag.User = JsonConvert.DeserializeObject<User>(sessionString);
                 return View(await _context.Auctions.OrderByDescending(x => x.Id).ToListAsync());
             }
         }

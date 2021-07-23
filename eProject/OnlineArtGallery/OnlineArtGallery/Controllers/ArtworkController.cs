@@ -38,13 +38,15 @@ namespace OnlineArtGallery.Controllers
             _context.ArtCategories.ToList();
             _context.Artists.ToList();
             User user = _context.Users.Find(_artist.UserId);
-            ViewBag.User = user;
+            //ViewBag.User = user;
             if (user != null && user.UsertypeId == 2)
             {
+                ViewBag.User = user;
                 return View(await _context.Artworks.Where(x => x.Artist.Id == _artist.Id).OrderByDescending(x => x.Id).ToListAsync());
             }
             else
             {
+                ViewBag.User = JsonConvert.DeserializeObject<User>(sessionString);
                 return View(await _context.Artworks.OrderByDescending(x => x.Id).ToListAsync());
             }
 

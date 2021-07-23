@@ -45,7 +45,7 @@ namespace OnlineArtGallery.Controllers
             context.Artists.ToList();
             ViewBag.ListArtCategory = context.ArtCategories.ToList();
             var ListAuction = context.Auctions.ToList();
-            ViewBag.ListArtwork = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).ToList();
+            ViewBag.ListArtwork = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).OrderByDescending(x => x.Id).ToList();
             return View();
         }
 
@@ -72,7 +72,7 @@ namespace OnlineArtGallery.Controllers
             context.Artists.ToList();
             context.Artworks.ToList();
             context.AuctionRecords.ToList();
-            ViewBag.ListAuction = context.Auctions.Where(x => x.Artwork.Active == true).ToList();
+            ViewBag.ListAuction = context.Auctions.Where(x => x.Artwork.Active == true).OrderByDescending(x => x.Id).ToList();
             return View();
         }
         public IActionResult AuctionDetail(int auctionId)
@@ -211,7 +211,7 @@ namespace OnlineArtGallery.Controllers
             List<Auction> listAuction = context.Auctions.ToList();
             ViewBag.listAuction = context.Auctions.ToList();
             ViewBag.listArtCategory = context.ArtCategories.ToList();
-            ViewBag.listArtwork = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).ToList();
+            ViewBag.listArtwork = context.Artworks.Where(x => !listAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).OrderByDescending(x => x.Id).ToList();
             return View();
         }
 
@@ -231,8 +231,8 @@ namespace OnlineArtGallery.Controllers
                     context.Artists.ToList();
                     List<TransactionDetail> ListTransDetail = context.TransactionDetails.Where(x => x.Artwork.Artist.UserId == _user.Id).ToList();
                     ViewBag.listTransaction = context.Transactions.Where(x => ListTransDetail.Select(x => x.TransactionId).Contains(x.Id)).ToList();
-            }
-                
+                }
+
             }
             return View();
         }
@@ -414,7 +414,7 @@ namespace OnlineArtGallery.Controllers
             context.Artists.ToList();
             List<Artwork> aw = new List<Artwork>();
             var ListAuction = context.Auctions.ToList();
-            aw = context.Artworks.Where(p => p.ArtCategoryId == id && !ListAuction.Select(y => y.ArtworkId).Contains(p.Id)).ToList();
+            aw = context.Artworks.Where(p => p.ArtCategoryId == id && !ListAuction.Select(y => y.ArtworkId).Contains(p.Id) && p.Active == true).ToList();
             return new JsonResult(aw);
         }
 
@@ -424,7 +424,7 @@ namespace OnlineArtGallery.Controllers
             context.Artists.ToList();
             List<Artwork> aw = new List<Artwork>();
             var ListAuction = context.Auctions.ToList();
-            aw = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id)).ToList();
+            aw = context.Artworks.Where(x => !ListAuction.Select(y => y.ArtworkId).Contains(x.Id) && x.Active == true).ToList();
             return new JsonResult(aw);
         }
 
