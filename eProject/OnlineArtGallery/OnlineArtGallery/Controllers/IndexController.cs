@@ -137,6 +137,7 @@ namespace OnlineArtGallery.Controllers
                 {
                     if (context.Users.FirstOrDefault(u => u.Username == user.Username) == null && user.Username != null)
                     {
+                        user.Password = Tools.Encrypt(user.Password);
                         user.Active = true;
                         context.Add(user);
                         await context.SaveChangesAsync();
