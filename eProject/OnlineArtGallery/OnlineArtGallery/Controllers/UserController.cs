@@ -59,6 +59,7 @@ namespace OnlineArtGallery.Controllers
             {
                 if (id == 0)
                 {
+                    user.Password = Tools.Encrypt(user.Password);
                     _context.Add(user);
                     await _context.SaveChangesAsync();
                     if (user.UsertypeId == 3)
@@ -75,6 +76,7 @@ namespace OnlineArtGallery.Controllers
                 {
                     try
                     {
+                        user.Password = Tools.Encrypt(user.Password);
                         if (user.UsertypeId == 3)
                         {
                             Customer customer = Tools.GetCustomerFromUser(user.Id);
@@ -116,18 +118,19 @@ namespace OnlineArtGallery.Controllers
             if (user.UsertypeId == 3)
             {
                 Customer customer = Tools.GetCustomerFromUser(user.Id);
-                _context.Customers.Remove(customer);
+                customer.Active = false;
+                _context.Update(customer);
+                await _context.SaveChangesAsync();
             }
             if (user.UsertypeId == 2)
             {
                 Artist artist = Tools.GetArtistFromUser(user.Id);
-                _context.Artists.Remove(artist);
+                artist.Active = false;
+                _context.Update(artist);
+                await _context.SaveChangesAsync();
             }
-            if (user.UsertypeId == 1)
-            {
-                user.Active = false;
-                _context.Update(user);
-            }
+            user.Active = false;
+            _context.Update(user);
             await _context.SaveChangesAsync();
             return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Users.ToList()) });
         }

@@ -165,10 +165,14 @@ namespace OnlineArtGallery.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (username == null || password == null)
+                {
+                    return View();
+                }
                 //var user = Tools.GetUser(username, password);
-                var user = context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
+                var user = context.Users.FirstOrDefault(u => u.Username == username && u.Password == Tools.Encrypt(password));
                 _user = user;
-                if (user != null)
+                if (user != null && user.Active)
                 {
                     if (user.UsertypeId != 1)
                     {
@@ -190,7 +194,7 @@ namespace OnlineArtGallery.Controllers
                 }
                 else if (username != null || password != null)
                 {
-                    ViewBag.Error = "Wrong username or password!!!";
+                    ViewBag.Error = "Wrong password or account does not exist";
                 }
             }
             return View();
