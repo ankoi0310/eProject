@@ -1,4 +1,14 @@
-﻿@model IEnumerable<OnlineArtGallery.Models.User>
+﻿@using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Http;
+
+@model IEnumerable<OnlineArtGallery.Models.User>
+
+@{
+    if (Context.Session.GetString("USER") != null)
+    {
+        ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
+    }
+}
 
 <div class="row">
     <div class="col-12">
@@ -48,7 +58,10 @@
                                 <td>
                                     <a onclick="showInPopup('@Url.Action("AddOrEdit", "User", new { item.Id }, Context.Request.Scheme)', 'Update User')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
                                     <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                        <input type="submit" value="Delete" class="btn btn-danger" />
+                                        <input type="submit" value="Delete" class="btn btn-danger"
+                                            @if (item.UsertypeId == 1) { ViewBag.checkAdmin = "disabled"; } else { ViewBag.checkAdmin = ""; }
+                                            @ViewBag.checkAdmin
+                                        />
                                     </form>
                                 </td>
                             </tr>
