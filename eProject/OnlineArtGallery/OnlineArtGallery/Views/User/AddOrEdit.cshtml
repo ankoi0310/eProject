@@ -1,9 +1,14 @@
 ﻿@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http;
 
 @model OnlineArtGallery.Models.User
 
 @{
     Layout = null;
+    if (Context.Session.GetString("USER") != null)
+    {
+        ViewBag.USER = JsonConvert.DeserializeObject(Context.Session.GetString("USER"));
+    }
 }
 
 <div class="row">
@@ -18,7 +23,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
+                @if (Model.Password != null)
+                {
+                    <input asp-for="Password" type="password" class="form-control" value="@Tools.Decrypt(Model.Password)" />
+                }
+                else
+                {
+                    <input asp-for="Password" type="password" class="form-control" />
+                }
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,11 +52,14 @@
                 }
                 <span asp-validation-for="UsertypeId" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /><label asp-for="Active" class="control-label"></label>
-                </label>
-            </div>
+            @if (ViewBag.USER.Id != Model.Id)
+            {
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Active" checked /><label asp-for="Active" class="control-label"></label>
+                    </label>
+                </div>
+            }
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary btn-block" />
             </div>
@@ -61,7 +76,7 @@
     });
 
     var recentUser = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Tools.GetUserList()))');
-    
+
     $("#add-or-edit").on("submit", function () {
         if ($("#Id").val() == 0) {
             for (var i = 0; i < Object.keys(recentUser).length; i++) {

@@ -40,6 +40,14 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
+                            if (item.UsertypeId == 1) 
+                            { 
+                                ViewBag.checkAdmin = "disabled"; 
+                            } 
+                            else 
+                            { 
+                                ViewBag.checkAdmin = ""; 
+                            }
                             ViewBag.Active = item.Active ? "True" : "False";
                             <tr>
                                 <td>
@@ -56,12 +64,16 @@
                                 </td>
                                 <td class="text-center">@ViewBag.Active</td>
                                 <td>
-                                    <a onclick="showInPopup('@Url.Action("AddOrEdit", "User", new { item.Id }, Context.Request.Scheme)', 'Update User')" class="btn btn-info">@*<i class="fas fa-pencil-alt"></i>*@ Edit</a>
+                                    @if (item.UsertypeId == 1 & ViewBag.USER.Id != item.Id)
+                                    {
+                                        <a onclick="return false;" class="btn btn-info">Edit</a>
+                                    }
+                                    else
+                                    {
+                                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "User", new { item.Id }, Context.Request.Scheme)', 'Update User')" class="btn btn-info">Edit</a>
+                                    }
                                     <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                                        <input type="submit" value="Delete" class="btn btn-danger"
-                                            @if (item.UsertypeId == 1) { ViewBag.checkAdmin = "disabled"; } else { ViewBag.checkAdmin = ""; }
-                                            @ViewBag.checkAdmin
-                                        />
+                                        <input type="submit" value="Delete" class="btn btn-danger" @ViewBag.checkAdmin />
                                     </form>
                                 </td>
                             </tr>
@@ -74,3 +86,7 @@
         <!-- /.card -->
     </div>
 </div>
+
+<script>
+
+</script>
